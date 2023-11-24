@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Recepku</string>
+    <string name="title_loginpage">Login</string>
+    <string name="message_loginpage">"Welcome to Recepku! "</string>
+    <string name="email">Email</string>
+    <string name="password">password</string>
+    <string name="donthaveacc">Don\'t have account yet?</string>
+    <string name="to_register_page">Register Here!</string>
+    <string name="login">Login</string>
 </resources>
