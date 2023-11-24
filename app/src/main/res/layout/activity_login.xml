@@ -86,6 +86,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_login_email"
+            android:background="@color/yellow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -159,6 +160,7 @@
             android:id="@+id/ed_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/yellow"
             android:ems="10"
             android:inputType="textEmailAddress"
             tools:ignore="SpeakableTextPresentCheck" />
