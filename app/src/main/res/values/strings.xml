@@ -2,9 +2,15 @@
     <string name="app_name">Recepku</string>
     <string name="title_loginpage">Login</string>
     <string name="message_loginpage">"Welcome to Recepku! "</string>
-    <string name="email">Email</string>
-    <string name="password">password</string>
     <string name="donthaveacc">Don\'t have account yet?</string>
     <string name="to_register_page">Register Here!</string>
     <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">REGISTER</string>
+    <string name="have_account">Already Have Account?</string>
+    <string name="login_here">Login Here!</string>
+    <string name="alertPassword">Password harus lebih dari 5 yaa</string>
+    <string name="alertEmail">Masukkan email yang valid yaa</string>
 </resources>
