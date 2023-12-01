@@ -9,6 +9,7 @@ import android.view.View
 import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.R
 import com.aubrey.recepku.databinding.ActivityLoginBinding
+import com.aubrey.recepku.view.Dashboard
 import com.aubrey.recepku.view.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -38,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
         val loginBtn = binding.loginButton
 
         loginBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Dashboard::class.java)
             startActivity(intent)
         }
     }
