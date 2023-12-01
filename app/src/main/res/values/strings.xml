@@ -13,4 +13,5 @@
     <string name="login_here">Login Here!</string>
     <string name="alertPassword">Password harus lebih dari 5 yaa</string>
     <string name="alertEmail">Masukkan email yang valid yaa</string>
+    <string name="tv_search">Search Here!</string>
 </resources>
