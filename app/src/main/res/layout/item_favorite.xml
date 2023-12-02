@@ -34,7 +34,7 @@
             android:id="@+id/tvFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:hint="@string/username"
+            android:hint="@string/username"
             android:layout_marginStart="15dp"
             android:textSize="20sp"
             card_view:layout_constraintStart_toEndOf="@id/cardView"
