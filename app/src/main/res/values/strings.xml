@@ -14,4 +14,5 @@
     <string name="alertPassword">Password harus lebih dari 5 yaa</string>
     <string name="alertEmail">Masukkan email yang valid yaa</string>
     <string name="tv_search">Search Here!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
