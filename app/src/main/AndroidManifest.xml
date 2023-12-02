@@ -16,6 +16,8 @@
         android:theme="@style/Theme.Recepku"
         tools:targetApi="31">
         <activity
+            android:name=".view.favorite.FavoriteActivity"
+            android:exported="false" />
             android:name=".view.Dashboard"
             android:exported="true" />
         <activity
