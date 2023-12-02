@@ -8,7 +8,7 @@
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="register">REGISTER</string>
+    <string name="register">Register</string>
     <string name="have_account">Already Have Account?</string>
     <string name="login_here">Login Here!</string>
     <string name="alertPassword">Password harus lebih dari 5 yaa</string>
