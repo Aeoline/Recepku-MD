@@ -8,4 +8,12 @@
     </style>
 
     <style name="Theme.Recepku" parent="Base.Theme.Recepku" />
+
+    <style name="App.Custom.Indicator" parent="Widget.MaterialComponents.BottomAppBar">
+        <item name="indicatorColor">@color/yellow</item>
+    </style>
+    <style name="App.Custom.Indicator2" parent="Theme.MaterialComponents.DayNight">
+        <item name="indicatorColor">@color/yellow</item>
+    </style>
+
 </resources>
