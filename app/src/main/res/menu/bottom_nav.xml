@@ -17,7 +17,7 @@
         android:icon="@drawable/ic_add"
         android:title=""
         />
-<!--    android:title="Add"-->
+
 
     <item android:id="@+id/profile"
         android:icon="@drawable/ic_person"
