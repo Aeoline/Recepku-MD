@@ -16,4 +16,7 @@
     <string name="tv_search">Search Here!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_fragment">Settings Fragment</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="uploadphoto">Upload a photo to know the recipe of your food!</string>
 </resources>
