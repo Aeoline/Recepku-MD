@@ -19,4 +19,11 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="uploadphoto">Upload a photo to know the recipe of your food!</string>
+    <string name="welcome">Halo, This page for setting your account!</string>
+    <string name="account_setting">Set your account</string>
+    <string name="delete_account">Are you sure to delete your account?</string>
+    <string name="language_setting">Set your language</string>
+    <string name="darkmode_setting">Dark Mode Setting</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 </resources>

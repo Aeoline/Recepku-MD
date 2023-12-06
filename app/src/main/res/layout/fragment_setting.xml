@@ -9,86 +9,140 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btn_change_language"
-            android:layout_width="186dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="84dp"
-            android:text="Change Language"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.177"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toggleButton" />
-
-        <Button
-            android:id="@+id/btn_account_setting"
-            android:layout_width="186dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="20dp"
-            android:text="Account Setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.155"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_accountsetting" />
-
-        <Button
-            android:id="@+id/btn_delete_account"
-            android:layout_width="186dp"
-            android:layout_height="43dp"
-            android:layout_marginTop="16dp"
-            android:text="Delete Account"
-            android:backgroundTint="@color/red"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.155"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_account_setting" />
-
         <TextView
-            android:id="@+id/tv_accountsetting"
+            android:id="@+id/placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="104dp"
-            android:text="Account Setting"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.108"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dark Mode"
-            app:layout_constraintBottom_toTopOf="@+id/toggleButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.116"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.954" />
+            android:textSize="18sp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:hint="@string/welcome"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardAccount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/placeholder"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="50dp"
+            app:cardCornerRadius="15dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="200dp">
+                <ImageView
+                    android:background="@color/yellow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_account_white"/>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/account_setting"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="15dp"/>
+            <ImageView
+                android:id="@+id/ivNavAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_next_yellow"
+                android:layout_marginStart="380dp"
+                android:layout_marginTop="13dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardDelete"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/cardAccount"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="15dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="200dp">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/yellow"
+                    app:srcCompat="@drawable/ic_delete_white"/>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/delete_account"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="15dp"/>
+            <ImageView
+                android:id="@+id/ivNavDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_next_yellow"
+                android:layout_marginStart="380dp"
+                android:layout_marginTop="15dp"/>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@id/cardDelete"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="15dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="200dp">
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@color/yellow"
+                    app:srcCompat="@drawable/ic_setting"/>
+            </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/language_setting"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="15dp"/>
+            <ImageView
+                android:id="@+id/ivNavSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_next_yellow"
+                android:layout_marginStart="380dp"
+                android:layout_marginTop="15dp"/>
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tvLanguage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Language"
-
-            app:layout_constraintBottom_toTopOf="@+id/btn_change_language"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintTop_toBottomOf="@id/cardLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toggleButton"
-            app:layout_constraintVertical_bias="0.815" />
+            android:hint="@string/darkmode_setting"/>
 
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/toggleButton"
             android:layout_width="175dp"
             android:layout_height="57dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.173"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            app:layout_constraintTop_toBottomOf="@id/tvLanguage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.452">
 
             <Button
@@ -96,7 +150,7 @@
                 style="?attr/materialButtonOutlinedStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Light" />
+                android:text="@string/light" />
 
             <Button
                 android:id="@+id/button_dark"
@@ -104,10 +158,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/yellow"
-                android:text="Dark"
+                android:text="@string/dark"
                 android:textColor="@color/white" />
         </com.google.android.material.button.MaterialButtonToggleGroup>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
