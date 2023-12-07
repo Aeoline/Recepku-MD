@@ -8,9 +8,22 @@
     <string name="email">Email</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="register">REGISTER</string>
+    <string name="register">Register</string>
     <string name="have_account">Already Have Account?</string>
     <string name="login_here">Login Here!</string>
     <string name="alertPassword">Password harus lebih dari 5 yaa</string>
     <string name="alertEmail">Masukkan email yang valid yaa</string>
+    <string name="tv_search">Search Here!</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_fragment">Settings Fragment</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="uploadphoto">Upload a photo to know the recipe of your food!</string>
+    <string name="welcome">Halo, This page for setting your account!</string>
+    <string name="account_setting">Set your account</string>
+    <string name="delete_account">Are you sure to delete your account?</string>
+    <string name="language_setting">Set your language</string>
+    <string name="darkmode_setting">Dark Mode Setting</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 </resources>
