@@ -132,6 +132,7 @@
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/yellow"
         android:text="@string/register"
+        android:alpha="1"
         android:textColor="@color/black"
         />
 
@@ -145,7 +146,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <TextView
-        android:id="@+id/loginText"
+        android:id="@+id/toLoginPage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login_here"
@@ -153,4 +154,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textColor="@color/yellow"/>
+
+
+    <ProgressBar
+        android:id="@+id/progressRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
