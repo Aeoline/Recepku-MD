@@ -53,9 +53,6 @@ dependencies {
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.google.android.material:material:1.12.0-alpha01")
     implementation ("com.etebarian:meow-bottom-navigation:1.3.1")
-<<<<<<< Updated upstream
-=======
-
 
     //RETROFIT
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -73,5 +70,4 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     implementation ("androidx.fragment:fragment-ktx:1.3.6")
->>>>>>> Stashed changes
 }
