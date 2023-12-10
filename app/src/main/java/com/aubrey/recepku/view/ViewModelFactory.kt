@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aubrey.recepku.data.Injection
+import com.aubrey.recepku.data.repository.UserRepository
+import com.aubrey.recepku.view.register.RegisterViewModel
+
+class ViewModelFactory(private val repository: UserRepository): ViewModelProvider.NewInstanceFactory() {
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.view.register.RegisterActivity
@@ -20,6 +24,9 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             modelClass.isAssignableFrom(RegisterViewModel::class.java) ->{
                 RegisterViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(SettingViewModel::class.java) ->{
+                SettingViewModel(repository) as T
+              
             modelClass.isAssignableFrom(HomeViewModel::class.java) ->{
                 HomeViewModel(recipeRepository) as T
             }
@@ -29,6 +36,11 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
 
     companion object {
         private var INSTANCE: ViewModelFactory? = null
+
+        fun getInstance(context: Context): ViewModelFactory {
+            if (INSTANCE == null) {
+                synchronized(ViewModelFactory::class.java) {
+                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
 
         fun clearInstance() {
             UserRepository.clearInstance()
