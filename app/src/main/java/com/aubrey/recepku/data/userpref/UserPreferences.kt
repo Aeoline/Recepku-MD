@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name= "login")
 class UserPreferences private constructor(private val dataStore: DataStore<Preferences>){
-
+ 
     private val THEME_KEY = booleanPreferencesKey("theme_setting")
     companion object{
         private val NAME_KEY = stringPreferencesKey("name")
@@ -54,6 +54,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             it[IS_LOGIN] = false
         }
     }
+    
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
             preferences[THEME_KEY] ?: false
