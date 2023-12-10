@@ -26,4 +26,5 @@
     <string name="darkmode_setting">Dark Mode Setting</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
+    <string name="retry">Retry</string>
 </resources>

@@ -1,6 +1,8 @@
 package com.aubrey.recepku.data
 
 import android.content.Context
+import com.aubrey.recepku.data.publicretrofit.PublicApiConfig
+import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.retrofit.ApiConfig
 import com.aubrey.recepku.data.userpref.UserPreferences
@@ -15,5 +17,10 @@ object Injection {
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
         return UserRepository.getInstance(apiService,pref)
+    }
+
+    fun provideRecipeRepository(context: Context): RecipeRepository {
+        val publicApiService = PublicApiConfig.getPublicApiService()
+        return RecipeRepository.getInstance(publicApiService)
     }
 }
