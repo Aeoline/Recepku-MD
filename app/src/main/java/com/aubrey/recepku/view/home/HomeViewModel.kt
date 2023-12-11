@@ -1,4 +1,4 @@
-package com.aubrey.recepku.view.viewmodels
+package com.aubrey.recepku.view.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

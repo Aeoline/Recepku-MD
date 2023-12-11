@@ -5,9 +5,6 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.Result
 import com.aubrey.recepku.data.response.RegisterResponse
-import androidx.lifecycle.liveData
-import com.aubrey.recepku.data.Result
-import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import com.aubrey.recepku.data.userpref.UserPreferences
 import kotlinx.coroutines.CoroutineScope

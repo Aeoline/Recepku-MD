@@ -1,10 +1,13 @@
-package com.aubrey.recepku.view.fragments
+package com.aubrey.recepku.view.home
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,19 +15,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.databinding.FragmentHomeBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.adapter.RecipeAdapter
-import com.aubrey.recepku.view.viewmodels.HomeViewModel
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
 import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.aubrey.recepku.R
 import com.aubrey.recepku.view.adapter.RecommendedRecipeAdapter
 import com.aubrey.recepku.data.Result
 import com.aubrey.recepku.data.model.recipe.Favorite
+import com.aubrey.recepku.view.adapter.IngredientsAdapter
+import com.aubrey.recepku.view.adapter.StepsAdapter
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class HomeFragment : Fragment() {
+interface RecipeClickListener {
+    fun onRecipeClicked(recipe: Favorite)
+}
+
+class HomeFragment : Fragment(), RecipeClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
     private lateinit var adapter: RecipeAdapter
@@ -49,15 +59,15 @@ class HomeFragment : Fragment() {
         binding.rvRecipe.layoutManager = layoutManager
         imageSlider = binding.slider
 
-        adapter = RecipeAdapter()
-        binding.rvRecipe.adapter = adapter // Menggunakan binding.rvRecipe
+        adapter = RecipeAdapter(this)
+        binding.rvRecipe.adapter = adapter
 
-
-        val recommendedLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        val recommendedLayoutManager =
+            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvRecommended.layoutManager = recommendedLayoutManager
 
         recommendedAdapter = RecommendedRecipeAdapter()
-        binding.rvRecommended.adapter = recommendedAdapter // Menggunakan binding.rvRecommended
+        binding.rvRecommended.adapter = recommendedAdapter
 
         setupImageSlider()
         getRecipes()
@@ -126,6 +136,7 @@ class HomeFragment : Fragment() {
     }
 
 
+
     //Belum bisa
     private fun searchBar() {
         with(binding) {
@@ -133,7 +144,7 @@ class HomeFragment : Fragment() {
             searchView.editText.setOnEditorActionListener { view, actionId, event ->
                 searchBar.setText(searchView.text)
                 searchView.hide()
-                rvRecipe.adapter = RecipeAdapter()
+                rvRecipe.adapter = RecipeAdapter(recipeClickListener = this@HomeFragment)
 
                 // Menggunakan CoroutineScope untuk membuat coroutine
                 val coroutineScope = CoroutineScope(Dispatchers.Main)
@@ -163,6 +174,38 @@ class HomeFragment : Fragment() {
                 false
             }
         }
+    }
+
+    override fun onRecipeClicked(recipe: Favorite) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.item_card_detail, null)
+        val ingredientsAdapter = recipe.recipe.ingredients?.let { IngredientsAdapter(it) }
+        val stepsAdapter = recipe.recipe.steps?.let { StepsAdapter(it) }
+
+        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
+        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
+        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
+        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
+        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
+
+        Glide.with(ivRecipe)
+            .load(R.drawable.menu)
+            .into(ivRecipe)
+        tvRecipeName.text = recipe.recipe.title
+        tvRecipeDescription.text = recipe.recipe.description
+
+        rvIngredients.adapter = ingredientsAdapter
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        rvIngredients.layoutManager = layoutManager
+
+        rvSteps.adapter = stepsAdapter
+        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        rvSteps.layoutManager = stepsLayoutManager
+
+        dialogBuilder.setView(dialogView)
+        val alertDialog = dialogBuilder.create()
+        alertDialog.show()
     }
 
 }

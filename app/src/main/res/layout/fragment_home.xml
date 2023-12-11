@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.core.widget.NestedScrollView layout_height="match_parent"
+    layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.fragments.HomeFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent" android:layout_width="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/searchBar"
@@ -22,24 +20,22 @@
             android:hint="@string/tv_search"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </com.google.android.material.search.SearchBar>
+            app:layout_constraintTop_toTopOf="parent"></com.google.android.material.search.SearchBar>
 
         <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/searchBar"
-            tools:layout_editor_absoluteX="0dp"
-            app:iss_delay="0"
-            app:iss_period="3000"
-            app:iss_auto_cycle="true"
-            app:iss_placeholder="@drawable/food"
-            app:iss_error_image="@color/yellow"
-            android:id="@+id/slider"
             android:layout_margin="20dp"
+            android:layout_marginTop="16dp"
+            app:iss_auto_cycle="true"
             app:iss_corner_radius="20"
-            />
+            app:iss_delay="0"
+            app:iss_error_image="@color/yellow"
+            app:iss_period="3000"
+            app:iss_placeholder="@drawable/food"
+            app:layout_constraintTop_toBottomOf="@+id/searchBar"
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/tv_recommended_recipe"
@@ -65,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_recommended_recipe"
 
-            tools:listitem="@layout/item_recomended_recipe"/>
+            tools:listitem="@layout/item_recomended_recipe" />
 
         <TextView
             android:id="@+id/tv_recipe"
@@ -80,19 +76,21 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recipe"
-            android:layout_width="409dp"
-            android:layout_height="262dp"
+            android:layout_width="match_parent"
+            android:layout_height="1000dp"
 
             android:orientation="horizontal"
-            android:padding="10dp"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.538"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_recipe"
-            app:layout_constraintVertical_bias="0.0"
 
-            tools:listitem="@layout/item_recipe" />
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_marginBottom="76dp"
+            tools:listitem="@layout/item_recipe"
+            android:nestedScrollingEnabled="false"/>
 
         <com.google.android.material.search.SearchView
             android:id="@+id/searchView"
@@ -109,4 +107,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+
+</androidx.core.widget.NestedScrollView>
