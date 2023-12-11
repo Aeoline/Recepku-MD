@@ -9,4 +9,6 @@ data class Recipe(
     val steps: List<String>?,
     val healthyIngredients: List<String>?,
     val healthySteps: List<String>?,
+    val calories: Int,
+    val healthyCalories: Int,
 )

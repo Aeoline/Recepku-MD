@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.model.recipe.Favorite
 import com.aubrey.recepku.databinding.ItemRecipeBinding
+import com.aubrey.recepku.view.home.HomeFragment
 import com.bumptech.glide.Glide
 
-class RecipeAdapter : ListAdapter<Favorite, RecipeAdapter.ViewHolder>(DIFF_CALLBACK) {
+class RecipeAdapter(private val recipeClickListener: HomeFragment) :
+    ListAdapter<Favorite, RecipeAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecipeBinding.inflate(
@@ -29,6 +31,7 @@ class RecipeAdapter : ListAdapter<Favorite, RecipeAdapter.ViewHolder>(DIFF_CALLB
     inner class ViewHolder(private val binding: ItemRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(favoriteRecipe: Favorite) {
             val recipe = favoriteRecipe.recipe
             Glide.with(binding.root)
@@ -37,6 +40,10 @@ class RecipeAdapter : ListAdapter<Favorite, RecipeAdapter.ViewHolder>(DIFF_CALLB
                 .error(R.drawable.menu)
                 .into(binding.foodImage)
             binding.tvRecipeName.text = recipe.title
+
+            binding.root.setOnClickListener {
+                recipeClickListener.onRecipeClicked(favoriteRecipe)
+            }
         }
     }
 
