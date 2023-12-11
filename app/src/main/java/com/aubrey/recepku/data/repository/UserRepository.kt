@@ -3,7 +3,7 @@ package com.aubrey.recepku.data.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
-import com.aubrey.recepku.data.Result
+import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import com.aubrey.recepku.data.userpref.UserPreferences

@@ -10,7 +10,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Bread", "Meat", "Vegetables"),
             steps = listOf("Cook meat", "Put meat in bread", "Add vegetables"),
             healthyIngredients = listOf("Bread", "Vegetables"),
-            healthySteps = listOf("Put vegetables in bread")
+            healthySteps = listOf("Put vegetables in bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 2,
@@ -20,7 +22,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Bread", "Tomatoes", "Cheese"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 3,
@@ -30,7 +34,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Pasta", "Tomatoes", "Meat"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 4,
@@ -40,7 +46,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Rice", "Seafood", "Vegetables"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 5,
@@ -50,7 +58,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Meat"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 6,
@@ -60,7 +70,9 @@ object RecommendedRecipeData {
             ingredients = listOf("Vegetables"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
 RecommendedRecipe(
             id = 7,
@@ -70,7 +82,9 @@ RecommendedRecipe(
             ingredients = listOf("Flour", "Eggs", "Milk"),
     steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
     healthyIngredients = listOf("Bread", "Tomatoes"),
-    healthySteps = listOf("Put tomatoes on bread")
+    healthySteps = listOf("Put tomatoes on bread"),
+    calories = 1000,
+    healthyCalories = 500
         ),
         RecommendedRecipe(
             id = 8,
@@ -80,7 +94,9 @@ RecommendedRecipe(
             ingredients = listOf("Flour", "Eggs", "Milk"),
             steps = listOf("Cook bread", "Put tomatoes and cheese on bread"),
             healthyIngredients = listOf("Bread", "Tomatoes"),
-            healthySteps = listOf("Put tomatoes on bread")
+            healthySteps = listOf("Put tomatoes on bread"),
+            calories = 1000,
+            healthyCalories = 500
         ),
     )
 }

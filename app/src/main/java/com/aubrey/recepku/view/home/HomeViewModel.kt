@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import com.aubrey.recepku.data.Result
+import com.aubrey.recepku.data.common.Result
 
 class HomeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
 

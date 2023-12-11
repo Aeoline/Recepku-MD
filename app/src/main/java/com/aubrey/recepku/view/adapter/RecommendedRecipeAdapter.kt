@@ -9,9 +9,10 @@ import com.aubrey.recepku.R
 import com.aubrey.recepku.data.model.recommended.Recommended
 import com.aubrey.recepku.databinding.ItemRecipeBinding
 import com.aubrey.recepku.databinding.ItemRecomendedRecipeBinding
+import com.aubrey.recepku.view.home.HomeFragment
 import com.bumptech.glide.Glide
 
-class RecommendedRecipeAdapter : ListAdapter<Recommended, RecommendedRecipeAdapter.ViewHolder>(DIFF_CALLBACK) {
+class RecommendedRecipeAdapter (private val recipeClickListener: HomeFragment): ListAdapter<Recommended, RecommendedRecipeAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecomendedRecipeBinding.inflate(
@@ -37,6 +38,10 @@ class RecommendedRecipeAdapter : ListAdapter<Recommended, RecommendedRecipeAdapt
                 .placeholder(R.drawable.menu)
                 .error(R.drawable.menu)
                 .into(binding.imgItemPhoto)
+
+            binding.root.setOnClickListener {
+                recipeClickListener.onRecipeClicked(recommendedRecipe)
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package com.aubrey.recepku.data
+package com.aubrey.recepku.data.common
 
 sealed class Result<out R> private constructor(){
     data class Success<out T>(val data: T): Result<T>()

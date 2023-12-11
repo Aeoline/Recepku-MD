@@ -31,6 +31,7 @@ class RecipeAdapter(private val recipeClickListener: HomeFragment) :
     inner class ViewHolder(private val binding: ItemRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+
         fun bind(favoriteRecipe: Favorite) {
             val recipe = favoriteRecipe.recipe
             Glide.with(binding.root)

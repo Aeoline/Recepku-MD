@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -22,9 +23,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aubrey.recepku.R
 import com.aubrey.recepku.view.adapter.RecommendedRecipeAdapter
-import com.aubrey.recepku.data.Result
+import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.data.model.recipe.Favorite
+import com.aubrey.recepku.data.model.recommended.Recommended
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
+import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
+import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +38,11 @@ interface RecipeClickListener {
     fun onRecipeClicked(recipe: Favorite)
 }
 
-class HomeFragment : Fragment(), RecipeClickListener {
+interface RecommendedRecipeClickListener {
+    fun onRecipeClicked(recipe: Recommended)
+}
+
+class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
     private lateinit var adapter: RecipeAdapter
@@ -66,7 +74,7 @@ class HomeFragment : Fragment(), RecipeClickListener {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvRecommended.layoutManager = recommendedLayoutManager
 
-        recommendedAdapter = RecommendedRecipeAdapter()
+        recommendedAdapter = RecommendedRecipeAdapter(this)
         binding.rvRecommended.adapter = recommendedAdapter
 
         setupImageSlider()
@@ -134,9 +142,6 @@ class HomeFragment : Fragment(), RecipeClickListener {
             }
         }
     }
-
-
-
     //Belum bisa
     private fun searchBar() {
         with(binding) {
@@ -170,7 +175,6 @@ class HomeFragment : Fragment(), RecipeClickListener {
                         }
                     }
                 }
-
                 false
             }
         }
@@ -180,31 +184,144 @@ class HomeFragment : Fragment(), RecipeClickListener {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val dialogView = inflater.inflate(R.layout.item_card_detail, null)
+
+//      Adapter
         val ingredientsAdapter = recipe.recipe.ingredients?.let { IngredientsAdapter(it) }
         val stepsAdapter = recipe.recipe.steps?.let { StepsAdapter(it) }
+        val lowCalIngAdapter = recipe.recipe.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
+        val lowCalStepsAdapter = recipe.recipe.healthySteps?.let { LowCalStepsAdapter(it) }
 
+//        ui
         val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
         val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
         val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
+        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
         val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
         val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
+        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
+        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
+        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
 
+//        condition
+        var isLowcal = false
+        var isFavorite = false
+
+//        setup
         Glide.with(ivRecipe)
             .load(R.drawable.menu)
             .into(ivRecipe)
         tvRecipeName.text = recipe.recipe.title
         tvRecipeDescription.text = recipe.recipe.description
 
-        rvIngredients.adapter = ingredientsAdapter
         val layoutManager = GridLayoutManager(requireContext(), 2)
+        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rvIngredients.layoutManager = layoutManager
+        rvIngredients.adapter = ingredientsAdapter
 
         rvSteps.adapter = stepsAdapter
-        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         rvSteps.layoutManager = stepsLayoutManager
 
-        dialogBuilder.setView(dialogView)
-        val alertDialog = dialogBuilder.create()
+        tvCalories.text = recipe.recipe.calories.toString()
+
+
+
+        val alertDialog = dialogBuilder.setView(dialogView).create()
+
+        lowcalBtn.setOnClickListener {
+            if (isLowcal) {
+                lowcalBtn.setImageResource(R.drawable.ic_food)
+                isLowcal = false
+                rvIngredients.adapter = ingredientsAdapter
+                tvCalories.text = recipe.recipe.calories.toString()
+                rvSteps.adapter = stepsAdapter
+
+            } else {
+                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
+                isLowcal = true
+                rvIngredients.adapter = lowCalIngAdapter
+                tvCalories.text = recipe.recipe.healthyCalories.toString()
+                rvSteps.adapter = lowCalStepsAdapter
+            }
+        }
+
+        backBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+
+
+        alertDialog.show()
+    }
+
+    override fun onRecipeClicked(recipe: Recommended) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.item_card_detail, null)
+
+
+        val ingredientsAdapter = recipe.recommended.ingredients?.let { IngredientsAdapter(it) }
+        val stepsAdapter = recipe.recommended.steps?.let { StepsAdapter(it) }
+        val lowCalIngAdapter = recipe.recommended.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
+        val lowCalStepsAdapter = recipe.recommended.healthySteps?.let { LowCalStepsAdapter(it) }
+
+        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
+        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
+        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
+
+        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
+        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
+        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
+        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
+        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
+        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories)
+
+        //        condition
+        var isLowcal = false
+        var isFavorite = false
+
+
+        //        setup
+        Glide.with(ivRecipe)
+            .load(R.drawable.menu)
+            .into(ivRecipe)
+        tvRecipeName.text = recipe.recommended.title
+        tvRecipeDescription.text = recipe.recommended.description
+
+        val layoutManager = GridLayoutManager(requireContext(), 2)
+        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+        rvIngredients.layoutManager = layoutManager
+        rvIngredients.adapter = ingredientsAdapter
+
+        rvSteps.adapter = stepsAdapter
+        rvSteps.layoutManager = stepsLayoutManager
+
+        tvCalories.text = recipe.recommended.calories.toString()
+
+
+
+        val alertDialog = dialogBuilder.setView(dialogView).create()
+
+        lowcalBtn.setOnClickListener {
+            if (isLowcal) {
+                lowcalBtn.setImageResource(R.drawable.ic_food)
+                isLowcal = false
+                rvIngredients.adapter = ingredientsAdapter
+                tvCalories.text = recipe.recommended.calories.toString()
+                rvSteps.adapter = stepsAdapter
+
+            } else {
+                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
+                isLowcal = true
+                rvIngredients.adapter = lowCalIngAdapter
+                tvCalories.text = recipe.recommended.healthyCalories.toString()
+                rvSteps.adapter = lowCalStepsAdapter
+            }
+        }
+
+        backBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
         alertDialog.show()
     }
 
