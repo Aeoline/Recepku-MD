@@ -1,6 +1,7 @@
 package com.aubrey.recepku.data.userpref
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -19,6 +20,9 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         private val USER_KEY = stringPreferencesKey("userId")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN = booleanPreferencesKey("isLogin")
+
+        private val UID_KEY = stringPreferencesKey("uid")
+        private val EMAIL_KEY = stringPreferencesKey("email")
 
         private var INSTANCE: UserPreferences? = null
         fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
@@ -52,6 +56,8 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             it[NAME_KEY] = ""
             it[USER_KEY] = ""
             it[IS_LOGIN] = false
+            it[UID_KEY] = ""
+            it[EMAIL_KEY] = ""
         }
     }
     
@@ -65,6 +71,15 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         dataStore.edit { preferences ->
             preferences[THEME_KEY] = isDarkModeActive
         }
+    }
+
+    suspend fun saveUser(user: ProfileModel){
+        dataStore.edit {
+            it[UID_KEY] = user.uid
+            it[NAME_KEY] = user.username
+            it[EMAIL_KEY] = user.email
+        }
+        Log.d("Token Tersimpan","$user")
     }
 
 }

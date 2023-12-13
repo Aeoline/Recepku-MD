@@ -38,6 +38,11 @@ import com.aubrey.recepku.view.search.SearchActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import android.app.Activity
+import androidx.cardview.widget.CardView
+import com.aubrey.recepku.data.retrofit.ApiConfig
+import com.aubrey.recepku.data.userpref.UserPreferences
+import com.aubrey.recepku.data.userpref.dataStore
+import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.google.android.material.search.SearchBar
 
@@ -54,11 +59,17 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     private lateinit var imageSlider: ImageSlider
     private lateinit var recommendedAdapter: RecommendedRecipeAdapter
 
+    private val apiConfig = ApiConfig
+    private val savedName = apiConfig.name
+    private val savedEmail = apiConfig.email
+
 
 
     private val viewModel: HomeViewModel by viewModels {
         ViewModelFactory.getInstance(requireActivity().application)
     }
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -365,9 +376,16 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val inflater = LayoutInflater.from(requireContext())
         val dialogView = inflater.inflate(R.layout.card_profile, null)
 
+        val tvName = dialogView.findViewById<TextView>(R.id.tv_name)
+        val tvEmail = dialogView.findViewById<TextView>(R.id.tv_email)
         val settingBtn = dialogView.findViewById<ImageButton>(R.id.btn_setting)
         val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
 
+        val logoutBtn = dialogView.findViewById<CardView>(R.id.cardLogout)
+
+
+        tvName.text = savedName
+        tvEmail.text = savedEmail
 
         val alertDialog = dialogBuilder.setView(dialogView).create()
         settingBtn.setOnClickListener {
@@ -379,6 +397,19 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         backBtn.setOnClickListener {
             alertDialog.dismiss()
         }
+
+        logoutBtn.setOnClickListener {
+            val preference = UserPreferences.getInstance(requireActivity().application.dataStore)
+            lifecycleScope.launch {
+                preference.logout()
+                Log.d("Deleted", "Token Deleted")
+            }
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            startActivity(intent)
+            alertDialog.dismiss()
+        }
+
 
         alertDialog.show()
     }

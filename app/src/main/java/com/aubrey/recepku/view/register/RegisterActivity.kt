@@ -11,7 +11,6 @@ import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.databinding.ActivityRegisterBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.login.LoginActivity
-import com.aubrey.recepku.data.common.Result
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -26,19 +25,19 @@ class RegisterActivity : AppCompatActivity() {
         setupAction()
 
         binding.toLoginPage.setOnClickListener {
-            val intent = Intent(this,LoginActivity::class.java)
+            val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.buttonRegister.setOnClickListener {
             val username = binding.usernameRegister.text.toString()
             val password = binding.passwordRegister.text.toString()
             val email = binding.emailRegister.text.toString()
 
-            viewModel.register(username, password, email).observe(this){regist->
-                when(regist){
+            viewModel.register(username, password, email).observe(this) { regist ->
+                when (regist) {
                     is Result.Loading -> {
                         binding.progressRegister.visibility = View.VISIBLE
                     }
@@ -71,4 +70,5 @@ class RegisterActivity : AppCompatActivity() {
             }
         }
     }
+}
 
