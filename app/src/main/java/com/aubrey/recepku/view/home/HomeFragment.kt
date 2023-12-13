@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -32,8 +34,12 @@ import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
+import com.aubrey.recepku.view.search.SearchActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
+import android.app.Activity
+import com.aubrey.recepku.view.setting.SettingActivity
+import com.google.android.material.search.SearchBar
 
 interface RecipeClickListener {
     fun onRecipeClicked(recipe: DataItem)
@@ -47,6 +53,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
     private lateinit var recommendedAdapter: RecommendedRecipeAdapter
+
+
 
     private val viewModel: HomeViewModel by viewModels {
         ViewModelFactory.getInstance(requireActivity().application)
@@ -153,9 +161,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
     }
     //Belum bisa
-    private fun searchBar() {
 
-    }
 
     override fun onRecipeClicked(recipe: DataItem) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
@@ -184,6 +190,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 //        condition
         var isLowcal = false
         var isFavorite = false
+        var favorite = recipe.isFavorite
 
 //        setup
         Glide.with(ivRecipe)
@@ -227,6 +234,18 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             alertDialog.dismiss()
         }
 
+        favBtn.setOnClickListener {
+            if (isFavorite) {
+                favBtn.setImageResource(R.drawable.ic_favorite_border)
+                isFavorite = false
+                favorite = false
+            } else {
+                favBtn.setImageResource(R.drawable.ic_favorite_fill)
+                isFavorite = true
+                favorite = true
+            }
+        }
+
 
 
         alertDialog.show()
@@ -257,6 +276,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         //        condition
         var isLowcal = false
         var isFavorite = false
+
 
 
         //        setup
@@ -295,6 +315,65 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                 tvCalories.text = recipe.recommended.healthyCalories.toString()
                 rvSteps.adapter = lowCalStepsAdapter
             }
+        }
+
+        backBtn.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+        favBtn.setOnClickListener {
+            if (isFavorite) {
+                favBtn.setImageResource(R.drawable.ic_favorite_border)
+                isFavorite = false
+            } else {
+                favBtn.setImageResource(R.drawable.ic_favorite_fill)
+                isFavorite = true
+            }
+        }
+
+        alertDialog.show()
+    }
+
+
+    //blmbisa
+    private fun searchBar() {
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener { view, actionId, event ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                rvRecipe.adapter = null
+                viewModel.searchRecipe(searchView.text.toString())
+                false
+            }
+            searchBar.inflateMenu(R.menu.option_menu)
+            searchBar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.profile_icon -> {
+                        showProfile()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }
+    }
+
+    private fun showProfile() {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogView = inflater.inflate(R.layout.card_profile, null)
+
+        val settingBtn = dialogView.findViewById<ImageButton>(R.id.btn_setting)
+        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
+
+
+        val alertDialog = dialogBuilder.setView(dialogView).create()
+        settingBtn.setOnClickListener {
+            val intent = Intent(requireContext(), SettingActivity::class.java)
+            startActivity(intent)
+            alertDialog.dismiss()
         }
 
         backBtn.setOnClickListener {

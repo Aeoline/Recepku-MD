@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.ErrorResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import java.io.IOException
@@ -62,6 +63,18 @@ class RecipeRepository private constructor(private val apiService: ApiService) {
         }
     }
 
+    fun searchRecipe(query: String): LiveData<Result<List<DataItem?>?>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getRecipe(search = query)
+                val recipes = response.data
+                emit(Result.Success(recipes))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
+
 
 
     fun getAllRecommendedRecipes(): Flow<List<Recommended>> {
@@ -71,13 +84,6 @@ class RecipeRepository private constructor(private val apiService: ApiService) {
     }
 
 
-    fun searchRecipe(query: String): Flow<List<Recipe>> {
-        return flow {
-            val filteredList = favoriteRecipes.filter { it.recipe.title.contains(query, ignoreCase = true) }
-                .map { it.recipe }
-            emit(filteredList)
-        }
-    }
 
     companion object {
         @Volatile

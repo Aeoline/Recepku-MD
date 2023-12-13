@@ -91,7 +91,7 @@
 
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cardLanguage"
+            android:id="@+id/cardLogout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:layout_constraintTop_toBottomOf="@id/cardDelete"
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="25dp"
-            app:layout_constraintTop_toBottomOf="@id/cardLanguage"
+            app:layout_constraintTop_toBottomOf="@id/cardLogout"
             app:layout_constraintStart_toStartOf="parent"
             android:hint="@string/darkmode_setting"/>
 
@@ -139,7 +139,7 @@
             android:id="@+id/tvDarkMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cardLanguage"
+            app:layout_constraintTop_toBottomOf="@id/cardLogout"
             android:layout_marginTop="25dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="15dp"
@@ -148,7 +148,7 @@
             android:id="@+id/switchDarkMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cardLanguage"
+            app:layout_constraintTop_toBottomOf="@id/cardLogout"
             android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@id/tvDarkMode"
             android:layout_marginTop="15dp"

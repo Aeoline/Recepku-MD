@@ -7,6 +7,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     @FormUrlEncoded
@@ -26,5 +27,6 @@ interface ApiService {
 
     @GET("/makanan/all")
     suspend fun getRecipe(
+        @Query("search") search: String? = null,
     ): RecipeResponse
 }

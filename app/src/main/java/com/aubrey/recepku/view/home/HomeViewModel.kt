@@ -28,6 +28,7 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     val uiState1: StateFlow<Result<List<Recommended>>>
         get() = _uiState1
 
+    fun searchRecipe(search: String) = recipeRepository.searchRecipe(search)
 
     fun getRecipes() {
         viewModelScope.launch {

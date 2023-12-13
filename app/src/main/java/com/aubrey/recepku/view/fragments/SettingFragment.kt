@@ -34,10 +34,10 @@ class SettingFragment : Fragment() {
     }
 
     private fun setLanguage(){
-        binding.cardLanguage.setOnClickListener {
-            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
-            startActivity(intent)
-        }
+//        binding.cardLanguage.setOnClickListener {
+//            val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+//            startActivity(intent)
+//        }
     }
     private fun setDarkMode(){
         val viewModel by viewModels<SettingViewModel> {
