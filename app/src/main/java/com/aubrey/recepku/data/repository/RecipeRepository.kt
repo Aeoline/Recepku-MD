@@ -1,15 +1,25 @@
 package com.aubrey.recepku.data.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.model.recipe.Favorite
 import com.aubrey.recepku.data.model.recipe.Recipe
 import com.aubrey.recepku.data.model.recipe.RecipeData
 import com.aubrey.recepku.data.model.recommended.Recommended
 import com.aubrey.recepku.data.model.recommended.RecommendedRecipeData
 import com.aubrey.recepku.data.publicretrofit.PublicApiService
+import com.aubrey.recepku.data.response.RecipeResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
+import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.response.ErrorResponse
+import com.aubrey.recepku.data.retrofit.ApiService
+import java.io.IOException
 
-class RecipeRepository private constructor(private val publicApiService: PublicApiService) {
+class RecipeRepository private constructor(private val apiService: ApiService) {
 
     private val favoriteRecipes = mutableListOf<Favorite>()
     private val recommendedRecipes = mutableListOf<Recommended>()
@@ -28,11 +38,31 @@ class RecipeRepository private constructor(private val publicApiService: PublicA
         }
     }
 
-    fun getAllRecipes(): Flow<List<Favorite>> {
-        return flow {
-            emit(favoriteRecipes)
+
+    fun getAllRecipes() : LiveData<Result<RecipeResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val recipeResponse = apiService.getRecipe()
+            if (recipeResponse.message == "success"){
+                emit(Result.Success(recipeResponse))
+            } else {
+
+            }
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorMessage = errorBody?.message ?: "An error occurred"
+            emit(Result.Error("Failed: $errorMessage"))
+        } catch (e: Exception){
+            emit(Result.Error("Internet Issues"))
+        } catch (e: SocketTimeoutException) {
+            emit(Result.Error("Read timeout occurred"))
+        } catch (e: IOException) {
+            emit(Result.Error("Network error occurred"))
         }
     }
+
+
 
     fun getAllRecommendedRecipes(): Flow<List<Recommended>> {
         return flow {
@@ -53,9 +83,9 @@ class RecipeRepository private constructor(private val publicApiService: PublicA
         @Volatile
         private var instance: RecipeRepository? = null
 
-        fun getInstance(publicApiService: PublicApiService): RecipeRepository =
+        fun getInstance(apiService: ApiService): RecipeRepository =
             instance ?: synchronized(this) {
-                instance ?: RecipeRepository(publicApiService).also { instance = it }
+                instance ?: RecipeRepository(apiService).also { instance = it }
             }
     }
 }

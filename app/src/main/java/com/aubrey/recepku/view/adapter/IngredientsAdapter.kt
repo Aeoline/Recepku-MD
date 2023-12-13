@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.databinding.ItemIngredientsItemBinding
 
-class IngredientsAdapter(private val ingredients: List<String>) :
+class IngredientsAdapter(private val ingredients: List<String?>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -16,7 +16,9 @@ class IngredientsAdapter(private val ingredients: List<String>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val ingredient = ingredients[position]
-        holder.bind(ingredient)
+        if (ingredient != null) {
+            holder.bind(ingredient)
+        }
     }
 
     override fun getItemCount(): Int {
