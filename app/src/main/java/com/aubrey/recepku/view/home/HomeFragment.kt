@@ -64,8 +64,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         binding.rvRecipe.layoutManager = layoutManager
         imageSlider = binding.slider
 
-//        adapter = RecipeAdapter(adapter.listRecipe, this)
-//        binding.rvRecipe.adapter = adapter
 
         val recommendedLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvRecommended.layoutManager = recommendedLayoutManager
@@ -162,14 +160,12 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val dialogView = inflater.inflate(R.layout.item_card_detail, null)
 
 //      Adapter
-        val ingredientsList = listOf(recipe.ingredients) // Ubah string menjadi list dengan satu elemen
-        val ingredientsAdapter = IngredientsAdapter(ingredientsList)
 
         // Adapter
         val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
-
-//        val lowCalIngAdapter = recipe.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
-//        val lowCalStepsAdapter = recipe.healthySteps?.let { LowCalStepsAdapter(it) }
+        val ingredientsAdapter = IngredientsAdapter(recipe.ingredients ?: emptyList())
+        val lowCalStepsAdapter = LowCalStepsAdapter(recipe.healthySteps ?: emptyList())
+        val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
 
 //        ui
         val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
@@ -218,9 +214,9 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             } else {
                 lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
                 isLowcal = true
-//                rvIngredients.adapter = lowCalIngAdapter
+                rvIngredients.adapter = lowCalIngAdapter
                 tvCalories.text = recipe.healthyCalories.toString()
-//                rvSteps.adapter = lowCalStepsAdapter
+                rvSteps.adapter = lowCalStepsAdapter
             }
         }
 

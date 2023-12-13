@@ -20,16 +20,16 @@ data class DataItem(
 	val healthyCalories: Int? = null,
 
 	@field:SerializedName("healthyIngredients")
-	val healthyIngredients: String? = null,
+	val healthyIngredients: List<String?>? = null,
 
 	@field:SerializedName("healthySteps")
-	val healthySteps: String? = null,
+	val healthySteps: List<String?>? = null,
 
 	@field:SerializedName("description")
 	val description: String? = null,
 
 	@field:SerializedName("ingredients")
-	val ingredients: String? = null,
+	val ingredients: List<String?>? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
