@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.response.LoginResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import com.aubrey.recepku.data.userpref.UserPreferences
@@ -34,6 +35,7 @@ class UserRepository(
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
+
     fun daftar(username: String, password: String, email: String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
@@ -44,6 +46,16 @@ class UserRepository(
         }
     }
 
+    fun login(username: String, password: String): LiveData<Result<LoginResponse>> = liveData{
+        emit(Result.Loading)
+        try {
+            val response = apiService.login(username,password)
+            emit(Result.Success(response))
+        }catch (e: HttpException){
+            emit(Result.Error(e.message?: "Error"))
+        }
+    }
+
     fun getThemeSetting():LiveData<Boolean>{
         return userPreferences.getThemeSetting().asLiveData()
     }
@@ -51,14 +63,4 @@ class UserRepository(
     suspend fun saveThemeSetting(isDarkMode: Boolean){
         return userPreferences.saveThemeSetting(isDarkMode)
     }
-
-//    fun daftar(username: String, password: String, email: String): LiveData<Result<RegisterResponse>> = liveData {
-//        emit(Result.Loading)
-//        try {
-//            val response = apiService.register(username, password, email)
-//            emit(Result.Success(response))
-//        }catch (e: HttpException) {
-//           emit(Result.Error(e.message?: "Error"))
-//        }
-//    }
 }

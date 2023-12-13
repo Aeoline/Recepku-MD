@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aubrey.recepku.data.model.recipe.Favorite
@@ -10,8 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.repository.UserRepository
 
-class HomeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class HomeViewModel(private val recipeRepository: RecipeRepository, private val repository: UserRepository) : ViewModel() {
 
     private val _uiState: MutableStateFlow<Result<List<Favorite>>> = MutableStateFlow(Result.Loading)
     val uiState: StateFlow<Result<List<Favorite>>>
