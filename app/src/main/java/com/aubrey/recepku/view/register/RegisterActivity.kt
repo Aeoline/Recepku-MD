@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.databinding.ActivityRegisterBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.login.LoginActivity
@@ -42,6 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                         binding.progressRegister.visibility = View.VISIBLE
                     }
 
+
                     is Result.Success<*> -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         AlertDialog.Builder(this).apply {
@@ -62,10 +64,11 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         val error = regist.error
+
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
-}
+

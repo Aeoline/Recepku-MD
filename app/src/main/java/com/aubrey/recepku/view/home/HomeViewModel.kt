@@ -13,11 +13,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.RecipeResponse
 import kotlinx.coroutines.flow.Flow
 
-class HomeViewModel(private val recipeRepository: RecipeRepository) : ViewModel() {
+class HomeViewModel(private val recipeRepository: RecipeRepository, private val repository: UserRepository) : ViewModel() {
 
 
     private val recipeList = MutableLiveData<Result<RecipeResponse>>()

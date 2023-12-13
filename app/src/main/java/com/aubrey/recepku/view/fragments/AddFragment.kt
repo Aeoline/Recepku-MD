@@ -51,8 +51,12 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpGallery()
-        setUpCamera()
+        binding.loginButton.setOnClickListener {
+            setUpCamera()
+        }
+        binding.registerButton.setOnClickListener {
+            setUpGallery()
+        }
     }
 
     private fun setUpGallery(){

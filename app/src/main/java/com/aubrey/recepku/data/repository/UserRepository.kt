@@ -37,6 +37,7 @@ class UserRepository(
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
+
     fun daftar(username: String, password: String, email: String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
@@ -47,6 +48,16 @@ class UserRepository(
         }
     }
 
+    fun login(username: String, password: String): LiveData<Result<LoginResponse>> = liveData{
+        emit(Result.Loading)
+        try {
+            val response = apiService.login(username,password)
+            emit(Result.Success(response))
+        }catch (e: HttpException){
+            emit(Result.Error(e.message?: "Error"))
+        }
+    }
+
     fun getThemeSetting():LiveData<Boolean>{
         return userPreferences.getThemeSetting().asLiveData()
     }
@@ -54,7 +65,4 @@ class UserRepository(
     suspend fun saveThemeSetting(isDarkMode: Boolean){
         return userPreferences.saveThemeSetting(isDarkMode)
     }
-
-
-
 }

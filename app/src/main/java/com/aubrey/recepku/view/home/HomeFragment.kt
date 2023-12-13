@@ -5,10 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +26,7 @@ import com.aubrey.recepku.R
 import com.aubrey.recepku.view.adapter.RecommendedRecipeAdapter
 import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.data.model.recommended.Recommended
+import com.aubrey.recepku.view.SettingViewModel
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
@@ -75,7 +78,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         getRecipes()
         getRecommendedRecipes()
         searchBar()
-
+        setDarkMode()
     }
 
     private fun setupImageSlider() {
@@ -301,4 +304,16 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         alertDialog.show()
     }
 
+    private fun setDarkMode(){
+        val viewModel by viewModels<SettingViewModel> {
+            ViewModelFactory.getInstance(requireActivity().application)
+        }
+        viewModel.getThemeSetting().observe(viewLifecycleOwner){
+            if (it){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
+    }
 }

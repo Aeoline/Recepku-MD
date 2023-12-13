@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.aubrey.recepku.databinding.FragmentSettingBinding
 import com.aubrey.recepku.view.SettingViewModel
 import com.aubrey.recepku.view.ViewModelFactory
@@ -42,7 +43,7 @@ class SettingFragment : Fragment() {
         val viewModel by viewModels<SettingViewModel> {
             ViewModelFactory.getInstance(requireActivity().application)
         }
-        viewModel.getThemeSetting().observe(this){
+        viewModel.getThemeSetting().observe(viewLifecycleOwner){
             if (it){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 binding.switchDarkMode.isChecked = true

@@ -7,6 +7,7 @@ import com.aubrey.recepku.data.Injection
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.view.home.HomeViewModel
+import com.aubrey.recepku.view.login.LoginViewModel
 import com.aubrey.recepku.view.register.RegisterViewModel
 
 class ViewModelFactory private constructor(private val repository: UserRepository,
@@ -22,7 +23,10 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
                 SettingViewModel(repository) as T
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(recipeRepository) as T
+                HomeViewModel(recipeRepository,repository) as T
+            }
+            modelClass.isAssignableFrom(LoginViewModel::class.java) ->{
+                LoginViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }
