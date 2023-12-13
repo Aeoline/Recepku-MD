@@ -20,7 +20,9 @@ object Injection {
     }
 
     fun provideRecipeRepository(context: Context): RecipeRepository {
-        val publicApiService = PublicApiConfig.getPublicApiService()
-        return RecipeRepository.getInstance(publicApiService)
+        val pref = UserPreferences.getInstance(context.dataStore)
+        val user = runBlocking { pref.getSession().first() }
+        val apiService = ApiConfig.getApiService(user.token)
+        return RecipeRepository.getInstance(apiService)
     }
 }
