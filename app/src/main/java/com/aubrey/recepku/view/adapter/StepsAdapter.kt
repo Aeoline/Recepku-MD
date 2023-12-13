@@ -15,10 +15,9 @@ class StepsAdapter(private val steps: List<String?>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val steps = steps[position]
-        if (steps != null) {
-            holder.bind(steps)
-        }
+        val step = steps[position]
+        step?.let { holder.bind(step) }
+
     }
 
     override fun getItemCount(): Int {
@@ -28,8 +27,8 @@ class StepsAdapter(private val steps: List<String?>) :
     inner class ViewHolder(private val binding: ItemRecipeStepsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(steps: String) {
-            binding.tvStepsValue.text = steps
+        fun bind(step: String) {
+            binding.tvStepsValue.text = step
         }
     }
 }

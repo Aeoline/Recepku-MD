@@ -165,8 +165,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val ingredientsList = listOf(recipe.ingredients) // Ubah string menjadi list dengan satu elemen
         val ingredientsAdapter = IngredientsAdapter(ingredientsList)
 
-        val stepsList = listOf(recipe.steps)
-        val stepsAdapter = StepsAdapter(stepsList)
+        // Adapter
+        val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
 
 //        val lowCalIngAdapter = recipe.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
 //        val lowCalStepsAdapter = recipe.healthySteps?.let { LowCalStepsAdapter(it) }

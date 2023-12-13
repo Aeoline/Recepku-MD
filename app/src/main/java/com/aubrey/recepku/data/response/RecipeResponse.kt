@@ -16,14 +16,14 @@ data class DataItem(
 	@field:SerializedName("photoUrl")
 	val photoUrl: String? = null,
 
-	@field:SerializedName("healthySteps")
-	val healthySteps: String? = null,
-
 	@field:SerializedName("healthyCalories")
 	val healthyCalories: Int? = null,
 
 	@field:SerializedName("healthyIngredients")
 	val healthyIngredients: String? = null,
+
+	@field:SerializedName("healthySteps")
+	val healthySteps: String? = null,
 
 	@field:SerializedName("description")
 	val description: String? = null,
@@ -41,7 +41,7 @@ data class DataItem(
 	val title: String? = null,
 
 	@field:SerializedName("steps")
-	val steps: String? = null,
+	val steps: List<String?>? = null,
 
 	@field:SerializedName("isFavorite")
 	val isFavorite: Boolean? = null
