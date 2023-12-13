@@ -2,18 +2,10 @@ package com.aubrey.recepku.view.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.aubrey.recepku.R
-import com.aubrey.recepku.data.model.recipe.Favorite
-import com.aubrey.recepku.databinding.ItemIngredientsItemBinding
-import com.aubrey.recepku.databinding.ItemRecipeBinding
 import com.aubrey.recepku.databinding.ItemRecipeStepsBinding
-import com.aubrey.recepku.view.home.HomeFragment
-import com.bumptech.glide.Glide
 
-class StepsAdapter (private val steps: List<String>) :
+class StepsAdapter(private val steps: List<String?>) :
     RecyclerView.Adapter<StepsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,8 +15,9 @@ class StepsAdapter (private val steps: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val steps = steps[position]
-        holder.bind(steps)
+        val step = steps[position]
+        step?.let { holder.bind(step) }
+
     }
 
     override fun getItemCount(): Int {
@@ -34,8 +27,8 @@ class StepsAdapter (private val steps: List<String>) :
     inner class ViewHolder(private val binding: ItemRecipeStepsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(steps: String) {
-            binding.tvStepsValue.text = steps
+        fun bind(step: String) {
+            binding.tvStepsValue.text = step
         }
     }
 }

@@ -1,8 +1,7 @@
 package com.aubrey.recepku.data.retrofit
 
-//import com.aubrey.recepku.data.response.LoginResponse
-//import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.response.LoginResponse
+import com.aubrey.recepku.data.response.RecipeResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -24,4 +23,8 @@ interface ApiService {
         @Field("username") username: String,
         @Field("password") password: String
     ): LoginResponse
+
+    @GET("/makanan/all")
+    suspend fun getRecipe(
+    ): RecipeResponse
 }

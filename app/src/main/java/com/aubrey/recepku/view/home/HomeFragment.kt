@@ -20,25 +20,23 @@ import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.adapter.RecipeAdapter
 import com.denzcoskun.imageslider.ImageSlider
 import com.denzcoskun.imageslider.models.SlideModel
-import kotlinx.coroutines.launch
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aubrey.recepku.R
 import com.aubrey.recepku.view.adapter.RecommendedRecipeAdapter
 import com.aubrey.recepku.data.common.Result
-import com.aubrey.recepku.data.model.recipe.Favorite
 import com.aubrey.recepku.data.model.recommended.Recommended
 import com.aubrey.recepku.view.SettingViewModel
+import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 interface RecipeClickListener {
-    fun onRecipeClicked(recipe: Favorite)
+    fun onRecipeClicked(recipe: DataItem)
 }
 
 interface RecommendedRecipeClickListener {
@@ -48,7 +46,6 @@ interface RecommendedRecipeClickListener {
 class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickListener {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
-    private lateinit var adapter: RecipeAdapter
     private lateinit var recommendedAdapter: RecommendedRecipeAdapter
 
     private val viewModel: HomeViewModel by viewModels {
@@ -70,11 +67,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         binding.rvRecipe.layoutManager = layoutManager
         imageSlider = binding.slider
 
-        adapter = RecipeAdapter(this)
-        binding.rvRecipe.adapter = adapter
 
-        val recommendedLayoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        val recommendedLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvRecommended.layoutManager = recommendedLayoutManager
 
         recommendedAdapter = RecommendedRecipeAdapter(this)
@@ -97,28 +91,42 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     }
 
     private fun getRecipes() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState.collect { uiState ->
-                when (uiState) {
+        viewModel.recipeData.observe(viewLifecycleOwner) { result ->
+            binding.apply {
+                when (result) {
                     is Result.Loading -> {
-                        viewModel.getAllRecipes()
-                        Log.d("HomeScreen", "Loading: Sabar")
+//                        progressBar.visibility = View.VISIBLE
+                        Log.d("Loading", "Loading")
                     }
 
                     is Result.Success -> {
-                        adapter.submitList(uiState.data)
-                        Log.d("HomeScreen", "Success: Nih Resep")
+//                        progressBar.visibility = View.GONE
+                        val recipe = result.data?.data
+                        if (recipe != null) {
+                            setRecipe(recipe)
+                            Log.d("Success", "Recipe Fetched")
+                        }
                     }
-
                     is Result.Error -> {
-                        Log.d("HomeScreen", "Error: Kok gabisa si")
+                        val errorMessage = result.error
+                        Log.d("Failed", "Recipe not fetched. Error message: $errorMessage")
                     }
-
-                    else -> {}
                 }
             }
         }
     }
+
+    private fun setRecipe(recipe: List<DataItem?>?) {
+        binding.apply {
+            rvRecipe.adapter = RecipeAdapter(recipe, this@HomeFragment)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getRecipes()
+    }
+
 
     private fun getRecommendedRecipes() {
         viewLifecycleOwner.lifecycleScope.launch {
@@ -131,8 +139,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
                     is Result.Success -> {
                         recommendedAdapter.submitList(uiState1.data)
-                        // Tampilkan daftar resep yang direkomendasikan
-                        // menggunakan recommendedRecipes
                         Log.d("Recommended HomeScreen", "Success: Nih Resep")
                     }
 
@@ -148,52 +154,21 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     }
     //Belum bisa
     private fun searchBar() {
-        with(binding) {
-            searchView.setupWithSearchBar(searchBar)
-            searchView.editText.setOnEditorActionListener { view, actionId, event ->
-                searchBar.setText(searchView.text)
-                searchView.hide()
-                rvRecipe.adapter = RecipeAdapter(recipeClickListener = this@HomeFragment)
 
-                // Menggunakan CoroutineScope untuk membuat coroutine
-                val coroutineScope = CoroutineScope(Dispatchers.Main)
-                coroutineScope.launch {
-                    viewModel.searchRecipe(searchBar.text.toString())
-                    viewModel.uiState.collect { uiState ->
-                        when (uiState) {
-                            is Result.Loading -> {
-                                viewModel.searchRecipe(searchBar.text.toString())
-                                Log.d("Search HomeScreen", "Loading: Sabar")
-                            }
-
-                            is Result.Success -> {
-                                adapter.submitList(uiState.data)
-                                Log.d("Search HomeScreen", "Success: Nih Resep")
-                            }
-
-                            is Result.Error -> {
-                                Log.d("Search HomeScreen", "Error: Kok gabisa si")
-                            }
-
-                            else -> {}
-                        }
-                    }
-                }
-                false
-            }
-        }
     }
 
-    override fun onRecipeClicked(recipe: Favorite) {
+    override fun onRecipeClicked(recipe: DataItem) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val dialogView = inflater.inflate(R.layout.item_card_detail, null)
 
 //      Adapter
-        val ingredientsAdapter = recipe.recipe.ingredients?.let { IngredientsAdapter(it) }
-        val stepsAdapter = recipe.recipe.steps?.let { StepsAdapter(it) }
-        val lowCalIngAdapter = recipe.recipe.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
-        val lowCalStepsAdapter = recipe.recipe.healthySteps?.let { LowCalStepsAdapter(it) }
+
+        // Adapter
+        val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
+        val ingredientsAdapter = IngredientsAdapter(recipe.ingredients ?: emptyList())
+        val lowCalStepsAdapter = LowCalStepsAdapter(recipe.healthySteps ?: emptyList())
+        val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
 
 //        ui
         val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
@@ -212,10 +187,10 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
 //        setup
         Glide.with(ivRecipe)
-            .load(R.drawable.menu)
+            .load(recipe.photoUrl)
             .into(ivRecipe)
-        tvRecipeName.text = recipe.recipe.title
-        tvRecipeDescription.text = recipe.recipe.description
+        tvRecipeName.text = recipe.title
+        tvRecipeDescription.text = recipe.description
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
         val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -225,7 +200,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         rvSteps.adapter = stepsAdapter
         rvSteps.layoutManager = stepsLayoutManager
 
-        tvCalories.text = recipe.recipe.calories.toString()
+        tvCalories.text = recipe.calories.toString()
 
 
 
@@ -236,14 +211,14 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                 lowcalBtn.setImageResource(R.drawable.ic_food)
                 isLowcal = false
                 rvIngredients.adapter = ingredientsAdapter
-                tvCalories.text = recipe.recipe.calories.toString()
+                tvCalories.text = recipe.calories.toString()
                 rvSteps.adapter = stepsAdapter
 
             } else {
                 lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
                 isLowcal = true
                 rvIngredients.adapter = lowCalIngAdapter
-                tvCalories.text = recipe.recipe.healthyCalories.toString()
+                tvCalories.text = recipe.healthyCalories.toString()
                 rvSteps.adapter = lowCalStepsAdapter
             }
         }
@@ -277,7 +252,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
         val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
         val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
-        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories)
+        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
 
         //        condition
         var isLowcal = false
@@ -286,7 +261,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
         //        setup
         Glide.with(ivRecipe)
-            .load(R.drawable.menu)
+            .load(recipe.recommended.photoUrl)
             .into(ivRecipe)
         tvRecipeName.text = recipe.recommended.title
         tvRecipeDescription.text = recipe.recommended.description

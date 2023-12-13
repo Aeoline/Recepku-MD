@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.databinding.ItemRecipeStepsBinding
 
-class LowCalStepsAdapter (private val healthySteps: List<String>) :
+class LowCalStepsAdapter (private val healthySteps: List<String?>) :
     RecyclerView.Adapter<LowCalStepsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -15,8 +15,11 @@ class LowCalStepsAdapter (private val healthySteps: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val healthyIngredient = healthySteps[position]
-        holder.bind(healthyIngredient)
+        val healthySteps = healthySteps[position]
+        healthySteps?.let {
+            holder.bind(healthySteps)
+        }
+
     }
 
     override fun getItemCount(): Int {

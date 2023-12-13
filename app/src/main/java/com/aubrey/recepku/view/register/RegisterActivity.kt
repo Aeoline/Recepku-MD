@@ -11,6 +11,7 @@ import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.databinding.ActivityRegisterBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.login.LoginActivity
+import com.aubrey.recepku.data.common.Result
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -37,13 +38,13 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.emailRegister.text.toString()
 
             viewModel.register(username, password, email).observe(this){regist->
-
                 when(regist){
                     is Result.Loading -> {
                         binding.progressRegister.visibility = View.VISIBLE
                     }
 
-                    is Result.Success -> {
+
+                    is Result.Success<*> -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeay")
@@ -63,10 +64,10 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         val error = regist.error
-                        Toast.makeText(this,error, Toast.LENGTH_SHORT).show()
+
+                        Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
                     }
                 }
-              }
             }
         }
     }
