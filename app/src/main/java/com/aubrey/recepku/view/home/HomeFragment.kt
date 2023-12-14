@@ -6,10 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
@@ -34,11 +32,11 @@ import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
-import com.aubrey.recepku.view.search.SearchActivity
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import android.app.Activity
 import androidx.cardview.widget.CardView
+import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.retrofit.ApiConfig
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
@@ -201,7 +199,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 //        condition
         var isLowcal = false
         var isFavorite = false
-        var favorite = recipe.isFavorite
 
 //        setup
         Glide.with(ivRecipe)
@@ -249,14 +246,40 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             if (isFavorite) {
                 favBtn.setImageResource(R.drawable.ic_favorite_border)
                 isFavorite = false
-                favorite = false
+                viewModel.delete(
+                    FavoriteRecipe(
+                        recipe.id,
+                        recipe.title,
+                        recipe.description,
+                        recipe.photoUrl,
+                        recipe.ingredients,
+                        recipe.steps,
+                        recipe.healthyIngredients,
+                        recipe.healthySteps,
+                        recipe.calories,
+                        recipe.healthyCalories
+                    )
+                )
             } else {
                 favBtn.setImageResource(R.drawable.ic_favorite_fill)
                 isFavorite = true
-                favorite = true
+                viewModel.insert(
+                    FavoriteRecipe(
+                        recipe.id,
+                        recipe.title,
+                        recipe.description,
+                        recipe.photoUrl,
+                        recipe.ingredients,
+                        recipe.steps,
+                        recipe.healthyIngredients,
+                        recipe.healthySteps,
+                        recipe.calories,
+                        recipe.healthyCalories
+                    )
+                )
             }
+            isFavorite = !isFavorite
         }
-
 
 
         alertDialog.show()
@@ -336,11 +359,43 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             if (isFavorite) {
                 favBtn.setImageResource(R.drawable.ic_favorite_border)
                 isFavorite = false
+                viewModel.delete(
+                    FavoriteRecipe(
+                        recipe.recommended.id,
+                        recipe.recommended.title,
+                        recipe.recommended.description,
+                        recipe.recommended.photoUrl,
+                        recipe.recommended.ingredients,
+                        recipe.recommended.steps,
+                        recipe.recommended.healthyIngredients,
+                        recipe.recommended.healthySteps,
+                        recipe.recommended.calories,
+                        recipe.recommended.healthyCalories
+                    )
+                )
             } else {
                 favBtn.setImageResource(R.drawable.ic_favorite_fill)
                 isFavorite = true
+                viewModel.insert(
+                    FavoriteRecipe(
+                        recipe.recommended.id,
+                        recipe.recommended.title,
+                        recipe.recommended.description,
+                        recipe.recommended.photoUrl,
+                        recipe.recommended.ingredients,
+                        recipe.recommended.steps,
+                        recipe.recommended.healthyIngredients,
+                        recipe.recommended.healthySteps,
+                        recipe.recommended.calories,
+                        recipe.recommended.healthyCalories
+                    )
+                )
             }
+            isFavorite = !isFavorite
         }
+
+
+
 
         alertDialog.show()
     }
