@@ -34,7 +34,6 @@ import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
-import android.app.Activity
 import androidx.cardview.widget.CardView
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.retrofit.ApiConfig
@@ -42,7 +41,6 @@ import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
-import com.google.android.material.search.SearchBar
 
 interface RecipeClickListener {
     fun onRecipeClicked(recipe: DataItem)
