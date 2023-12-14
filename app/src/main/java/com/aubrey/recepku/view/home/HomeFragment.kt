@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -35,12 +36,15 @@ import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
+import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.retrofit.ApiConfig
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
+import com.aubrey.recepku.view.edituser.EditUserActivity
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
+import com.google.android.material.snackbar.Snackbar
 
 interface RecipeClickListener {
     fun onRecipeClicked(recipe: DataItem)
@@ -116,7 +120,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
                     is Result.Success -> {
 //                        progressBar.visibility = View.GONE
-                        val recipe = result.data?.data
+                        val recipe = result.data.data
                         if (recipe != null) {
                             setRecipe(recipe)
                             Log.d("Success", "Recipe Fetched")
@@ -424,17 +428,39 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
     }
 
+    @SuppressLint("MissingInflatedId")
     private fun showProfile() {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
         val dialogView = inflater.inflate(R.layout.card_profile, null)
-
         val tvName = dialogView.findViewById<TextView>(R.id.tv_name)
         val tvEmail = dialogView.findViewById<TextView>(R.id.tv_email)
         val settingBtn = dialogView.findViewById<ImageButton>(R.id.btn_setting)
         val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
-
         val logoutBtn = dialogView.findViewById<CardView>(R.id.cardLogout)
+        val setAccount = dialogView.findViewById<CardView>(R.id.cardAccount)
+        val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
+
+        deleteAccount.setOnClickListener {
+            viewModel.deleteUser().observe(viewLifecycleOwner){
+                when(it){
+                    is Result.Loading->{
+                        Log.d("Home Fragment","Sabar cuy")
+                    }
+                    is Result.Success ->{
+                        Log.e("Home Fragment", "GEGE GEMINK")
+                    }
+                    is Result.Error -> {
+                        Log.e("Home Fragment", "Error cuy")
+                    }
+                }
+            }
+        }
+
+        setAccount.setOnClickListener {
+            val intent = Intent(requireContext(),EditUserActivity::class.java)
+            startActivity(intent)
+        }
 
 
         tvName.text = savedName
@@ -462,6 +488,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             startActivity(intent)
             alertDialog.dismiss()
         }
+
+
 
 
         alertDialog.show()
