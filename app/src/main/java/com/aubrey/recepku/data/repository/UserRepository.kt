@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.LoginResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiConfig
@@ -19,10 +20,10 @@ class UserRepository(
     private val apiService: ApiService,
     private val userPreferences: UserPreferences,
 ): CoroutineScope {
-    companion object{
+    companion object {
         private var INSTANCE: UserRepository? = null
 
-        fun clearInstance(){
+        fun clearInstance() {
             INSTANCE = null
         }
 
@@ -30,48 +31,53 @@ class UserRepository(
             apiService: ApiService,
             userPreferences: UserPreferences
         ): UserRepository =
-            INSTANCE ?: synchronized(this){
-                INSTANCE ?: UserRepository(apiService,userPreferences)
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: UserRepository(apiService, userPreferences)
             }.also { INSTANCE = it }
     }
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    fun daftar(username: String, password: String, email: String): LiveData<Result<RegisterResponse>> = liveData {
+    fun daftar(
+        username: String,
+        password: String,
+        email: String
+    ): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.register(username, password, email)
             emit(Result.Success(response))
-        }catch (e: HttpException) {
-           emit(Result.Error(e.message?: "Error"))
+        } catch (e: HttpException) {
+            emit(Result.Error(e.message ?: "Error"))
         }
     }
 
-    fun login(username: String, password: String): LiveData<Result<LoginResponse>> = liveData{
+    fun login(username: String, password: String): LiveData<Result<LoginResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.login(username,password)
+            val response = apiService.login(username, password)
             val user = ProfileModel(
                 uid = response.data?.uid ?: "",
                 username = response.data?.username ?: "",
-                email = response.data?. email?: "",
+                email = response.data?.email ?: "",
             )
             userPreferences.saveUser(user)
             ApiConfig.name = response.data?.username ?: ""
             ApiConfig.email = response.data?.email ?: ""
             emit(Result.Success(response))
-        }catch (e: HttpException){
-            emit(Result.Error(e.message?: "Error"))
+        } catch (e: HttpException) {
+            emit(Result.Error(e.message ?: "Error"))
         }
     }
 
-    fun getThemeSetting():LiveData<Boolean>{
+    fun getThemeSetting(): LiveData<Boolean> {
         return userPreferences.getThemeSetting().asLiveData()
     }
 
-    suspend fun saveThemeSetting(isDarkMode: Boolean){
+    suspend fun saveThemeSetting(isDarkMode: Boolean) {
         return userPreferences.saveThemeSetting(isDarkMode)
     }
 
 }
+

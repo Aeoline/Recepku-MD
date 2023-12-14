@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.RecipeResponse
@@ -50,6 +51,20 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
                     _uiState1.value = Result.Success(recommendedRecipes)
                 }
         }
+    }
+
+    fun getFavoriteRecipes(id: Int) = recipeRepository.getFavoriteRecipeById(id)
+
+    fun insert(favorite: FavoriteRecipe) = viewModelScope.launch {
+        recipeRepository.insertFavoriteRecipe(favorite)
+    }
+
+    fun delete(favorite: FavoriteRecipe) = viewModelScope.launch {
+        recipeRepository.deleteFavoriteRecipe(favorite)
+    }
+
+    companion object {
+        var username = "bakso"
     }
 
 //    fun searchRecipe(query: String) {

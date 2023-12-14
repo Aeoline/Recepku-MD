@@ -15,12 +15,17 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.net.SocketTimeoutException
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.database.FavDao
+import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.ErrorResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import java.io.IOException
 
-class RecipeRepository private constructor(private val apiService: ApiService) {
+class RecipeRepository private constructor(
+    private val apiService: ApiService,
+    private val favDao: FavDao
+) {
 
     private val favoriteRecipes = mutableListOf<Favorite>()
     private val recommendedRecipes = mutableListOf<Recommended>()
@@ -39,22 +44,21 @@ class RecipeRepository private constructor(private val apiService: ApiService) {
         }
     }
 
-
-    fun getAllRecipes() : LiveData<Result<RecipeResponse>> = liveData {
+    fun getAllRecipes(): LiveData<Result<RecipeResponse>> = liveData {
         emit(Result.Loading)
         try {
             val recipeResponse = apiService.getRecipe()
-            if (recipeResponse.message == "success"){
+            if (recipeResponse.message == "success") {
                 emit(Result.Success(recipeResponse))
             } else {
-
+                // Handle unsuccessful response
             }
         } catch (e: HttpException) {
             val jsonInString = e.response()?.errorBody()?.string()
             val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
             val errorMessage = errorBody?.message ?: "An error occurred"
             emit(Result.Error("Failed: $errorMessage"))
-        } catch (e: Exception){
+        } catch (e: Exception) {
             emit(Result.Error("Internet Issues"))
         } catch (e: SocketTimeoutException) {
             emit(Result.Error("Read timeout occurred"))
@@ -75,23 +79,31 @@ class RecipeRepository private constructor(private val apiService: ApiService) {
             }
         }
 
-
-
     fun getAllRecommendedRecipes(): Flow<List<Recommended>> {
         return flow {
             emit(recommendedRecipes)
         }
     }
 
+    fun getAllFavoriteRecipes(): LiveData<List<FavoriteRecipe>> = favDao.getFav()
 
+    fun getFavoriteRecipeById(id: Int): LiveData<FavoriteRecipe?> = favDao.getFavoriteById(id)
+
+    suspend fun insertFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {
+        favDao.insert(favoriteRecipe)
+    }
+
+    suspend fun deleteFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {
+        favDao.delete(favoriteRecipe)
+    }
 
     companion object {
         @Volatile
         private var instance: RecipeRepository? = null
 
-        fun getInstance(apiService: ApiService): RecipeRepository =
+        fun getInstance(apiService: ApiService, favDao: FavDao): RecipeRepository =
             instance ?: synchronized(this) {
-                instance ?: RecipeRepository(apiService).also { instance = it }
+                instance ?: RecipeRepository(apiService, favDao).also { instance = it }
             }
     }
 }

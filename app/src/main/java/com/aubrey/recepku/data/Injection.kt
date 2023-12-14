@@ -1,6 +1,7 @@
 package com.aubrey.recepku.data
 
 import android.content.Context
+import com.aubrey.recepku.data.database.FavDatabase
 import com.aubrey.recepku.data.publicretrofit.PublicApiConfig
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
@@ -23,6 +24,8 @@ object Injection {
         val pref = UserPreferences.getInstance(context.dataStore)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        return RecipeRepository.getInstance(apiService)
+        val database = FavDatabase.getInstance(context)
+        val dao = database.favDao()
+        return RecipeRepository.getInstance(apiService, dao)
     }
 }
