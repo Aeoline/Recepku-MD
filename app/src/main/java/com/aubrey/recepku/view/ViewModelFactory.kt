@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.aubrey.recepku.data.Injection
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
+import com.aubrey.recepku.view.edituser.EditUserViewModel
 import com.aubrey.recepku.view.favorite.FavoriteViewModel
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.login.LoginViewModel
@@ -31,6 +32,9 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
                 FavoriteViewModel(recipeRepository) as T
+            }
+            modelClass.isAssignableFrom(EditUserViewModel::class.java) -> {
+                EditUserViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }
