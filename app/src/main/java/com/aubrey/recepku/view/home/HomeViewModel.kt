@@ -78,4 +78,6 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
 //                }
 //        }
 //    }
+
+    fun deleteUser() = repository.deleteUser()
 }

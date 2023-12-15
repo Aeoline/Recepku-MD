@@ -59,5 +59,3 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
         }
     }
 }
-
-

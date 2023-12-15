@@ -30,14 +30,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(FavoriteFragment())
                     true
                 }
-//                R.id.profile -> {
-//                    replaceFragment(ProfileFragment())
-//                    true
-//                }
-//                R.id.setting -> {
-//                    replaceFragment(SettingFragment())
-//                    true
-//                }
                 else -> false
             }
         }
