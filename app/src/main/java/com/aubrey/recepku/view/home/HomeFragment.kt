@@ -314,8 +314,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         var isLowcal = false
         var isFavorite = false
 
-
-
         //        setup
         Glide.with(ivRecipe)
             .load(recipe.recommended.photoUrl)

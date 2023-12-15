@@ -26,6 +26,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".view.edituser.EditUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.splashscreen.MainActivity"
             android:exported="false" />
         <activity
