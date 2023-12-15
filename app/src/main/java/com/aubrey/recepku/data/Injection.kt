@@ -2,7 +2,6 @@ package com.aubrey.recepku.data
 
 import android.content.Context
 import com.aubrey.recepku.data.database.FavDatabase
-import com.aubrey.recepku.data.publicretrofit.PublicApiConfig
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.retrofit.ApiConfig

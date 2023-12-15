@@ -36,6 +36,9 @@ import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.retrofit.ApiConfig
@@ -46,6 +49,7 @@ import com.aubrey.recepku.view.edituser.EditUserActivity
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.firstOrNull
 
 interface RecipeClickListener {
     fun onRecipeClicked(recipe: DataItem)
@@ -59,10 +63,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
     private lateinit var recommendedAdapter: RecommendedRecipeAdapter
-
-    private val apiConfig = ApiConfig
-    private val savedName = apiConfig.name
-    private val savedEmail = apiConfig.email
 
 
 
@@ -178,7 +178,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     override fun onRecipeClicked(recipe: DataItem) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         val inflater = LayoutInflater.from(requireContext())
-        val dialogView = inflater.inflate(R.layout.item_card_detail, null)
+        val dialogView = inflater.inflate(R.layout.item_card_detail, null) as CardView
 
 //      Adapter
 
@@ -441,12 +441,12 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
 
         deleteAccount.setOnClickListener {
-            viewModel.deleteUser().observe(viewLifecycleOwner){
-                when(it){
-                    is Result.Loading->{
-                        Log.d("Home Fragment","Sabar cuy")
+            viewModel.deleteUser().observe(viewLifecycleOwner) {
+                when (it) {
+                    is Result.Loading -> {
+                        Log.d("Home Fragment", "Sabar cuy")
                     }
-                    is Result.Success ->{
+                    is Result.Success -> {
                         Log.e("Home Fragment", "GEGE GEMINK")
                     }
                     is Result.Error -> {
@@ -457,13 +457,14 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
 
         setAccount.setOnClickListener {
-            val intent = Intent(requireContext(),EditUserActivity::class.java)
+            val intent = Intent(requireContext(), EditUserActivity::class.java)
             startActivity(intent)
         }
 
-
-        tvName.text = savedName
-        tvEmail.text = savedEmail
+        readUserData { username, email ->
+            tvName.text = username
+            tvEmail.text = email
+        }
 
         val alertDialog = dialogBuilder.setView(dialogView).create()
         settingBtn.setOnClickListener {
@@ -488,10 +489,20 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             alertDialog.dismiss()
         }
 
-
-
-
         alertDialog.show()
+    }
+
+    private fun readUserData(callback: (username: String, email: String) -> Unit) {
+        val dataStore = requireContext().dataStore
+
+        lifecycleScope.launch {
+            val userData = dataStore.data.firstOrNull()
+
+            val username = userData?.get(UserPreferences.NAME_KEY) ?: ""
+            val email = userData?.get(UserPreferences.EMAIL_KEY) ?: ""
+
+            callback(username, email)
+        }
     }
 
     private fun setDarkMode(){
@@ -506,4 +517,5 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             }
         }
     }
+
 }

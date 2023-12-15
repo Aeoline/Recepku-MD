@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.common.Result
+import com.aubrey.recepku.data.response.CheckUserResponse
 import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.EditPassResponse
 import com.aubrey.recepku.data.response.EditUserResponse
@@ -68,12 +69,11 @@ class UserRepository(
                 email = response.data?.email ?: "",
                 cookie = cookie,
             )
+            checkUser()
             userPreferences.saveUser(user)
-            ApiConfig.name = response.data?.username ?: ""
-            ApiConfig.email = response.data?.email ?: ""
             ApiConfig.cookie = cookie.toString()
             emit(Result.Success(response))
-            Log.d("Login", "Login Success: $cookie")
+            Log.d("Login", "Login Success: $user")
         } catch (e: HttpException) {
             emit(Result.Error(e.message ?: "Error"))
         }
@@ -91,6 +91,15 @@ class UserRepository(
         emit(Result.Loading)
         try {
             val response = apiService.editUser(username,password )
+            val userResponse = apiService.login(username,password)
+            val cookie = userResponse.data?.cookie ?: Cookie.Builder().build()
+            val user = ProfileModel(
+                uid = userResponse.data?.uid ?: "",
+                username = userResponse.data?.username ?: "",
+                email = userResponse.data?.email ?: "",
+                cookie = cookie,
+            )
+            userPreferences.saveUser(user)
             emit(Result.Success(response))
         }catch (e: HttpException){
             emit(Result.Error(e.message ?: "Error"))
@@ -114,6 +123,17 @@ class UserRepository(
             emit(Result.Success(response))
         } catch (e: HttpException) {
             emit(Result.Error(e.message ?: "Error"))
+        }
+    }
+
+    private fun checkUser(): LiveData<Result<CheckUserResponse>> = liveData {
+        val response = apiService.checkUser()
+        if (response.error == true) {
+            emit(Result.Error(response.message ?: "Error"))
+            Log.d("CheckUser", "CheckUser: ${response.message}")
+        } else {
+            emit(Result.Success(response))
+            Log.d("CheckUser", "CheckUser: ${response.message}")
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.aubrey.recepku.data.retrofit
 
 import androidx.room.Delete
+import com.aubrey.recepku.data.response.CheckUserResponse
 import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.EditPassResponse
 import com.aubrey.recepku.data.response.EditUserResponse
@@ -51,6 +52,9 @@ interface ApiService {
         @Field("confirmPassword") confirmPassword: String,
         @Field("Password") password: String
     ): EditPassResponse
+
+    @GET("user")
+    suspend fun checkUser(): CheckUserResponse
 
     @DELETE("profile")
     suspend fun deleteUser(): DeleteResponse
