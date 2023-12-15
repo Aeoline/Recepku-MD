@@ -6,13 +6,17 @@ import androidx.lifecycle.ViewModelProvider
 import com.aubrey.recepku.data.Injection
 import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
+import com.aubrey.recepku.data.userpref.UserPreferences
+import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.favorite.FavoriteViewModel
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.login.LoginViewModel
 import com.aubrey.recepku.view.register.RegisterViewModel
+import com.aubrey.recepku.view.splashscreen.SplashScreenViewModel
 
 class ViewModelFactory private constructor(private val repository: UserRepository,
-                                           private val recipeRepository: RecipeRepository
+                                           private val recipeRepository: RecipeRepository,
+                                              private val userPreferences: UserPreferences
 ): ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -32,6 +36,9 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
                 FavoriteViewModel(recipeRepository) as T
             }
+            modelClass.isAssignableFrom(SplashScreenViewModel::class.java) ->{
+                SplashScreenViewModel(userPreferences) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }
     }
@@ -44,6 +51,7 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
                     INSTANCE = ViewModelFactory(
                         Injection.provideRepository(context),
                         Injection.provideRecipeRepository(context)
+                        ,UserPreferences.getInstance(context.dataStore)
                     )
                 }
             }

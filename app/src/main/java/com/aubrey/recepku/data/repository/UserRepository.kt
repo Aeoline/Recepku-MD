@@ -1,10 +1,10 @@
 package com.aubrey.recepku.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import com.aubrey.recepku.data.common.Result
-import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.LoginResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiConfig
@@ -13,6 +13,7 @@ import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import okhttp3.Cookie
 import retrofit2.HttpException
 import kotlin.coroutines.CoroutineContext
 
@@ -57,15 +58,19 @@ class UserRepository(
         emit(Result.Loading)
         try {
             val response = apiService.login(username, password)
+            val cookie = response.data?.cookie ?: Cookie.Builder().build()
             val user = ProfileModel(
                 uid = response.data?.uid ?: "",
                 username = response.data?.username ?: "",
                 email = response.data?.email ?: "",
+                cookie = cookie,
             )
             userPreferences.saveUser(user)
             ApiConfig.name = response.data?.username ?: ""
             ApiConfig.email = response.data?.email ?: ""
+            ApiConfig.cookie = cookie.toString()
             emit(Result.Success(response))
+            Log.d("Login", "Login Success: $cookie")
         } catch (e: HttpException) {
             emit(Result.Error(e.message ?: "Error"))
         }

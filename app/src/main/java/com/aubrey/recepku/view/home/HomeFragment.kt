@@ -37,6 +37,7 @@ import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.retrofit.ApiConfig
+import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.login.LoginActivity
@@ -454,8 +455,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         logoutBtn.setOnClickListener {
             val preference = UserPreferences.getInstance(requireActivity().application.dataStore)
             lifecycleScope.launch {
-                preference.logout()
-                Log.d("Deleted", "Token Deleted")
+                preference.deleteCookies()
+                Log.d("Deleted", "Cookies Deleted")
             }
 
             val intent = Intent(requireContext(), LoginActivity::class.java)
