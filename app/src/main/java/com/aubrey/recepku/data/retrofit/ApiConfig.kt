@@ -11,6 +11,7 @@ class ApiConfig {
         private var URL = "https://backend-dot-capstone-bangkit01.et.r.appspot.com/"
         var name = ""
         var email = ""
+        var cookie = ""
 
         fun getApiService(token:String): ApiService {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

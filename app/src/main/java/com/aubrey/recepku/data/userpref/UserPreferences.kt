@@ -23,6 +23,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
 
         private val UID_KEY = stringPreferencesKey("uid")
         private val EMAIL_KEY = stringPreferencesKey("email")
+        private val COOKIE = stringPreferencesKey("cookie")
 
         private var INSTANCE: UserPreferences? = null
         fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
@@ -60,6 +61,15 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             it[EMAIL_KEY] = ""
         }
     }
+
+    suspend fun deleteCookies(){
+        dataStore.edit {preference->
+            preference.remove(COOKIE)
+            preference.remove(UID_KEY)
+            preference.remove(EMAIL_KEY)
+            preference.remove(NAME_KEY)
+        }
+    }
     
     fun getThemeSetting(): Flow<Boolean> {
         return dataStore.data.map { preferences ->
@@ -78,8 +88,20 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             it[UID_KEY] = user.uid
             it[NAME_KEY] = user.username
             it[EMAIL_KEY] = user.email
+            it[COOKIE] = user.cookie.toString()
         }
         Log.d("Token Tersimpan","$user")
+    }
+
+    fun getCookie(): Flow<ProfileModel> {
+        return dataStore.data.map { preference ->
+            ProfileModel(
+                preference[UID_KEY]?:"",
+                preference[NAME_KEY]?:"",
+                preference[EMAIL_KEY]?:"",
+                preference[COOKIE] ?: "",
+            )
+        }
     }
 
 }

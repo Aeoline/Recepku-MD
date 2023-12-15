@@ -4,5 +4,5 @@ class ProfileModel(
     val uid: String,
     val username: String,
     val email: String,
-
-)
+    val cookie: Any,
+    )
