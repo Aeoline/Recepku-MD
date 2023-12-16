@@ -31,7 +31,7 @@ import com.aubrey.recepku.R
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.FragmentAddBinding
-import com.aubrey.recepku.ml.Model1
+import com.aubrey.recepku.ml.Model2
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
@@ -65,6 +65,7 @@ class AddFragment : Fragment() {
             currentImageUri = uri
             showImage()
         }
+        classifyImage(binding.imageView.drawable.toBitmap())
     }
 
     private val launcherIntentCamera = registerForActivityResult(
@@ -73,6 +74,7 @@ class AddFragment : Fragment() {
         if (isSuccess) {
             showImage()
         }
+        classifyImage(binding.imageView.drawable.toBitmap())
     }
 
     override fun onCreateView(
@@ -91,23 +93,23 @@ class AddFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             setUpGallery()
         }
-        binding.clingbtn.setOnClickListener {
-            classifyImage(binding.imageView.drawable.toBitmap())
+//        binding.clingbtn.setOnClickListener {
+//            classifyImage(binding.imageView.drawable.toBitmap())
 //            val intent = Intent (requireContext(), ResultActivity::class.java)
 //            startActivity(intent)
-        }
+//        }
     }
 
 
 
     private fun classifyImage(image: Bitmap) {
         try {
-            val model = context?.let { Model1.newInstance(it) }
-            val imageSize = 150
+            val model = context?.let { Model2.newInstance(it) }
+            val imageSize = 32
             var result = binding.tvMakanan
 
             // Creates inputs for reference.
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 150, 150, 3), DataType.FLOAT32)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
             val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
             byteBuffer.order(ByteOrder.nativeOrder())
             inputFeature0.loadBuffer(byteBuffer)
