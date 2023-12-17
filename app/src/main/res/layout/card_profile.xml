@@ -83,7 +83,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_img"
+            android:id="@+id/card_cover"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="16dp"
@@ -94,17 +94,27 @@
             app:strokeColor="#E0E0E0"
             app:strokeWidth="0dp">
 
-            <ImageView
-                android:id="@+id/img_recipe"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/bg" />
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/img_recipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/bg" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/food"/>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/food"
+                    app:layout_constraintBottom_toBottomOf="@+id/img_recipe"
+                    app:layout_constraintEnd_toEndOf="@+id/img_recipe"
+                    app:layout_constraintStart_toStartOf="@+id/img_recipe"
+                    app:layout_constraintTop_toTopOf="@+id/img_recipe" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
 
@@ -116,7 +126,7 @@
             android:text="Nama"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/card_img" />
+            app:layout_constraintTop_toBottomOf="@+id/card_cover" />
 
         <TextView
             android:id="@+id/tv_email"
@@ -135,8 +145,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:hint="@string/welcome"
+            android:hint="@string/welcome_profile"
             android:textSize="18sp"
+            android:textColor="@color/design_default_color_primary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_email" />
@@ -201,13 +212,14 @@
                 android:layout_height="match_parent">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="10dp"
-                    app:cardCornerRadius="200dp">
+                    app:cardCornerRadius="200dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
                         android:layout_width="30dp"
@@ -220,11 +232,13 @@
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="80dp"
                     android:text="@string/delete_account"
                     android:textColor="@color/white"
-                    android:layout_marginEnd="80dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/cardView3"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -282,12 +296,13 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="8dp"
                     android:text="@string/logout"
                     android:textColor="@color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/ivSetting"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.483" />
 
                 <ImageView
                     android:id="@+id/ivNavSetting"

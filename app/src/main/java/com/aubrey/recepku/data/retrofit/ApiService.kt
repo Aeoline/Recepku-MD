@@ -6,7 +6,6 @@ import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.EditPassResponse
 import com.aubrey.recepku.data.response.EditUserResponse
 import com.aubrey.recepku.data.response.LoginResponse
-import com.aubrey.recepku.data.response.ProfileResponse
 import com.aubrey.recepku.data.response.RecipeResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import retrofit2.http.DELETE
@@ -36,6 +35,11 @@ interface ApiService {
     @GET("/makanan/all")
     suspend fun getRecipe(
         @Query("search") search: String? = null,
+    ): RecipeResponse
+
+    @GET("/makanan/")
+    suspend fun getRecipeByTitle(
+        @Query("title") title: String?
     ): RecipeResponse
 
     @FormUrlEncoded

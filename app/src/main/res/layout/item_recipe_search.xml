@@ -21,7 +21,7 @@
         android:layout_margin="9dp">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_img"
+            android:id="@+id/card_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -45,9 +45,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:text="@string/recipe_name"
-            app:layout_constraintEnd_toStartOf="@+id/rating"
-            app:layout_constraintStart_toEndOf="@+id/card_img"
-            app:layout_constraintTop_toTopOf="@+id/card_img" />
+            app:layout_constraintStart_toEndOf="@+id/card_cover"
+            app:layout_constraintTop_toTopOf="@+id/card_cover" />
 
         <TextView
             android:id="@+id/tv_recipe_description"

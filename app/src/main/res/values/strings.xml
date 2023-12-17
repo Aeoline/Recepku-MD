@@ -11,17 +11,17 @@
     <string name="register">Register</string>
     <string name="have_account">Already Have Account?</string>
     <string name="login_here">Login Here!</string>
-    <string name="alertPassword">Password harus lebih dari 5 yaa</string>
-    <string name="alertEmail">Masukkan email yang valid yaa</string>
+    <string name="alertPassword">Password must be 5 characters or more!</string>
+    <string name="alertEmail">Enter the valid email</string>
     <string name="tv_search">Search Here!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_fragment">Settings Fragment</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="uploadphoto">Upload a photo to know the recipe of your food!</string>
-    <string name="welcome">Halo, This page for setting your account!</string>
+    <string name="welcome">Hello, This page is for setting your account!</string>
     <string name="account_setting">Set your account</string>
-    <string name="delete_account">Are you sure to delete your account?</string>
+    <string name="delete_account">Delete account</string>
     <string name="language_setting">Set your language</string>
     <string name="darkmode_setting">Dark Mode Setting</string>
     <string name="dark">Dark</string>
@@ -35,9 +35,10 @@
     <string name="description">This is description\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis eros a justo semper viverra id vitae turpis. Nulla malesuada quis arcu eu suscipit. Nam vel vehicula ipsum. Nam cursus efficitur eros, eget tincidunt massa dictum sed. Vestibulum rutrum, tellus sit amet aliquet viverra, odio turpis blandit elit, quis mattis lectus enim sed eros. Aliquam sed tincidunt nisl. Nam id finibus sapien. Sed fringilla mollis erat, vitae iaculis tortor tempor id. Donec porttitor nisi at diam pretium suscipit. Nulla porta viverra enim gravida mattis. Cras ultricies, orci cursus aliquet commodo, nibh justo fringilla odio, eu ornare lectus sem sed lorem. Fusce et elementum nunc.\n\nDonec ac tempus sapien, ac gravida massa. Fusce sed sem at sapien posuere laoreet. Sed tempor lorem eget pellentesque mattis. Phasellus sit amet mattis urna. Pellentesque congue pulvinar est ac consectetur. Proin ut porta ex. Aliquam erat volutpat. Suspendisse congue tortor ullamcorper odio convallis malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium egestas arcu eget porttitor.</string>
     <string name="profile">Profile</string>
     <string name="logout">Logout</string>
-    <string name="change_username">Ubah Username Anda</string>
-    <string name="change_password">Ubah Password Anda</string>
+    <string name="change_username">Change your username</string>
+    <string name="change_password">Change your password</string>
     <string name="confirm">Confirm</string>
     <string name="new_password">New Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="welcome_profile">Hello! This is you profile page!</string>
 </resources>

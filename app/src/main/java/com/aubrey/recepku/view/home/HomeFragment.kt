@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import com.aubrey.recepku.view.search.SearchActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -36,19 +37,12 @@ import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
-import com.aubrey.recepku.data.retrofit.ApiConfig
-import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.edituser.EditUserActivity
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.firstOrNull
 
 interface RecipeClickListener {
@@ -407,10 +401,13 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
             searchView.editText.setOnEditorActionListener { view, actionId, event ->
+                val query = searchView.text.toString()
+                val intent = Intent(requireContext(), SearchActivity::class.java)
+                intent.putExtra("searchQuery", "$query")
+                startActivity(intent)
                 searchBar.setText(searchView.text)
                 searchView.hide()
-                rvRecipe.adapter = null
-                viewModel.searchRecipe(searchView.text.toString())
+                viewModel.search(searchView.text.toString())
                 false
             }
             searchBar.inflateMenu(R.menu.option_menu)

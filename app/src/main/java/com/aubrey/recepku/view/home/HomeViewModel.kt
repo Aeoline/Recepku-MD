@@ -25,11 +25,13 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     private val recipeList = MutableLiveData<Result<RecipeResponse>>()
     val recipeData: LiveData<Result<RecipeResponse>> = recipeList
 
+    private val _search = MutableLiveData<String>()
+    val search: LiveData<String> = _search
+
     private val _uiState1: MutableStateFlow<Result<List<Recommended>>> = MutableStateFlow(Result.Loading)
     val uiState1: StateFlow<Result<List<Recommended>>>
         get() = _uiState1
 
-    fun searchRecipe(search: String) = recipeRepository.searchRecipe(search)
 
     fun getRecipes() {
         viewModelScope.launch {
@@ -67,17 +69,16 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
         var username = "bakso"
     }
 
-//    fun searchRecipe(query: String) {
-//        viewModelScope.launch {
-//            recipeRepository.searchRecipe(query)
-//                .catch {throwable ->
-//                    _uiState.value = Result.Error(throwable.message.toString())
-//                }
-//                .collect { filteredRecipes ->
-//                    _uiState.value = Result.Success(RecipeResponse(filteredRecipes))
-//                }
-//        }
-//    }
+    fun search(query: String) {
+        viewModelScope.launch {
+            try {
+                val results = recipeRepository.search(query)
+                _search.value = results.toString()
+            } catch (e: Exception) {
+                // Handle exception
+            }
+        }
+    }
 
     fun deleteUser() = repository.deleteUser()
 

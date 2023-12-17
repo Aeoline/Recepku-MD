@@ -19,7 +19,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
@@ -32,13 +31,13 @@ import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.FragmentAddBinding
 import com.aubrey.recepku.ml.Model2
+import com.aubrey.recepku.ml.ModelRecepku
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.aubrey.recepku.view.home.HomeViewModel
-import com.aubrey.recepku.view.result.ResultActivity
 import com.bumptech.glide.Glide
 import okio.IOException
 import org.tensorflow.lite.DataType
@@ -93,18 +92,13 @@ class AddFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             setUpGallery()
         }
-//        binding.clingbtn.setOnClickListener {
-//            classifyImage(binding.imageView.drawable.toBitmap())
-//            val intent = Intent (requireContext(), ResultActivity::class.java)
-//            startActivity(intent)
-//        }
     }
 
 
 
     private fun classifyImage(image: Bitmap) {
         try {
-            val model = context?.let { Model2.newInstance(it) }
+            val model = context?.let { ModelRecepku.newInstance(it) }
             val imageSize = 32
             var result = binding.tvMakanan
 
@@ -152,7 +146,7 @@ class AddFragment : Fragment() {
 
             val classes = arrayOf(
                 "Bakso", "Bika Ambon", "Dadar Gulung", "Kue Cubit", "Nasi Goreng",
-                "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem"
+                "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem","Tiramisu"
             )
             result.text = classes[maxPos]
 
