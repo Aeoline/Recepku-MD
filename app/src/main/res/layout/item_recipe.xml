@@ -24,7 +24,7 @@
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_img"
+            android:id="@+id/card_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardCornerRadius="16dp"
@@ -36,8 +36,8 @@
 
             <ImageView
                 android:id="@+id/food_image"
-                android:layout_width="172dp"
-                android:layout_height="172dp"
+                android:layout_width="170dp"
+                android:layout_height="200dp"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
         </com.google.android.material.card.MaterialCardView>
@@ -54,8 +54,8 @@
             android:textAlignment="center"
             android:text="@string/recipe_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/card_img"
-            app:layout_constraintTop_toBottomOf="@+id/card_img" />
+            app:layout_constraintStart_toStartOf="@+id/card_cover"
+            app:layout_constraintTop_toBottomOf="@+id/card_cover" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,13 +16,13 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
  
     private val THEME_KEY = booleanPreferencesKey("theme_setting")
     companion object{
-        private val NAME_KEY = stringPreferencesKey("name")
+        val NAME_KEY = stringPreferencesKey("name")
         private val USER_KEY = stringPreferencesKey("userId")
         private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN = booleanPreferencesKey("isLogin")
 
-        private val UID_KEY = stringPreferencesKey("uid")
-        private val EMAIL_KEY = stringPreferencesKey("email")
+        val UID_KEY = stringPreferencesKey("uid")
+        val EMAIL_KEY = stringPreferencesKey("email")
         private val COOKIE = stringPreferencesKey("cookie")
 
         private var INSTANCE: UserPreferences? = null

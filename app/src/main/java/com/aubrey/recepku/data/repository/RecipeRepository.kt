@@ -69,8 +69,9 @@ class RecipeRepository private constructor(
         liveData {
             emit(Result.Loading)
             try {
-                val response = apiService.getRecipe(search = query)
-                val recipes = response.data
+                val response = apiService.getRecipeByTitle(query)
+                val recipes = response.data?.filter { it?.title?.contains(query, ignoreCase = true) == true ||
+                        query.contains(it?.title.orEmpty(), ignoreCase = true) }
                 emit(Result.Success(recipes))
             } catch (e: Exception) {
                 emit(Result.Error(e.message.toString()))
@@ -93,6 +94,10 @@ class RecipeRepository private constructor(
 
     suspend fun deleteFavoriteRecipe(favoriteRecipe: FavoriteRecipe) {
         favDao.delete(favoriteRecipe)
+    }
+
+    suspend fun search(recipe : String) : RecipeResponse {
+        return apiService.getRecipeByTitle(recipe)
     }
 
     companion object {

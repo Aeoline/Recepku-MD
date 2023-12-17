@@ -1,29 +1,42 @@
 package com.aubrey.recepku.view.search
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.aubrey.recepku.R
+import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.ActivitySearchBinding
+import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.data.common.Result
 
 class SearchActivity : AppCompatActivity() {
 
-    private val binding: ActivitySearchBinding by lazy {
-        ActivitySearchBinding.inflate(layoutInflater)
+    private lateinit var binding: ActivitySearchBinding
+    private val viewModel: SearchViewModel by viewModels {
+        ViewModelFactory.getInstance(application)
     }
+    private val searchRecipeAdapter = SearchRecipeAdapter()
 
-    private val viewModel: SearchViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        binding = ActivitySearchBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupRecyclerView()
 
         val searchQuery = intent.getStringExtra("searchQuery")
         if (searchQuery != null) {
             searchRecipe(searchQuery)
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvRecipes.apply {
+            adapter = searchRecipeAdapter
+            layoutManager = LinearLayoutManager(this@SearchActivity)
         }
     }
 
@@ -32,26 +45,19 @@ class SearchActivity : AppCompatActivity() {
             when (result) {
                 is Result.Loading -> {
                     binding.progressBar.isVisible = true
+                    Log.d("com.aubrey.recepku.view.search.SearchActivity", "Loading...")
                 }
                 is Result.Error -> {
                     val error = result.error
-                    Toast.makeText(this@SearchActivity, error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@SearchActivity, "error", Toast.LENGTH_SHORT).show()
                     binding.progressBar.isVisible = false
+                    Log.d("com.aubrey.recepku.view.search.SearchActivity", "Error: $error")
                 }
-                is Result.Success -> {
+                is Result.Success<*> -> {
                     binding.progressBar.isVisible = false
-                    val data = result.data
-
-                    if (data != null) {
-                        if (data.isEmpty()) {
-                            binding.imgNotFound.isVisible = true
-                        }
-                    }
-
-                    binding.rvRecipes.apply {
-                        adapter = SearchRecipeAdapter(data)
-                        layoutManager = LinearLayoutManager(this@SearchActivity)
-                    }
+                    val data = result.data as? List<DataItem>
+                    searchRecipeAdapter.submitList(data)
+                    Log.d("com.aubrey.recepku.view.search.SearchActivity", "Success: $data")
                 }
             }
         }
