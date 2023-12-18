@@ -1,10 +1,11 @@
+package com.aubrey.recepku.view.favorite
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.databinding.ItemFavoriteBinding
-import com.aubrey.recepku.view.favorite.RecipeClickListener
 import com.bumptech.glide.Glide
 
 class FavoriteAdapter(private val recipeClickListener: RecipeClickListener) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
@@ -31,7 +32,6 @@ class FavoriteAdapter(private val recipeClickListener: RecipeClickListener) : Re
     }
 
     inner class ViewHolder(private val binding: ItemFavoriteBinding, private val recipeClickListener: RecipeClickListener) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(favorite: FavoriteRecipe) {
             Glide.with(binding.root)
                 .load(favorite.photoUrl)

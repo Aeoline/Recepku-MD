@@ -12,7 +12,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Vegetables"),
             healthySteps = listOf("Put vegetables in bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
         RecommendedRecipe(
             id = 2,
@@ -24,7 +25,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
         RecommendedRecipe(
             id = 3,
@@ -36,7 +38,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
         RecommendedRecipe(
             id = 4,
@@ -48,7 +51,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
         RecommendedRecipe(
             id = 5,
@@ -60,7 +64,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
         RecommendedRecipe(
             id = 6,
@@ -72,7 +77,8 @@ object RecommendedRecipeData {
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
 RecommendedRecipe(
             id = 7,
@@ -84,7 +90,8 @@ RecommendedRecipe(
     healthyIngredients = listOf("Bread", "Tomatoes"),
     healthySteps = listOf("Put tomatoes on bread"),
     calories = 1000,
-    healthyCalories = 500
+    healthyCalories = 500,
+    isFavorite = false
         ),
         RecommendedRecipe(
             id = 8,
@@ -96,7 +103,8 @@ RecommendedRecipe(
             healthyIngredients = listOf("Bread", "Tomatoes"),
             healthySteps = listOf("Put tomatoes on bread"),
             calories = 1000,
-            healthyCalories = 500
+            healthyCalories = 500,
+            isFavorite = false
         ),
     )
 }

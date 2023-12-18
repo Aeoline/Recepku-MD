@@ -30,7 +30,6 @@ import com.aubrey.recepku.R
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.FragmentAddBinding
-import com.aubrey.recepku.ml.Model2
 import com.aubrey.recepku.ml.ModelRecepku
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.adapter.IngredientsAdapter
@@ -270,48 +269,49 @@ class AddFragment : Fragment() {
             alertDialog.dismiss()
         }
 
-        favBtn.setOnClickListener {
-            if (isFavorite) {
-                favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = false
-                viewModel.delete(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories
-                    )
-                )
-            } else {
-                favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = true
-                viewModel.insert(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories
-                    )
-                )
-            }
-            isFavorite = !isFavorite
-        }
+         favBtn.setOnClickListener {
+             if (isFavorite == false) {
+                 favBtn.setImageResource(R.drawable.ic_favorite_border)
+                 isFavorite = true
+                 viewModel.delete(
+                     FavoriteRecipe(
+                         recipe.id,
+                         recipe.title,
+                         recipe.description,
+                         recipe.photoUrl,
+                         recipe.ingredients,
+                         recipe.steps,
+                         recipe.healthyIngredients,
+                         recipe.healthySteps,
+                         recipe.calories,
+                         recipe.healthyCalories,
+                     )
+                 )
+             } else {
+                 favBtn.setImageResource(R.drawable.ic_favorite_fill)
+                 isFavorite = false
+                 viewModel.insert(
+                     FavoriteRecipe(
+                         recipe.id,
+                         recipe.title,
+                         recipe.description,
+                         recipe.photoUrl,
+                         recipe.ingredients,
+                         recipe.steps,
+                         recipe.healthyIngredients,
+                         recipe.healthySteps,
+                         recipe.calories,
+                         recipe.healthyCalories,
+                     )
+                 )
+             }
+         }
 
 
-        alertDialog.show()
-    }
+         alertDialog.show()
+     }
+
+
 
 
 

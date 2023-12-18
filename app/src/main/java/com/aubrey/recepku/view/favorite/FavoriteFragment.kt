@@ -1,6 +1,6 @@
 package com.aubrey.recepku.view.favorite
 
-import FavoriteAdapter
+import com.aubrey.recepku.view.favorite.FavoriteAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,11 +12,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.model.recommended.Recommended
+import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.FragmentFavoriteBinding
 import com.aubrey.recepku.databinding.ItemFavoriteBinding
 import com.aubrey.recepku.view.ViewModelFactory
@@ -38,6 +40,8 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
     private lateinit var favoriteAdapter: FavoriteAdapter
     private lateinit var rvFavorite: RecyclerView
     private lateinit var binding: ItemFavoriteBinding
+
+
 
     private val viewModel: FavoriteViewModel by viewModels {
         ViewModelFactory.getInstance(requireActivity().application)
@@ -92,7 +96,6 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
 
 //        condition
         var isLowcal = false
-        var isFavorite = false
 
 //        setup
         Glide.with(ivRecipe)
@@ -100,6 +103,7 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
             .into(ivRecipe)
         tvRecipeName.text = recipe.title
         tvRecipeDescription.text = recipe.description
+        favBtn.setImageResource(R.drawable.ic_favorite_fill)
 
         val layoutManager = GridLayoutManager(requireContext(), 2)
         val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -137,42 +141,21 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
         }
 
         favBtn.setOnClickListener {
-            if (isFavorite) {
-                favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = false
-                viewModel.delete(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories
-                    )
+            viewModel.delete(
+                FavoriteRecipe(
+                    recipe.id,
+                    recipe.title,
+                    recipe.description,
+                    recipe.photoUrl,
+                    recipe.ingredients,
+                    recipe.steps,
+                    recipe.healthyIngredients,
+                    recipe.healthySteps,
+                    recipe.calories,
+                    recipe.healthyCalories,
                 )
-            } else {
-                favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = true
-                viewModel.insert(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories
-                    )
-                )
-            }
-            isFavorite = !isFavorite
+            )
+            alertDialog.dismiss()
         }
 
 
@@ -264,7 +247,7 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
                         recipe.recommended.healthyIngredients,
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
-                        recipe.recommended.healthyCalories
+                        recipe.recommended.healthyCalories,
                     )
                 )
             } else {
@@ -281,7 +264,7 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
                         recipe.recommended.healthyIngredients,
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
-                        recipe.recommended.healthyCalories
+                        recipe.recommended.healthyCalories,
                     )
                 )
             }
@@ -293,4 +276,5 @@ class FavoriteFragment : Fragment(), RecipeClickListener, RecommendedRecipeClick
 
         alertDialog.show()
     }
+
 }

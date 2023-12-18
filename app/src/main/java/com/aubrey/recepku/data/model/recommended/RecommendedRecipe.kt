@@ -11,4 +11,5 @@ data class RecommendedRecipe(
     val healthySteps: List<String>?,
     val calories: Int,
     val healthyCalories: Int,
+    var isFavorite: Boolean = false
 )

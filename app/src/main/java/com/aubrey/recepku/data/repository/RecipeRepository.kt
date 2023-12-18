@@ -70,8 +70,14 @@ class RecipeRepository private constructor(
             emit(Result.Loading)
             try {
                 val response = apiService.getRecipeByTitle(query)
-                val recipes = response.data?.filter { it?.title?.contains(query, ignoreCase = true) == true ||
-                        query.contains(it?.title.orEmpty(), ignoreCase = true) }
+                val recipes = response.data?.filter {
+                    val title = it?.title.orEmpty()
+                    val keywords = query.split(" ")
+                    val containsAllKeywords = keywords.all { keyword ->
+                        title.contains(keyword, ignoreCase = true)
+                    }
+                    containsAllKeywords
+                }
                 emit(Result.Success(recipes))
             } catch (e: Exception) {
                 emit(Result.Error(e.message.toString()))

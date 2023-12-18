@@ -195,7 +195,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
 //        condition
         var isLowcal = false
-        var isFavorite = false
+        var isFavorite = recipe.isFavorite == false
 
 //        setup
         Glide.with(ivRecipe)
@@ -240,9 +240,9 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
 
         favBtn.setOnClickListener {
-            if (isFavorite) {
+            if (isFavorite == false) {
                 favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = false
+                isFavorite = true
                 viewModel.delete(
                     FavoriteRecipe(
                         recipe.id,
@@ -254,12 +254,12 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.healthyIngredients,
                         recipe.healthySteps,
                         recipe.calories,
-                        recipe.healthyCalories
+                        recipe.healthyCalories,
                     )
                 )
             } else {
                 favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = true
+                isFavorite = false
                 viewModel.insert(
                     FavoriteRecipe(
                         recipe.id,
@@ -271,11 +271,10 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.healthyIngredients,
                         recipe.healthySteps,
                         recipe.calories,
-                        recipe.healthyCalories
+                        recipe.healthyCalories,
                     )
                 )
             }
-            isFavorite = !isFavorite
         }
 
 
@@ -306,7 +305,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
         //        condition
         var isLowcal = false
-        var isFavorite = false
+        var isFavorite = recipe.recommended.isFavorite
 
         //        setup
         Glide.with(ivRecipe)
@@ -365,7 +364,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.recommended.healthyIngredients,
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
-                        recipe.recommended.healthyCalories
+                        recipe.recommended.healthyCalories,
                     )
                 )
             } else {
@@ -382,11 +381,10 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.recommended.healthyIngredients,
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
-                        recipe.recommended.healthyCalories
+                        recipe.recommended.healthyCalories,
                     )
                 )
             }
-            isFavorite = !isFavorite
         }
 
 
@@ -395,8 +393,6 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         alertDialog.show()
     }
 
-
-    //blmbisa
     private fun searchBar() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
