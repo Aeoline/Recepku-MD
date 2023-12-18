@@ -57,7 +57,7 @@ interface ApiService {
         @Field("Password") password: String
     ): EditPassResponse
 
-    @GET("user")
+    @GET("profile")
     suspend fun checkUser(): CheckUserResponse
 
     @DELETE("profile")

@@ -434,6 +434,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
 
         deleteAccount.setOnClickListener {
+            viewModel.checkUser()
             viewModel.deleteUser().observe(viewLifecycleOwner) {
                 when (it) {
                     is Result.Loading -> {

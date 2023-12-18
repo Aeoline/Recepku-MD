@@ -126,7 +126,7 @@ class UserRepository(
         }
     }
 
-    private fun checkUser(): LiveData<Result<CheckUserResponse>> = liveData {
+    fun checkUser(): LiveData<Result<CheckUserResponse>> = liveData {
         val response = apiService.checkUser()
         if (response.error == true) {
             emit(Result.Error(response.message ?: "Error"))

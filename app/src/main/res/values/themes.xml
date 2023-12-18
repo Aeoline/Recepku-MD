@@ -3,7 +3,6 @@
     <style name="Base.Theme.Recepku" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/yellow</item>
-        <item name="colorOnPrimaryContainer">@color/white</item>
 <!--        <item name="colorSecondary">@color/white</item>-->
     </style>
 

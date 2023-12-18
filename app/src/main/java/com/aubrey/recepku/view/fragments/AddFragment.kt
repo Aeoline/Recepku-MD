@@ -37,6 +37,7 @@ import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
 import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
 import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.aubrey.recepku.view.home.HomeViewModel
+import com.aubrey.recepku.view.search.SearchActivity
 import com.bumptech.glide.Glide
 import okio.IOException
 import org.tensorflow.lite.DataType
@@ -81,6 +82,8 @@ class AddFragment : Fragment() {
     ): View {
         binding = FragmentAddBinding.inflate(layoutInflater)
         return binding.root
+
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,6 +93,12 @@ class AddFragment : Fragment() {
         }
         binding.registerButton.setOnClickListener {
             setUpGallery()
+        }
+        binding.btnSearchRecipe.setOnClickListener {
+            val foodName = binding.tvMakanan.text.toString()
+            val intent = Intent(requireContext(), SearchActivity::class.java)
+            intent.putExtra("searchQuery", foodName)
+            startActivity(intent)
         }
     }
 
