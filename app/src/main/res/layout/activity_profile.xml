@@ -33,7 +33,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@color/yellow"
+                    android:background="@color/Shale"
                     tools:srcCompat="@drawable/ic_person_white"/>
                 <TextView
                     android:id="@+id/usernameProfile"
@@ -54,7 +54,7 @@
                 <ImageView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:background="@color/yellow"
+                    android:background="@color/Shale"
                     tools:srcCompat="@drawable/ic_mail_white"/>
                 <TextView
                     android:id="@+id/emailProfile"
@@ -74,7 +74,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/yellow"
+                    android:background="@color/Shale"
                     tools:srcCompat="@drawable/ic_power_white"/>
             </androidx.cardview.widget.CardView>
 

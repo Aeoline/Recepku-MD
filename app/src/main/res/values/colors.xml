@@ -2,11 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="yellow">#FFBF1C</color>
+    <color name="Shale">#739072</color>
     <color name="red">#AC0808</color>
     <color name="grey">#FF424242</color>
     <color name="pure_white">#FFFFFF</color>
     <color name="pale_yellow">#FFF7AD</color>
 
     <color name="ijo_lucu">#739072</color>
+    <color name="dark_green">#3E4A3D</color>
+    <color name="pale_green">#F1F2E4</color>
 </resources>

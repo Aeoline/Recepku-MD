@@ -86,7 +86,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/ed_login_email"
-            android:background="@color/yellow"
+            android:background="@color/Shale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -119,7 +119,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButton"
         android:alpha="0"
         tools:alpha="100"/>
 
@@ -130,13 +130,13 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/to_register_page"
-        android:textColor="@color/yellow"
+        android:textColor="@color/Shale"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintTop_toBottomOf="@+id/cameraButton"
         app:layout_constraintVertical_bias="0.509"
         android:alpha="0"
         tools:alpha="100"/>
@@ -160,7 +160,7 @@
             android:id="@+id/ed_login_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/yellow"
+            android:background="@color/Shale"
             android:ems="10"
             android:inputType="textEmailAddress"
             tools:ignore="SpeakableTextPresentCheck" />
@@ -174,7 +174,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/yellow"
+        android:backgroundTint="@color/Shale"
         android:textColor="@color/black"
         android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"

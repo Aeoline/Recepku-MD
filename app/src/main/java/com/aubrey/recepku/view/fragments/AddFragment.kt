@@ -88,10 +88,10 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loginButton.setOnClickListener {
+        binding.cameraButton.setOnClickListener {
             setUpCamera()
         }
-        binding.registerButton.setOnClickListener {
+        binding.galleryButton.setOnClickListener {
             setUpGallery()
         }
         binding.btnSearchRecipe.setOnClickListener {
