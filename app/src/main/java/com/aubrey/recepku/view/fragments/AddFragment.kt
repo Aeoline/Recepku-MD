@@ -12,33 +12,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
 import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.BuildConfig
-import com.aubrey.recepku.R
-import com.aubrey.recepku.data.database.FavoriteRecipe
-import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.FragmentAddBinding
-import com.aubrey.recepku.ml.ModelRecepku
+import com.aubrey.recepku.ml.Model3
 import com.aubrey.recepku.view.ViewModelFactory
-import com.aubrey.recepku.view.adapter.IngredientsAdapter
-import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
-import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
-import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.search.SearchActivity
-import com.bumptech.glide.Glide
 import okio.IOException
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -106,7 +90,7 @@ class AddFragment : Fragment() {
 
     private fun classifyImage(image: Bitmap) {
         try {
-            val model = context?.let { ModelRecepku.newInstance(it) }
+            val model = context?.let { Model3.newInstance(it) }
             val imageSize = 32
             var result = binding.tvMakanan
 
@@ -168,7 +152,6 @@ class AddFragment : Fragment() {
 
     private fun setUpGallery(){
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        classifyImage(binding.imageView.drawable.toBitmap())
     }
 
     private fun setUpCamera(){
@@ -208,117 +191,6 @@ class AddFragment : Fragment() {
         }
     }
 
-     private fun onRecipeClicked(recipe: DataItem) {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = LayoutInflater.from(requireContext())
-        val dialogView = inflater.inflate(R.layout.item_card_detail, null) as CardView
-
-//      Adapter
-
-        // Adapter
-        val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
-        val ingredientsAdapter = IngredientsAdapter(recipe.ingredients ?: emptyList())
-        val lowCalStepsAdapter = LowCalStepsAdapter(recipe.healthySteps ?: emptyList())
-        val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
-
-//        ui
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
-        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
-        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
-        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
-        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
-        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
-        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
-        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
-        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
-
-//        condition
-        var isLowcal = false
-        var isFavorite = false
-
-//        setup
-        Glide.with(ivRecipe)
-            .load(recipe.photoUrl)
-            .into(ivRecipe)
-        tvRecipeName.text = recipe.title
-        tvRecipeDescription.text = recipe.description
-
-        val layoutManager = GridLayoutManager(requireContext(), 2)
-        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rvIngredients.layoutManager = layoutManager
-        rvIngredients.adapter = ingredientsAdapter
-
-        rvSteps.adapter = stepsAdapter
-        rvSteps.layoutManager = stepsLayoutManager
-
-        tvCalories.text = recipe.calories.toString()
-
-
-
-        val alertDialog = dialogBuilder.setView(dialogView).create()
-
-        lowcalBtn.setOnClickListener {
-            if (isLowcal) {
-                lowcalBtn.setImageResource(R.drawable.ic_food)
-                isLowcal = false
-                rvIngredients.adapter = ingredientsAdapter
-                tvCalories.text = recipe.calories.toString()
-                rvSteps.adapter = stepsAdapter
-
-            } else {
-                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
-                isLowcal = true
-                rvIngredients.adapter = lowCalIngAdapter
-                tvCalories.text = recipe.healthyCalories.toString()
-                rvSteps.adapter = lowCalStepsAdapter
-            }
-        }
-
-        backBtn.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-         favBtn.setOnClickListener {
-             if (isFavorite == false) {
-                 favBtn.setImageResource(R.drawable.ic_favorite_border)
-                 isFavorite = true
-                 viewModel.delete(
-                     FavoriteRecipe(
-                         recipe.id,
-                         recipe.title,
-                         recipe.description,
-                         recipe.photoUrl,
-                         recipe.ingredients,
-                         recipe.steps,
-                         recipe.healthyIngredients,
-                         recipe.healthySteps,
-                         recipe.calories,
-                         recipe.healthyCalories,
-                     )
-                 )
-             } else {
-                 favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                 isFavorite = false
-                 viewModel.insert(
-                     FavoriteRecipe(
-                         recipe.id,
-                         recipe.title,
-                         recipe.description,
-                         recipe.photoUrl,
-                         recipe.ingredients,
-                         recipe.steps,
-                         recipe.healthyIngredients,
-                         recipe.healthySteps,
-                         recipe.calories,
-                         recipe.healthyCalories,
-                     )
-                 )
-             }
-         }
-
-
-         alertDialog.show()
-     }
 
 
 
