@@ -71,10 +71,10 @@ class RecipeRepository private constructor(
             try {
                 val response = apiService.getRecipeByTitle(query)
                 val recipes = response.data?.filter {
-                    val title = it?.title.orEmpty()
+                    val slug = it?.slug.orEmpty()
                     val keywords = query.split(" ")
                     val containsAllKeywords = keywords.all { keyword ->
-                        title.contains(keyword, ignoreCase = true)
+                        slug.contains(keyword, ignoreCase = true)
                     }
                     containsAllKeywords
                 }

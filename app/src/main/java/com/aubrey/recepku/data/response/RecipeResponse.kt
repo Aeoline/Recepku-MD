@@ -44,5 +44,8 @@ data class DataItem(
 	val steps: List<String?>? = null,
 
 	@field:SerializedName("isFavorite")
-	val isFavorite: Boolean? = null
+	val isFavorite: Boolean? = null,
+
+	@field:SerializedName("slug")
+	val slug: String? = null,
 )

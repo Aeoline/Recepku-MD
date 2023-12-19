@@ -39,7 +39,7 @@ interface ApiService {
 
     @GET("/makanan/")
     suspend fun getRecipeByTitle(
-        @Query("title") title: String?
+        @Query("slug") slug: String?
     ): RecipeResponse
 
     @FormUrlEncoded
