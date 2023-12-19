@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import com.aubrey.recepku.MainActivity
@@ -29,6 +28,8 @@ class EditUserActivity : AppCompatActivity() {
         binding = ActivityEditUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel.saveUser()
+
         binding.cardUsername.setOnClickListener {
             changeUsername()
         }
@@ -39,7 +40,7 @@ class EditUserActivity : AppCompatActivity() {
     }
 
 
-    private fun changeUsername() {
+    private fun changeUsername(){
         val dialogBuilder = AlertDialog.Builder(this)
         val inflater = LayoutInflater.from(this)
         val dialogView = inflater.inflate(R.layout.card_change_username, null)
@@ -51,35 +52,28 @@ class EditUserActivity : AppCompatActivity() {
         button.setOnClickListener {
             val username = edUsername.text.toString()
             val password = edPassword.text.toString()
+            viewModel.editUser(username, password).observe(this) {
+                when (it) {
+                    is Result.Loading -> {
+                        Log.d("EditUserActivity", "Sabar Loading..")
+                    }
 
-            if (username.isNotEmpty() && password.isNotEmpty()) {
-                viewModel.editUser(username, password).observe(this) { edit ->
-                    when (edit) {
-                        is Result.Loading -> {
-                            Log.d("EditUserActivity", "Sabar Loading..")
-                        }
-
-                        is Result.Success<*> -> {
-                            AlertDialog.Builder(this).apply {
-                                setTitle("Berhasil!")
-                                setMessage("Yeay, Username kamu sudah berubah")
-                                setPositiveButton("Lanjut") { _, _ ->
-                                    val intent = Intent(this@EditUserActivity, MainActivity::class.java)
-                                    startActivity(intent)
-                                }
-                                create().show()
+                    is Result.Success -> {
+                        AlertDialog.Builder(this).apply {
+                            setTitle("Berhasil!")
+                            setMessage("Yeay, Username kamu sudah berubah")
+                            setPositiveButton("Lanjut") { _, _ ->
+                                val intent = Intent(this@EditUserActivity, MainActivity::class.java)
+                                startActivity(intent)
                             }
+                            create().show()
                         }
+                    }
 
-                        is Result.Error -> {
-                            Log.e("EditUserActivity", "Error")
-                        }
-
-                        else -> {}
+                    is Result.Error -> {
+                        Log.e("EditUserActivity", "Kok isoo yaa")
                     }
                 }
-            } else {
-                Toast.makeText(this, "Username and password cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
         alertDialog.show()
@@ -92,12 +86,16 @@ class EditUserActivity : AppCompatActivity() {
         val dialogView = inflater.inflate(R.layout.card_change_password, null)
         val alertDialog = dialogBuilder.setView(dialogView).create()
         val button = dialogView.findViewById<Button>(R.id.btnChangePassword)
-        val newPassword = dialogView.findViewById<TextInputEditText>(R.id.edNewPassword).text.toString()
-        val confirmPassword = dialogView.findViewById<TextInputEditText>(R.id.edConfirmPassword).text.toString()
-        val password = dialogView.findViewById<TextInputEditText>(R.id.edPassword).text.toString()
+        val edNewPassword = dialogView.findViewById<TextInputEditText>(R.id.edNewPassword)
+        val edConfirmPassword = dialogView.findViewById<TextInputEditText>(R.id.edConfirmPassword)
+        val edPassword = dialogView.findViewById<TextInputEditText>(R.id.edPassword)
 
         button.setOnClickListener {
-            viewModel.editPass(newPassword,confirmPassword, password).observe(this) {
+            val newPassword = edNewPassword.text.toString()
+            val confirmPassword = edConfirmPassword.text.toString()
+            val password = edPassword.text.toString()
+
+            viewModel.editPass(newPassword,confirmPassword,password).observe(this) {
                 when (it) {
                     is Result.Loading -> {
                         Log.d("EditUserActivity", "Sabar Loading..")

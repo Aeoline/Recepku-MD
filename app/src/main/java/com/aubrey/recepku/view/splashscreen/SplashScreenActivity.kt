@@ -14,6 +14,7 @@ import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.databinding.ActivitySplashScreenBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.login.LoginActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -36,16 +37,14 @@ class SplashScreenActivity : AppCompatActivity() {
 
     private fun checkCookies(){
         lifecycleScope.launch {
+            delay(DELAY_TIME)
             viewModel.getCookie().observe(this@SplashScreenActivity) { cookie: ProfileModel ->
                 ApiConfig.cookie = cookie.cookie.toString()
-                val delayRunnable = Runnable {
                     if (cookie.cookie.toString().isNotEmpty()) {
                         navigateToMainActivity()
                     } else {
                         navigateToLoginActivity()
-                    }
                 }
-                Handler(Looper.getMainLooper()).postDelayed(delayRunnable, DELAY_TIME)
             }
         }
     }

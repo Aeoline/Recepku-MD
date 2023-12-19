@@ -6,6 +6,7 @@ import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.EditPassResponse
 import com.aubrey.recepku.data.response.EditUserResponse
 import com.aubrey.recepku.data.response.LoginResponse
+import com.aubrey.recepku.data.response.ProfileResponse
 import com.aubrey.recepku.data.response.RecipeResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import retrofit2.http.DELETE
@@ -43,14 +44,14 @@ interface ApiService {
     ): RecipeResponse
 
     @FormUrlEncoded
-    @PUT("/profile/username")
+    @PUT("profile/username")
     suspend fun editUser(
         @Field("username") username: String,
         @Field("password") password: String
     ): EditUserResponse
 
     @FormUrlEncoded
-    @PUT("/profile/password")
+    @PUT("profile/password")
     suspend fun editPass(
         @Field("newPassword") newPassword: String,
         @Field("confirmPassword") confirmPassword: String,
@@ -62,4 +63,7 @@ interface ApiService {
 
     @DELETE("profile")
     suspend fun deleteUser(): DeleteResponse
+
+    @GET("profile")
+    suspend fun getProfile(): ProfileResponse
 }

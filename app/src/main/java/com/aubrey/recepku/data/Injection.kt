@@ -14,15 +14,15 @@ object Injection {
 
     fun provideRepository(context: Context): UserRepository{
         val pref = UserPreferences.getInstance(context.dataStore)
-        val user = runBlocking { pref.getSession().first() }
-        val apiService = ApiConfig.getApiService(user.token)
+        val user = runBlocking { pref.getCookie().first() }
+        val apiService = ApiConfig.getApiService(user.cookie.toString())
         return UserRepository.getInstance(apiService,pref)
     }
 
     fun provideRecipeRepository(context: Context): RecipeRepository {
         val pref = UserPreferences.getInstance(context.dataStore)
-        val user = runBlocking { pref.getSession().first() }
-        val apiService = ApiConfig.getApiService(user.token)
+        val user = runBlocking { pref.getCookie().first() }
+        val apiService = ApiConfig.getApiService(user.cookie.toString())
         val database = FavDatabase.getInstance(context)
         val dao = database.favDao()
         return RecipeRepository.getInstance(apiService, dao)

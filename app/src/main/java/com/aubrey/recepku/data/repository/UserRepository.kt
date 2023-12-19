@@ -99,6 +99,7 @@ class UserRepository(
                 email = userResponse.data?.email ?: "",
                 cookie = cookie,
             )
+            checkUser()
             userPreferences.saveUser(user)
             emit(Result.Success(response))
         }catch (e: HttpException){

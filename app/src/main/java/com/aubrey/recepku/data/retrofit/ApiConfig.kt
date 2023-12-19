@@ -10,13 +10,14 @@ class ApiConfig {
     companion object{
         private var URL = "https://backend-dot-capstone-bangkit01.et.r.appspot.com/"
         var cookie = ""
+        var profileCookie = ""
 
-        fun getApiService(token:String): ApiService {
+        fun getApiService(cookie: String): ApiService {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val authInterceptor = Interceptor{chain ->
                 val req = chain.request()
                 val requestHeader = req.newBuilder()
-                    .addHeader("Authorization","Bearer $token")
+                    .addHeader("Authorization","Bearer $cookie ")
                     .build()
                 chain.proceed(requestHeader)
             }

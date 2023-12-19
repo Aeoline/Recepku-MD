@@ -17,49 +17,15 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
     private val THEME_KEY = booleanPreferencesKey("theme_setting")
     companion object{
         val NAME_KEY = stringPreferencesKey("name")
-        private val USER_KEY = stringPreferencesKey("userId")
-        private val TOKEN_KEY = stringPreferencesKey("token")
-        private val IS_LOGIN = booleanPreferencesKey("isLogin")
-
         val UID_KEY = stringPreferencesKey("uid")
         val EMAIL_KEY = stringPreferencesKey("email")
-        private val COOKIE = stringPreferencesKey("cookie")
+        val COOKIE = stringPreferencesKey("cookie")
 
         private var INSTANCE: UserPreferences? = null
         fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
             INSTANCE ?: synchronized(this){
                 INSTANCE ?: UserPreferences(dataStore)
             }.also { INSTANCE = it }
-    }
-
-    suspend fun saveSession(user: UserModel){
-        dataStore.edit {
-            it[NAME_KEY] = user.name
-            it[USER_KEY] = user.userId
-            it[TOKEN_KEY] = user.token
-            it[IS_LOGIN] = true
-        }
-    }
-
-    fun getSession(): Flow<UserModel> {
-        return dataStore.data.map {
-            UserModel(
-                it[TOKEN_KEY].toString(),
-                it[NAME_KEY].toString(),
-                it[USER_KEY].toString(),
-                it[IS_LOGIN]?: false
-            )
-        }
-    }
-    suspend fun logout(){
-        dataStore.edit {
-            it[TOKEN_KEY] = ""
-            it[NAME_KEY] = ""
-            it[USER_KEY] = ""
-            it[IS_LOGIN] = false
-            it[UID_KEY] = ""
-            it[EMAIL_KEY] = ""
-        }
     }
 
     suspend fun deleteCookies(){

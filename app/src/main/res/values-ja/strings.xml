@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recepku</string>
+    <string name="title_loginpage">ログイン</string>
+    <string name="message_loginpage">"Recepkuへようこそ！ "</string>
+    <string name="donthaveacc">まだアカウントがありませんか？</string>
+    <string name="to_register_page">こちらで登録！</string>
+    <string name="login">ログイン</string>
+    <string name="email">メールアドレス</string>
+    <string name="username">ユーザー名</string>
+    <string name="password">パスワード</string>
+    <string name="register">登録</string>
+    <string name="have_account">すでにアカウントをお持ちですか？</string>
+    <string name="login_here">こちらでログイン！</string>
+    <string name="alertPassword">パスワードは5文字以上である必要があります！</string>
+    <string name="alertEmail">有効なメールアドレスを入力してください</string>
+    <string name="tv_search">こちらで検索！</string>
+    <string name="hello_blank_fragment">こんにちは、空のフラグメント</string>
+    <string name="settings_fragment">設定フラグメント</string>
+    <string name="camera">カメラ</string>
+    <string name="gallery">ギャラリー</string>
+    <string name="uploadphoto">写真をアップロードして、料理のレシピを知りましょう！</string>
+    <string name="welcome">こんにちは、これはアカウントの設定ページです！</string>
+    <string name="account_setting">アカウントを設定する</string>
+    <string name="delete_account">アカウントを削除</string>
+    <string name="language_setting">言語を設定する</string>
+    <string name="darkmode_setting">ダークモード設定</string>
+    <string name="dark">ダーク</string>
+    <string name="light">ライト</string>
+    <string name="retry">再試行</string>
+    <string name="recipe_name">レシピ名</string>
+    <string name="calories">カロリー / 1人分 </string>
+    <string name="ingredients">材料</string>
+    <string name="steps">調理手順</string>
+    <string name="steps_value">1. 食べる</string>
+    <string name="description">これは説明です\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis eros a justo semper viverra id vitae turpis. Nulla malesuada quis arcu eu suscipit. Nam vel vehicula ipsum. Nam cursus efficitur eros, eget tincidunt massa dictum sed. Vestibulum rutrum, tellus sit amet aliquet viverra, odio turpis blandit elit, quis mattis lectus enim sed eros. Aliquam sed tincidunt nisl. Nam id finibus sapien. Sed fringilla mollis erat, vitae iaculis tortor tempor id. Donec porttitor nisi at diam pretium suscipit. Nulla porta viverra enim gravida mattis. Cras ultricies, orci cursus aliquet commodo, nibh justo fringilla odio, eu ornare lectus sem sed lorem. Fusce et elementum nunc.\n\nDonec ac tempus sapien, ac gravida massa. Fusce sed sem at sapien posuere laoreet. Sed tempor lorem eget pellentesque mattis. Phasellus sit amet mattis urna. Pellentesque congue pulvinar est ac consectetur. Proin ut porta ex. Aliquam erat volutpat. Suspendisse congue tortor ullamcorper odio convallis malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium egestas arcu eget porttitor。</string>
+    <string name="profile">プロフィール</string>
+    <string name="logout">ログアウト</string>
+    <string name="change_username">ユーザー名を変更する</string>
+    <string name="change_password">パスワードを変更する</string>
+    <string name="confirm">確認</string>
+    <string name="new_password">新しいパスワード</string>
+    <string name="confirm_password">パスワードの確認</string>
+    <string name="welcome_profile">こんにちは！これはあなたのプロフィールページです！</string>
+
+</resources>
