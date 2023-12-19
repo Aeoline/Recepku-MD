@@ -33,7 +33,7 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
                 HomeViewModel(recipeRepository,repository) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) ->{
-                LoginViewModel(repository) as T
+                LoginViewModel(repository,userPreferences) as T
             }
             modelClass.isAssignableFrom(FavoriteViewModel::class.java) ->{
                 FavoriteViewModel(recipeRepository) as T
@@ -41,11 +41,11 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             modelClass.isAssignableFrom(SplashScreenViewModel::class.java) ->{
                 SplashScreenViewModel(userPreferences) as T
             }
-            modelClass.isAssignableFrom(EditUserViewModel::class.java) ->{
-                EditUserViewModel(repository) as T
-            }
             modelClass.isAssignableFrom(SearchViewModel::class.java) ->{
                 SearchViewModel(recipeRepository) as T
+            }
+            modelClass.isAssignableFrom(EditUserViewModel::class.java) ->{
+                EditUserViewModel(repository,userPreferences) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }

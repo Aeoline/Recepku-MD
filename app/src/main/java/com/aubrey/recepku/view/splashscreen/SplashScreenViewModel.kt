@@ -10,11 +10,9 @@ import com.aubrey.recepku.data.userpref.dataStore
 
 class SplashScreenViewModel (private val userPreferences: UserPreferences) : ViewModel() {
 
-    suspend fun getCookie():LiveData<ProfileModel>{
+    fun getCookie():LiveData<ProfileModel>{
         return userPreferences.getCookie().asLiveData()
     }
-
-
     companion object {
         @Volatile
         private var instance: SplashScreenViewModel? = null

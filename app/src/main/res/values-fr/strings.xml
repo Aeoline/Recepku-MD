@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recepku</string>
+    <string name="title_loginpage">Se connecter</string>
+    <string name="message_loginpage">"Bienvenue sur Recepku! "</string>
+    <string name="donthaveacc">Vous n\'avez pas encore de compte ?</string>
+    <string name="to_register_page">Inscrivez-vous ici !</string>
+    <string name="login">Se connecter</string>
+    <string name="email">E-mail</string>
+    <string name="username">Nom d\'utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="register">S\'inscrire</string>
+    <string name="have_account">Vous avez déjà un compte ?</string>
+    <string name="login_here">Connectez-vous ici !</string>
+    <string name="alertPassword">Le mot de passe doit comporter 5 caractères ou plus !</string>
+    <string name="alertEmail">Entrez l\'e-mail valide</string>
+    <string name="tv_search">Recherchez ici !</string>
+    <string name="hello_blank_fragment">Bonjour fragment vide</string>
+    <string name="settings_fragment">Fragment de paramètres</string>
+    <string name="camera">Caméra</string>
+    <string name="gallery">Galerie</string>
+    <string name="uploadphoto">Téléchargez une photo pour connaître la recette de votre plat !</string>
+    <string name="welcome">Bonjour, cette page est pour régler votre compte !</string>
+    <string name="account_setting">Réglez votre compte</string>
+    <string name="delete_account">Supprimer le compte</string>
+    <string name="language_setting">Réglez votre langue</string>
+    <string name="darkmode_setting">Paramètre du mode sombre</string>
+    <string name="dark">Foncé</string>
+    <string name="light">Clair</string>
+    <string name="retry">Réessayer</string>
+    <string name="recipe_name">Nom de la recette</string>
+    <string name="calories">Calories / Portion </string>
+    <string name="ingredients">Ingrédients</string>
+    <string name="steps">Comment cuisiner</string>
+    <string name="steps_value">1. Manger</string>
+    <string name="description">Il s\'agit d\'une description\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis eros a justo semper viverra id vitae turpis. Nulla malesuada quis arcu eu suscipit. Nam vel vehicula ipsum. Nam cursus efficitur eros, eget tincidunt massa dictum sed. Vestibulum rutrum, tellus sit amet aliquet viverra, odio turpis blandit elit, quis mattis lectus enim sed eros. Aliquam sed tincidunt nisl. Nam id finibus sapien. Sed fringilla mollis erat, vitae iaculis tortor tempor id. Donec porttitor nisi at diam pretium suscipit. Nulla porta viverra enim gravida mattis. Cras ultricies, orci cursus aliquet commodo, nibh justo fringilla odio, eu ornare lectus sem sed lorem. Fusce et elementum nunc.\n\nDonec ac tempus sapien, ac gravida massa. Fusce sed sem at sapien posuere laoreet. Sed tempor lorem eget pellentesque mattis. Phasellus sit amet mattis urna. Pellentesque congue pulvinar est ac consectetur. Proin ut porta ex. Aliquam erat volutpat. Suspendisse congue tortor ullamcorper odio convallis malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium egestas arcu eget porttitor.</string>
+    <string name="profile">Profil</string>
+    <string name="logout">Déconnexion</string>
+    <string name="change_username">Changez votre nom d\'utilisateur</string>
+    <string name="change_password">Changez votre mot de passe</string>
+    <string name="confirm">Confirmer</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="confirm_password">Confirmez le mot de passe</string>
+    <string name="welcome_profile">Bonjour ! C\'est votre page de profil !</string>
+
+</resources>

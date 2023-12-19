@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Recepku</string>
+    <string name="title_loginpage">Anmelden</string>
+    <string name="message_loginpage">"Willkommen bei Recepku! "</string>
+    <string name="donthaveacc">Haben Sie noch kein Konto?</string>
+    <string name="to_register_page">Hier registrieren!</string>
+    <string name="login">Anmelden</string>
+    <string name="email">E-Mail</string>
+    <string name="username">Benutzername</string>
+    <string name="password">Passwort</string>
+    <string name="register">Registrieren</string>
+    <string name="have_account">Sie haben bereits ein Konto?</string>
+    <string name="login_here">Hier anmelden!</string>
+    <string name="alertPassword">Das Passwort muss aus mindestens 5 Zeichen bestehen!</string>
+    <string name="alertEmail">Geben Sie die gültige E-Mail-Adresse ein</string>
+    <string name="tv_search">Hier suchen!</string>
+    <string name="hello_blank_fragment">Hallo leeres Fragment</string>
+    <string name="settings_fragment">Einstellungen Fragment</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galerie</string>
+    <string name="uploadphoto">Laden Sie ein Foto hoch, um das Rezept Ihres Essens zu erfahren!</string>
+    <string name="welcome">Hallo, diese Seite ist zur Einstellung Ihres Kontos da!</string>
+    <string name="account_setting">Ihr Konto einstellen</string>
+    <string name="delete_account">Konto löschen</string>
+    <string name="language_setting">Ihre Sprache einstellen</string>
+    <string name="darkmode_setting">Dunkelmodus-Einstellung</string>
+    <string name="dark">Dunkel</string>
+    <string name="light">Licht</string>
+    <string name="retry">Wiederholen</string>
+    <string name="recipe_name">Rezeptname</string>
+    <string name="calories">Kalorien / Portion </string>
+    <string name="ingredients">Zutaten</string>
+    <string name="steps">Zubereitung</string>
+    <string name="steps_value">1. Essen</string>
+    <string name="description">Dies ist eine Beschreibung\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis eros a justo semper viverra id vitae turpis. Nulla malesuada quis arcu eu suscipit. Nam vel vehicula ipsum. Nam cursus efficitur eros, eget tincidunt massa dictum sed. Vestibulum rutrum, tellus sit amet aliquet viverra, odio turpis blandit elit, quis mattis lectus enim sed eros. Aliquam sed tincidunt nisl. Nam id finibus sapien. Sed fringilla mollis erat, vitae iaculis tortor tempor id. Donec porttitor nisi at diam pretium suscipit. Nulla porta viverra enim gravida mattis. Cras ultricies, orci cursus aliquet commodo, nibh justo fringilla odio, eu ornare lectus sem sed lorem. Fusce et elementum nunc.\n\nDonec ac tempus sapien, ac gravida massa. Fusce sed sem at sapien posuere laoreet. Sed tempor lorem eget pellentesque mattis. Phasellus sit amet mattis urna. Pellentesque congue pulvinar est ac consectetur. Proin ut porta ex. Aliquam erat volutpat. Suspendisse congue tortor ullamcorper odio convallis malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium egestas arcu eget porttitor.</string>
+    <string name="profile">Profil</string>
+    <string name="logout">Abmelden</string>
+    <string name="change_username">Ändern Sie Ihren Benutzernamen</string>
+    <string name="change_password">Ändern Sie Ihr Passwort</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="new_password">Neues Passwort</string>
+    <string name="confirm_password">Passwort bestätigen</string>
+    <string name="welcome_profile">Hallo! Dies ist Ihre Profilseite!</string>
+
+</resources>

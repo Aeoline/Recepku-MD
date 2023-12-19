@@ -1,4 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="confirm">Confirm</string>
+    <string name="app_name">Recepku</string>
+    <string name="title_loginpage">Masuk</string>
+    <string name="message_loginpage">"Selamat datang di Recepku! "</string>
+    <string name="donthaveacc">Belum punya akun?</string>
+    <string name="to_register_page">Daftar di sini!</string>
+    <string name="login">Masuk</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Kata Sandi</string>
+    <string name="register">Daftar</string>
+    <string name="have_account">Sudah punya akun?</string>
+    <string name="login_here">Masuk di sini!</string>
+    <string name="alertPassword">Kata sandi harus memiliki 5 karakter atau lebih!</string>
+    <string name="alertEmail">Masukkan email yang valid</string>
+    <string name="tv_search">Cari di sini!</string>
+    <string name="hello_blank_fragment">Halo fragmen kosong</string>
+    <string name="settings_fragment">Fragment Pengaturan</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="uploadphoto">Unggah foto untuk mengetahui resep makanan Anda!</string>
+    <string name="welcome">Halo, Halaman ini untuk mengatur akun Anda!</string>
+    <string name="account_setting">Atur akun Anda</string>
+    <string name="delete_account">Hapus akun</string>
+    <string name="language_setting">Atur bahasa Anda</string>
+    <string name="darkmode_setting">Pengaturan Mode Gelap</string>
+    <string name="dark">Gelap</string>
+    <string name="light">Terang</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="recipe_name">Nama Resep</string>
+    <string name="calories">Kalori / Porsi </string>
+    <string name="ingredients">Bahan</string>
+    <string name="steps">Cara Memasak</string>
+    <string name="steps_value">1. Makan</string>
+    <string name="description">Ini adalah deskripsi\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis eros a justo semper viverra id vitae turpis. Nulla malesuada quis arcu eu suscipit. Nam vel vehicula ipsum. Nam cursus efficitur eros, eget tincidunt massa dictum sed. Vestibulum rutrum, tellus sit amet aliquet viverra, odio turpis blandit elit, quis mattis lectus enim sed eros. Aliquam sed tincidunt nisl. Nam id finibus sapien. Sed fringilla mollis erat, vitae iaculis tortor tempor id. Donec porttitor nisi at diam pretium suscipit. Nulla porta viverra enim gravida mattis. Cras ultricies, orci cursus aliquet commodo, nibh justo fringilla odio, eu ornare lectus sem sed lorem. Fusce et elementum nunc.\n\nDonec ac tempus sapien, ac gravida massa. Fusce sed sem at sapien posuere laoreet. Sed tempor lorem eget pellentesque mattis. Phasellus sit amet mattis urna. Pellentesque congue pulvinar est ac consectetur. Proin ut porta ex. Aliquam erat volutpat. Suspendisse congue tortor ullamcorper odio convallis malesuada. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In pretium egestas arcu eget porttitor.</string>
+    <string name="profile">Profil</string>
+    <string name="logout">Keluar</string>
+    <string name="change_username">Ubah username Anda</string>
+    <string name="change_password">Ubah kata sandi Anda</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="new_password">Kata Sandi Baru</string>
+    <string name="confirm_password">Konfirmasi Kata Sandi</string>
+    <string name="welcome_profile">Halo! Ini halaman profil Anda!</string>
+
 </resources>

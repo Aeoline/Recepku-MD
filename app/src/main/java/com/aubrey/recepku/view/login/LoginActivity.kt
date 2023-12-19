@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         toRegisterPage()
-        login()
+        setupLogin()
         playAnimation()
     }
 
@@ -38,14 +38,6 @@ class LoginActivity : AppCompatActivity() {
         toRegisterBtn.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    private fun login(){
-        val loginBtn = binding.loginButton
-
-        loginBtn.setOnClickListener {
-            setupLogin()
         }
     }
 
@@ -97,9 +89,9 @@ class LoginActivity : AppCompatActivity() {
                             setTitle("Yeay!")
                             setMessage("Anda berhasil login")
                             setPositiveButton("Lanjut") { _, _ ->
+                                viewModel.saveUser()
                                 val intent = Intent(context, MainActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
                             }
