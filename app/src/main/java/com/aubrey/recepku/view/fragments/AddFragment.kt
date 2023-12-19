@@ -1,5 +1,7 @@
 package com.aubrey.recepku.view.fragments
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
@@ -84,6 +86,8 @@ class AddFragment : Fragment() {
             intent.putExtra("searchQuery", foodName)
             startActivity(intent)
         }
+
+        playAnimation()
     }
 
 
@@ -188,6 +192,23 @@ class AddFragment : Fragment() {
     private fun showImage() {
         currentImageUri?.let {
             binding.imageView.setImageURI(it)
+        }
+    }
+
+    private fun playAnimation(){
+        val image = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(800)
+        val makanan = ObjectAnimator.ofFloat(binding.tvMakanan, View.ALPHA, 1f).setDuration(800)
+        val gallery = ObjectAnimator.ofFloat(binding.galleryButton, View.ALPHA, 1f).setDuration(800)
+        val camera = ObjectAnimator.ofFloat(binding.cameraButton, View.ALPHA, 1f).setDuration(800)
+        val search = ObjectAnimator.ofFloat(binding.btnSearchRecipe, View.ALPHA, 1f).setDuration(800)
+
+        val tgt = AnimatorSet().apply {
+            playTogether(gallery,camera,search)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(image,makanan,tgt)
+            start()
         }
     }
 

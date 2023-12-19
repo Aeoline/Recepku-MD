@@ -29,7 +29,7 @@
            android:layout_height="wrap_content"
            android:layout_marginStart="3dp"
            android:ellipsize="end"
-           android:maxLines="4"
+           android:maxLines="5"
            android:textAlignment="textStart"
            android:text="@string/ingredients"
            android:textSize="16dp"

@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import com.aubrey.recepku.view.search.SearchActivity
 import android.annotation.SuppressLint
@@ -44,6 +45,7 @@ import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.edituser.EditUserActivity
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
+import com.aubrey.recepku.view.welcome_page.WelcomeActivity
 import kotlinx.coroutines.flow.firstOrNull
 
 interface RecipeClickListener {
@@ -94,6 +96,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         getRecommendedRecipes()
         searchBar()
         setDarkMode()
+        playAnimation()
     }
 
     private fun setupImageSlider() {
@@ -479,7 +482,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                 Log.d("Deleted", "Cookies Deleted")
             }
 
-            val intent = Intent(requireContext(), LoginActivity::class.java)
+            val intent = Intent(requireContext(), WelcomeActivity::class.java)
             startActivity(intent)
             alertDialog.dismiss()
         }
@@ -510,6 +513,19 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             }else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+        }
+    }
+
+    private fun playAnimation(){
+        val slide = ObjectAnimator.ofFloat(binding.slider, "alpha", 0f, 1f).setDuration(800)
+        val recommended = ObjectAnimator.ofFloat(binding.tvRecommendedRecipe, "alpha", 0f, 1f).setDuration(500)
+        val rvRecommended = ObjectAnimator.ofFloat(binding.rvRecommended, "alpha", 0f, 1f).setDuration(500)
+        val recipe = ObjectAnimator.ofFloat(binding.tvRecipe, "alpha", 0f, 1f).setDuration(500)
+        val rvRecipe = ObjectAnimator.ofFloat(binding.rvRecipe, "alpha", 0f, 1f).setDuration(500)
+
+        AnimatorSet().apply {
+            playSequentially(slide, recommended, rvRecommended, recipe, rvRecipe)
+            start()
         }
     }
 }

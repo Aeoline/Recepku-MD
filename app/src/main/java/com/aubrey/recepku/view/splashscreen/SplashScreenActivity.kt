@@ -14,6 +14,7 @@ import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.databinding.ActivitySplashScreenBinding
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.login.LoginActivity
+import com.aubrey.recepku.view.welcome_page.WelcomeActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -56,7 +57,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun navigateToLoginActivity() {
-        val authIntent = Intent(this@SplashScreenActivity, LoginActivity::class.java)
+        val authIntent = Intent(this@SplashScreenActivity, WelcomeActivity::class.java)
         startActivity(authIntent)
         finish()
     }
