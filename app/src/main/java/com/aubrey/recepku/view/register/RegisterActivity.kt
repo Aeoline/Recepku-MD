@@ -1,5 +1,7 @@
 package com.aubrey.recepku.view.register
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -28,6 +30,8 @@ class RegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        playAnimation()
     }
 
     private fun setupAction() {
@@ -63,11 +67,47 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         val error = regist.error
-
                         Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
+        }
+    }
+
+    private fun playAnimation() {
+
+        val logo = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(300)
+        val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(300)
+        val desc = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(300)
+        val login = ObjectAnimator.ofFloat(binding.buttonRegister, View.ALPHA, 1f).setDuration(300)
+        val user = ObjectAnimator.ofFloat(binding.usernameText, View.ALPHA, 1f).setDuration(300)
+        val username = ObjectAnimator.ofFloat(binding.usernameLayout, View.ALPHA, 1f).setDuration(300)
+        val userRegister = ObjectAnimator.ofFloat(binding.usernameRegister, View.ALPHA, 1f).setDuration(300)
+        val emailTxt = ObjectAnimator.ofFloat(binding.emailText, View.ALPHA, 1f).setDuration(300)
+        val email = ObjectAnimator.ofFloat(binding.emailLayout, View.ALPHA, 1f).setDuration(300)
+        val emailRegister = ObjectAnimator.ofFloat(binding.emailRegister, View.ALPHA, 1f).setDuration(300)
+        val passTxt = ObjectAnimator.ofFloat(binding.passwordText, View.ALPHA, 1f).setDuration(300)
+        val password = ObjectAnimator.ofFloat(binding.passwordLayout, View.ALPHA, 1f).setDuration(300)
+        val passRegister = ObjectAnimator.ofFloat(binding.passwordRegister, View.ALPHA, 1f).setDuration(300)
+        val dontHave = ObjectAnimator.ofFloat(binding.alreadyText, View.ALPHA, 1f).setDuration(300)
+        val registerpage = ObjectAnimator.ofFloat(binding.toLoginPage, View.ALPHA, 1f).setDuration(300)
+
+
+        val emailtgt = AnimatorSet().apply {
+            playTogether(email,emailTxt, emailRegister)
+        }
+
+        val usertgt = AnimatorSet().apply {
+            playTogether(username,user, userRegister)
+        }
+
+        val passtgt = AnimatorSet().apply {
+            playTogether(password,passTxt, passRegister)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(logo, title, desc, emailtgt, usertgt, passtgt, login, dontHave, registerpage)
+            start()
         }
     }
 }

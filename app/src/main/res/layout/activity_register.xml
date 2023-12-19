@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo"
+        android:alpha="0"
         tools:layout_editor_absoluteY="-31dp" />
 
     <TextView
@@ -54,6 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:alpha="0"
         android:layout_marginTop="16dp"
         android:text="@string/email"
         app:layout_constraintStart_toStartOf="parent"
@@ -61,6 +63,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
+        android:alpha="0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -75,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Shale"
+            android:alpha="0"
             android:ems="10"
             android:inputType="textEmailAddress"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -84,6 +88,7 @@
         android:id="@+id/usernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:alpha="0"
         android:text="@string/username"
         app:layout_constraintTop_toBottomOf="@id/emailLayout"
         android:layout_marginTop="10dp"
@@ -93,6 +98,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLayout"
+        android:alpha="0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -105,6 +111,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usernameRegister"
+            android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Shale"
@@ -115,6 +122,7 @@
 
     <TextView
         android:id="@+id/passwordText"
+        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/password"
@@ -126,6 +134,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordLayout"
+        android:alpha="0"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -138,6 +147,7 @@
         app:startIconDrawable="@drawable/ic_lock_white">
         <com.aubrey.recepku.customview.PasswordCustomView
             android:id="@+id/passwordRegister"
+            android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/Shale"
@@ -148,6 +158,7 @@
 
     <Button
         android:id="@+id/buttonRegister"
+
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
@@ -158,13 +169,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/Shale"
         android:text="@string/register"
-        android:alpha="1"
+        android:alpha="0"
         android:textColor="@color/black"
         />
 
 
     <TextView
         android:id="@+id/alreadyText"
+        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/have_account"
@@ -175,6 +187,7 @@
 
     <TextView
         android:id="@+id/toLoginPage"
+        android:alpha="0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"

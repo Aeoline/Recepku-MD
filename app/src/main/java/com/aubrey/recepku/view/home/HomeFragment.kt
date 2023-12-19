@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.home
 
+import android.animation.ObjectAnimator
 import com.aubrey.recepku.view.search.SearchActivity
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -511,5 +512,4 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             }
         }
     }
-
 }

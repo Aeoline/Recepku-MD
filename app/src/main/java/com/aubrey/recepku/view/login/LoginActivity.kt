@@ -42,13 +42,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun playAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, 360f).apply {
-            duration = 350
-            repeatCount = 1
-            repeatMode = ObjectAnimator.RESTART
-        }.start()
 
-        val sakura = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(100)
+        val sakura = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(300)
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(300)
         val desc = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(300)
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(300)
@@ -102,7 +97,7 @@ class LoginActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressBar.visibility = View.INVISIBLE
                         val error = session.error
-                        Toast.makeText(this,error,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}
