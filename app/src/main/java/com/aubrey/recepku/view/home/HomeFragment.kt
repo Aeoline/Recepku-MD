@@ -109,12 +109,12 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             binding.apply {
                 when (result) {
                     is Result.Loading -> {
-//                        progressBar.visibility = View.VISIBLE
+                        progressBar.visibility = View.VISIBLE
                         Log.d("Loading", "Loading")
                     }
 
                     is Result.Success -> {
-//                        progressBar.visibility = View.GONE
+                        progressBar.visibility = View.GONE
                         val recipe = result.data.data
                         if (recipe != null) {
                             setRecipe(recipe)

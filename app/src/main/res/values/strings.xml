@@ -41,4 +41,5 @@
     <string name="new_password">Kata Sandi Baru</string>
     <string name="confirm_password">Konfirmasi Kata Sandi</string>
     <string name="welcome_profile">Halo! Ini halaman profil Anda!</string>
+    <string name="title_RegisterPage">Register\n</string>
 </resources>
