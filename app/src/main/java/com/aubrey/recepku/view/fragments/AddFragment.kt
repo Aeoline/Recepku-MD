@@ -96,7 +96,7 @@ class AddFragment : Fragment() {
         try {
             val model = context?.let { Model3.newInstance(it) }
             val imageSize = 32
-            var result = binding.tvMakanan
+            val result = binding.tvMakanan
 
             // Creates inputs for reference.
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
@@ -147,7 +147,7 @@ class AddFragment : Fragment() {
             result.text = classes[maxPos]
 
             // Releases model resources if no longer used.
-            model?.close()
+            model.close()
         } catch (e: IOException) {
             // TODO: Handle the exception
         }

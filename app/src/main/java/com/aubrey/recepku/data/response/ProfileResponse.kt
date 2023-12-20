@@ -29,7 +29,10 @@ data class DataProfile(
 	val email: String,
 
 	@field:SerializedName("username")
-	val username: String
+	val username: String,
+
+	@field:SerializedName("token")
+	val token: String
 )
 
 data class CreatedOn(

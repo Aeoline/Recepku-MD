@@ -62,18 +62,16 @@ class UserRepository(
         emit(Result.Loading)
         try {
             val response = apiService.login(username, password)
-            val cookie = response.data?.cookie ?: Cookie.Builder().build()
             val user = ProfileModel(
                 uid = response.data?.uid ?: "",
                 username = response.data?.username ?: "",
                 email = response.data?.email ?: "",
-                cookie = cookie,
+                token = response.token ?: ""
             )
-            checkUser()
             userPreferences.saveUser(user)
-            ApiConfig.cookie = cookie.toString()
+            ApiConfig.token = response.token ?: ""
             emit(Result.Success(response))
-            Log.d("Login", "Login Success: $user")
+            Log.d("Login", "Login Success: ${user.token}")
         } catch (e: HttpException) {
             emit(Result.Error(e.message ?: "Error"))
         }
@@ -97,11 +95,16 @@ class UserRepository(
                 uid = userResponse.data?.uid ?: "",
                 username = userResponse.data?.username ?: "",
                 email = userResponse.data?.email ?: "",
-                cookie = cookie,
+                token = userResponse.token ?: ""
             )
             checkUser()
             userPreferences.saveUser(user)
-            emit(Result.Success(response))
+            if (user.token == ApiConfig.token) {
+                emit(Result.Success(response))
+                Log.d("EditUser", "EditUser: ${user.username}")
+            } else {
+                emit(Result.Error("Error"))
+            }
         }catch (e: HttpException){
             emit(Result.Error(e.message ?: "Error"))
         }

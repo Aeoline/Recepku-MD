@@ -9,15 +9,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiConfig {
     companion object{
         private var URL = "https://backend-dot-capstone-bangkit01.et.r.appspot.com/"
+        var token = ""
         var cookie = ""
-        var profileCookie = ""
 
-        fun getApiService(cookie: String): ApiService {
+        fun getApiService(token: String): ApiService {
             val loggingInterceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
             val authInterceptor = Interceptor{chain ->
                 val req = chain.request()
                 val requestHeader = req.newBuilder()
-                    .addHeader("Authorization","Bearer $cookie ")
+                    .addHeader("Authorization","Bearer $token ")
                     .build()
                 chain.proceed(requestHeader)
             }

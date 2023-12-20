@@ -39,9 +39,9 @@ class SplashScreenActivity : AppCompatActivity() {
     private fun checkCookies(){
         lifecycleScope.launch {
             delay(DELAY_TIME)
-            viewModel.getCookie().observe(this@SplashScreenActivity) { cookie: ProfileModel ->
-                ApiConfig.cookie = cookie.cookie.toString()
-                    if (cookie.cookie.toString().isNotEmpty()) {
+            viewModel.getCookie().observe(this@SplashScreenActivity) { user: ProfileModel ->
+                ApiConfig.token = user.token
+                    if (user.token.isNotEmpty()) {
                         navigateToMainActivity()
                     } else {
                         navigateToLoginActivity()

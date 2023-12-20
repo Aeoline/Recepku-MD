@@ -19,7 +19,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
         val NAME_KEY = stringPreferencesKey("name")
         val UID_KEY = stringPreferencesKey("uid")
         val EMAIL_KEY = stringPreferencesKey("email")
-        val COOKIE = stringPreferencesKey("cookie")
+        val TOKEN_KEY = stringPreferencesKey("token")
 
         private var INSTANCE: UserPreferences? = null
         fun getInstance(dataStore: DataStore<Preferences>): UserPreferences =
@@ -30,7 +30,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
 
     suspend fun deleteCookies(){
         dataStore.edit {preference->
-            preference.remove(COOKIE)
+            preference.remove(TOKEN_KEY)
             preference.remove(UID_KEY)
             preference.remove(EMAIL_KEY)
             preference.remove(NAME_KEY)
@@ -54,7 +54,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
             it[UID_KEY] = user.uid
             it[NAME_KEY] = user.username
             it[EMAIL_KEY] = user.email
-            it[COOKIE] = user.cookie.toString()
+            it[TOKEN_KEY] = user.token
         }
         Log.d("Token Tersimpan","$user")
     }
@@ -65,7 +65,7 @@ class UserPreferences private constructor(private val dataStore: DataStore<Prefe
                 preference[UID_KEY]?:"",
                 preference[NAME_KEY]?:"",
                 preference[EMAIL_KEY]?:"",
-                preference[COOKIE] ?: "",
+                preference[TOKEN_KEY] ?: ""
             )
         }
     }

@@ -11,7 +11,10 @@ data class LoginResponse(
 	val error: Boolean? = null,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String? = null,
+
+	@field:SerializedName("token")
+	val token: String? = null
 )
 
 data class Data(
@@ -21,6 +24,9 @@ data class Data(
 
 	@field:SerializedName("cookie")
 	val cookie: Cookie? = null,
+
+	@field:SerializedName("image_url")
+	val imageUrl: String? = null,
 
 	@field:SerializedName("email")
 	val email: String? = null,
