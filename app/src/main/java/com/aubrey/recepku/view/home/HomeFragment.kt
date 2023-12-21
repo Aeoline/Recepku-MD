@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,6 +40,7 @@ import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
+import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
@@ -46,6 +48,7 @@ import com.aubrey.recepku.view.edituser.EditUserActivity
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.aubrey.recepku.view.welcome_page.WelcomeActivity
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.firstOrNull
 
 interface RecipeClickListener {
@@ -436,22 +439,35 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val logoutBtn = dialogView.findViewById<CardView>(R.id.cardLogout)
         val setAccount = dialogView.findViewById<CardView>(R.id.cardAccount)
         val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
-
+        viewModel.saveUser()
         deleteAccount.setOnClickListener {
-            viewModel.checkUser()
-            viewModel.deleteUser().observe(viewLifecycleOwner) {
-                when (it) {
-                    is Result.Loading -> {
-                        Log.d("Home Fragment", "Sabar cuy")
-                    }
-                    is Result.Success -> {
-                        Log.e("Home Fragment", "GEGE GEMINK")
-                    }
-                    is Result.Error -> {
-                        Log.e("Home Fragment", "Error cuy")
-                    }
-                }
-            }
+               AlertDialog.Builder(requireContext()).apply {
+                   setTitle("Hapus Akun")
+                   setMessage("Anda Yakin Ingin Menghapus Akun?")
+                   setPositiveButton("Lanjut"){_,_ ->
+                       viewModel.deleteUser().observe(viewLifecycleOwner) {
+                           when (it) {
+                               is Result.Loading -> {
+                                   Log.d("Home Fragment", "Sabar cuy")
+                               }
+                               is Result.Success -> {
+                                  val intent = Intent(requireContext(),MainActivity::class.java)
+                                   intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                   startActivity(intent)
+                               }
+                               is Result.Error -> {
+                                   val error = it.error
+                                   Log.d("Home Fragment", "Error $error" )
+                                   Log.e("Home Fragment", "Error cuy")
+                               }
+                           }
+                       }
+                   }
+                   setNegativeButton("Tidak"){_,_->
+                       showProfile()
+                   }
+                   create().show()
+               }
         }
 
         setAccount.setOnClickListener {

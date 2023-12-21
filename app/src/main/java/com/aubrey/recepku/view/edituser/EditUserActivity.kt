@@ -91,16 +91,15 @@ class EditUserActivity : AppCompatActivity() {
         val edPassword = dialogView.findViewById<TextInputEditText>(R.id.edPassword)
 
         button.setOnClickListener {
-            val newPassword = edNewPassword.text.toString()
-            val confirmPassword = edConfirmPassword.text.toString()
-            val password = edPassword.text.toString()
+            val confirmPassword = edPassword.text.toString()
+            val password = edNewPassword.text.toString()
+            val newPassword = edConfirmPassword.text.toString()
 
-            viewModel.editPass(newPassword,confirmPassword,password).observe(this) {
+            viewModel.editPass(password,newPassword,confirmPassword).observe(this) {
                 when (it) {
                     is Result.Loading -> {
                         Log.d("EditUserActivity", "Sabar Loading..")
                     }
-
                     is Result.Success -> {
                         AlertDialog.Builder(this).apply {
                             setTitle("Berhasil!")

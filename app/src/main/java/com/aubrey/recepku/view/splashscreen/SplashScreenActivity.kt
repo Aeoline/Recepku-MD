@@ -1,5 +1,6 @@
 package com.aubrey.recepku.view.splashscreen
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -36,6 +37,7 @@ class SplashScreenActivity : AppCompatActivity() {
 
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun checkCookies(){
         lifecycleScope.launch {
             delay(DELAY_TIME)

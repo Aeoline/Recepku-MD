@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -35,6 +36,7 @@ import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.bumptech.glide.Glide
+import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -138,21 +140,33 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
         val setAccount = dialogView.findViewById<CardView>(R.id.cardAccount)
         val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
 
-        deleteAccount.setOnClickListener {
-            homeViewModel.deleteUser().observe(this) {
-                when (it) {
-                    is Result.Loading -> {
-                        Log.d("Home Fragment", "Sabar cuy")
-                    }
-                    is Result.Success -> {
-                        Log.e("Home Fragment", "GEGE GEMINK")
-                    }
-                    is Result.Error -> {
-                        Log.e("Home Fragment", "Error cuy")
+        /*deleteAccount.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            val inf = LayoutInflater.from(this)
+            val view = inf.inflate(R.layout.card_delete_account,null)
+            val edPass = view.findViewById<TextInputEditText>(R.id.edPassword)
+            val button = view.findViewById<Button>(R.id.btnChangePassword)
+            val alert = builder.setView(view).create()
+
+            viewModel.checkUser()
+            button.setOnClickListener {
+                val password = edPass.text.toString()
+                viewModel.deleteUser(password).observe(viewLifecycleOwner) {
+                    when (it) {
+                        is Result.Loading -> {
+                            Log.d("Home Fragment", "Sabar cuy")
+                        }
+                        is Result.Success -> {
+                            Log.e("Home Fragment", "GEGE GEMINK")
+                        }
+                        is Result.Error -> {
+                            Log.e("Home Fragment", "Error cuy")
+                        }
                     }
                 }
             }
-        }
+            alert.show()
+        }*/
 
         setAccount.setOnClickListener {
             val intent = Intent(this, EditUserActivity::class.java)

@@ -25,7 +25,7 @@ class PasswordCustomView: AppCompatEditText{
     private fun init(){
         doOnTextChanged { text, _,_,_ ->
             if (!text.isNullOrBlank()){
-                error = if (text.length <= 5){
+                error = if (text.length <= 7){
                     resources.getString(R.string.alertPassword)
                 }else{
                     null

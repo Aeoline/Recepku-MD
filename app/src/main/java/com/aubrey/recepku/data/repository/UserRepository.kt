@@ -88,9 +88,8 @@ class UserRepository(
     fun editUser(username: String, password: String) : LiveData<Result<EditUserResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.editUser(username,password )
+            val response = apiService.editUser(username,password)
             val userResponse = apiService.login(username,password)
-            val cookie = userResponse.data?.cookie ?: Cookie.Builder().build()
             val user = ProfileModel(
                 uid = userResponse.data?.uid ?: "",
                 username = userResponse.data?.username ?: "",
@@ -110,10 +109,10 @@ class UserRepository(
         }
     }
 
-    fun editPass(newPass: String,confirmPass: String, password: String) : LiveData<Result<EditPassResponse>> = liveData {
+    fun editPass(password: String,newPassword: String, confirmPassword: String) : LiveData<Result<EditPassResponse>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.editPass(newPass,confirmPass,password)
+            val response = apiService.editPass(password, newPassword, confirmPassword)
             emit(Result.Success(response))
         }catch (e: HttpException){
             emit(Result.Error(e.message?: "Error"))

@@ -12,7 +12,7 @@ import com.aubrey.recepku.data.userpref.UserPreferences
 class EditUserViewModel(private val repository: UserRepository,private val userPreferences: UserPreferences): ViewModel() {
     fun editUser(username: String,password: String) = repository.editUser(username, password)
 
-    fun editPass(newPass: String,confirmPass: String,password: String) = repository.editPass(newPass, confirmPass, password)
+    fun editPass(password: String,newPassword: String,confirmPassword: String) = repository.editPass(password, newPassword, confirmPassword)
 
     fun saveUser(): LiveData<ProfileModel>{
         return userPreferences.getCookie().asLiveData()

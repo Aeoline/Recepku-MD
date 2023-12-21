@@ -30,7 +30,7 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
                 SettingViewModel(repository) as T
             }
             modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
-                HomeViewModel(recipeRepository,repository) as T
+                HomeViewModel(recipeRepository,repository,userPreferences) as T
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) ->{
                 LoginViewModel(repository,userPreferences) as T
