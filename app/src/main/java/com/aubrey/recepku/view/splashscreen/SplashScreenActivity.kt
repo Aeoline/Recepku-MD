@@ -42,7 +42,6 @@ class SplashScreenActivity : AppCompatActivity() {
         lifecycleScope.launch {
             delay(DELAY_TIME)
             viewModel.getCookie().observe(this@SplashScreenActivity) { user: ProfileModel ->
-                ApiConfig.token = user.token
                     if (user.token.isNotEmpty()) {
                         navigateToMainActivity()
                     } else {

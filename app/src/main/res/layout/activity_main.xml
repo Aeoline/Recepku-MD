@@ -25,6 +25,6 @@
         app:itemTextColor="@color/white"
         app:itemIconSize="30dp"
         app:menu="@menu/bottom_nav"
-        app:itemActiveIndicatorStyle="@animator/bottom_nav_item_background"/>
+        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
