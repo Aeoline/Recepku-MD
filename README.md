@@ -12,7 +12,7 @@ so the user can see the recipe, both the high calorie recipe and low calorie rec
 - Android Studio
 
 ## Download APK
-Link - (TBD)
+Link - [Recepku.apk](https://drive.google.com/drive/folders/1kZYczdAk3MauuhxZb6do49bBDXca_D5l?usp=sharing)
 
 ## How to Replicate
 To replicate the MediCare Android Studio setup and run the application, follow these steps:
