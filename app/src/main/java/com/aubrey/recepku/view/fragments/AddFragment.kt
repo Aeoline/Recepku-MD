@@ -22,7 +22,6 @@ import androidx.fragment.app.viewModels
 import com.aubrey.recepku.BuildConfig
 import com.aubrey.recepku.databinding.FragmentAddBinding
 import com.aubrey.recepku.ml.Model2
-import com.aubrey.recepku.ml.Model4
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.search.SearchActivity
