@@ -470,10 +470,10 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                }
         }
 
-        setAccount.setOnClickListener {
-            val intent = Intent(requireContext(), EditUserActivity::class.java)
-            startActivity(intent)
-        }
+//        setAccount.setOnClickListener {
+//            val intent = Intent(requireContext(), EditUserActivity::class.java)
+//            startActivity(intent)
+//        }
 
         readUserData { username, email ->
             tvName.text = username
