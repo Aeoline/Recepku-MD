@@ -95,11 +95,11 @@ class AddFragment : Fragment() {
     private fun classifyImage(image: Bitmap) {
         try {
             val model = context?.let { Model2.newInstance(it) }
-            val imageSize = 224
+            val imageSize = 32
             val result = binding.tvMakanan
 
             // Creates inputs for reference.
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
             val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
             byteBuffer.order(ByteOrder.nativeOrder())
             inputFeature0.loadBuffer(byteBuffer)
@@ -142,7 +142,7 @@ class AddFragment : Fragment() {
 
             val classes = arrayOf(
                 "Bakso", "Bika Ambon", "Dadar Gulung", "Kue Cubit", "Nasi Goreng",
-                "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem","Tiramisu"
+                "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem"
             )
             result.text = classes[maxPos]
 
