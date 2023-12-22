@@ -6,13 +6,21 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import com.aubrey.recepku.MainActivity
+import com.aubrey.recepku.data.common.Result
 import com.aubrey.recepku.databinding.ActivityLoginBinding
+import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.register.RegisterActivity
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val viewModel by viewModels<LoginViewModel>{
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         toRegisterPage()
-        login()
+        setupLogin()
         playAnimation()
     }
 
@@ -33,23 +41,9 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun login(){
-        val loginBtn = binding.loginButton
-
-        loginBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     private fun playAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.ROTATION, 0f, 360f).apply {
-            duration = 350
-            repeatCount = 1
-            repeatMode = ObjectAnimator.RESTART
-        }.start()
 
-        val sakura = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(100)
+        val sakura = ObjectAnimator.ofFloat(binding.imageView, View.ALPHA, 1f).setDuration(300)
         val title = ObjectAnimator.ofFloat(binding.titleTextView, View.ALPHA, 1f).setDuration(300)
         val desc = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(300)
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(300)
@@ -71,6 +65,44 @@ class LoginActivity : AppCompatActivity() {
         AnimatorSet().apply {
             playSequentially(sakura, title, desc, emailtgt, passtgt, login, dontHave, registerpage)
             start()
+        }
+    }
+
+    private fun setupLogin(){
+        binding.loginButton.setOnClickListener {
+            val username = binding.edLoginEmail.text.toString()
+            val password = binding.edLoginPassword.text.toString()
+
+            viewModel.login(username, password).observe(this){session->
+                when(session){
+                    is Result.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    is Result.Success -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        AlertDialog.Builder(this).apply {
+                            setTitle("Yeay!")
+                            setMessage("Anda berhasil login")
+                            setPositiveButton("Lanjut") { _, _ ->
+                                viewModel.saveUser()
+                                val intent = Intent(context, MainActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                startActivity(intent)
+                                finish()
+                            }
+                            create()
+                            show()
+                        }
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        val error = session.error
+                        Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show()
+                    }
+
+                    else -> {}
+                }
+            }
         }
     }
 }

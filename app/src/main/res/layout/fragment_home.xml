@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".view.fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+<androidx.core.widget.NestedScrollView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    android:backgroundTint="@color/pale_yellow"
+    >
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/searchBar"
@@ -24,20 +25,20 @@
         </com.google.android.material.search.SearchBar>
 
         <com.denzcoskun.imageslider.ImageSlider
+            android:id="@+id/slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/searchBar"
-            tools:layout_editor_absoluteX="0dp"
-            app:iss_delay="0"
-            app:iss_period="3000"
-            app:iss_auto_cycle="true"
-            app:iss_placeholder="@drawable/food"
-            app:iss_error_image="@color/yellow"
-            android:id="@+id/slider"
             android:layout_margin="20dp"
+            android:layout_marginTop="16dp"
+            app:iss_auto_cycle="true"
             app:iss_corner_radius="20"
-            />
+            app:iss_delay="0"
+            android:alpha="0"
+            app:iss_error_image="@color/Shale"
+            app:iss_period="3000"
+            app:iss_placeholder="@drawable/food"
+            app:layout_constraintTop_toBottomOf="@+id/searchBar"
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
             android:id="@+id/tv_recommended_recipe"
@@ -45,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="16dp"
+            android:alpha="0"
             android:text="Recommended Recipe"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,48 +55,75 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recommended"
-            android:layout_width="370dp"
-            android:layout_height="65dp"
+            android:layout_width="match_parent"
+            android:alpha="0"
+            android:layout_height="85dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_recommended_recipe"
 
-            tools:listitem="@layout/item_recomended_recipe"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_recommended_recipe"
+            tools:listitem="@layout/item_recomended_recipe" />
 
         <TextView
             android:id="@+id/tv_recipe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="Recommended Recipe"
+            android:text="Recipe"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_recommended" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_recipe"
-            android:layout_width="374dp"
-            android:layout_height="121dp"
-            android:layout_marginStart="16dp"
-
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="72dp"
+            android:alpha="0"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.538"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_recipe"
-            app:layout_constraintVertical_bias="0.086"
 
-            tools:listitem="@layout/item_recipe"/>
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/item_recipe"
+            android:nestedScrollingEnabled="false"/>
 
+        <com.google.android.material.search.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:hint="@string/tv_search"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"></com.google.android.material.search.SearchView>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</FrameLayout>
+
+
+</androidx.core.widget.NestedScrollView>
