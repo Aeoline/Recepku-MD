@@ -105,7 +105,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     private fun setupImageSlider() {
         val imageList = listOf(
             SlideModel("https://www.herofincorp.com/public/admin_assets/upload/blog/64b91a06ab1c8_food%20business%20ideas.webp"),
-            SlideModel("https://www.cato.org/sites/cato.org/files/styles/aside_3x/public/2023-11/food-spread.jpg?itok=PPXLuOYP"),
+            SlideModel("https://wallpapers.com/images/high/food-4k-3gsi5u6kjma5zkj0.webp"),
             SlideModel("https://c4.wallpaperflare.com/wallpaper/443/638/469/japanese-cuisine-food-japanese-food-sashimi-wallpaper-preview.jpg")
         )
         imageSlider.setImageList(imageList)
