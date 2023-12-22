@@ -21,7 +21,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import com.aubrey.recepku.BuildConfig
 import com.aubrey.recepku.databinding.FragmentAddBinding
-import com.aubrey.recepku.ml.Model3
+import com.aubrey.recepku.ml.Model2
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.search.SearchActivity
@@ -94,12 +94,12 @@ class AddFragment : Fragment() {
 
     private fun classifyImage(image: Bitmap) {
         try {
-            val model = context?.let { Model3.newInstance(it) }
-            val imageSize = 32
+            val model = context?.let { Model2.newInstance(it) }
+            val imageSize = 224
             val result = binding.tvMakanan
 
             // Creates inputs for reference.
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
             val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
             byteBuffer.order(ByteOrder.nativeOrder())
             inputFeature0.loadBuffer(byteBuffer)
@@ -145,6 +145,7 @@ class AddFragment : Fragment() {
                 "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem","Tiramisu"
             )
             result.text = classes[maxPos]
+
 
             // Releases model resources if no longer used.
             model.close()
