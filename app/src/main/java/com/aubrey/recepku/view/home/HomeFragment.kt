@@ -93,7 +93,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         setupImageSlider()
         getRecipes()
         getRecommendedRecipes()
-        getFavRecipes()
+//        getFavRecipes()
         searchBar()
         setDarkMode()
         playAnimation()

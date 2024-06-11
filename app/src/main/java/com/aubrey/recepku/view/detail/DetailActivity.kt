@@ -86,6 +86,7 @@ class DetailActivity : AppCompatActivity() {
                 isLowCal = false
             }
         }
+
     }
 
     private fun toggleFavorite() {
@@ -155,6 +156,17 @@ class DetailActivity : AppCompatActivity() {
         binding.rvSteps.layoutManager = LinearLayoutManager(this)
         binding.rvSteps.adapter = recipe?.steps?.let { StepsAdapter(it.filterNotNull()) }
             ?: favoriteRecipe?.steps?.let { StepsAdapter(it) }
+
+        val favoriteButton = binding.ibFavorite
+
+        if (recipe?.id == favoriteRecipe?.id) {
+            favoriteRecipe?.isFavorite = !favoriteRecipe?.isFavorite!!
+            if (favoriteRecipe!!.isFavorite == true) {
+                favoriteButton.setImageResource(R.drawable.ic_favorite)
+            } else {
+                favoriteButton.setImageResource(R.drawable.ic_favorite_border)
+            }
+        }
     }
 
     private fun setupData() {
