@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -36,7 +35,6 @@ import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.bumptech.glide.Glide
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
@@ -231,7 +229,7 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
         val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
 
 //        ui
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
+        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
         val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
         val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
         val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
@@ -303,6 +301,7 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
                         recipe.healthySteps,
                         recipe.calories,
                         recipe.healthyCalories,
+                        recipe.isFavorite
                     )
                 )
             } else {
@@ -320,6 +319,7 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
                         recipe.healthySteps,
                         recipe.calories,
                         recipe.healthyCalories,
+                        recipe.isFavorite
                     )
                 )
             }

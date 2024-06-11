@@ -27,6 +27,9 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     private val recipeList = MutableLiveData<Result<RecipeResponse>>()
     val recipeData: LiveData<Result<RecipeResponse>> = recipeList
 
+    val recipeFav = MutableLiveData<Result<RecipeResponse>>()
+    val recipeFavData: LiveData<Result<RecipeResponse>> = recipeFav
+
     private val _search = MutableLiveData<String>()
     val search: LiveData<String> = _search
 
@@ -38,6 +41,15 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     fun getRecipes() {
         viewModelScope.launch {
             val recipeResponse = recipeRepository.getAllRecipes()
+            recipeResponse.asFlow().collect {
+                recipeList.value = it
+            }
+        }
+    }
+
+    fun getFavoriteRecipes() {
+        viewModelScope.launch {
+            val recipeResponse = recipeRepository.getFavoriteRecipes()
             recipeResponse.asFlow().collect {
                 recipeList.value = it
             }

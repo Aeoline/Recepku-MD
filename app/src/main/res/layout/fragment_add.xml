@@ -23,68 +23,75 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="200dp"
+                android:layout_width="250dp"
                 android:layout_height="250dp"
                 android:scaleType="centerCrop"
                 android:layout_gravity="center"
-                app:srcCompat="@drawable/menu" />
+                app:srcCompat="@drawable/png_food" />
         </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/galleryButton"
-            android:layout_width="165dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="32dp"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
             android:alpha="1"
-            android:backgroundTint="@color/Shale"
             android:text="@string/gallery"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/dark_green"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.976"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_makanan"
-            app:layout_constraintVertical_bias="0.236"
-            tools:alpha="100" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_or"
+            tools:alpha="100"
+            android:layout_marginTop="28dp"/>
 
         <Button
             android:id="@+id/cameraButton"
-            android:layout_width="165dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="32dp"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
             android:alpha="1"
-            android:backgroundTint="@color/Shale"
+            android:backgroundTint="@color/dark_green"
             android:text="@string/camera"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/galleryButton"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_makanan"
             app:layout_constraintVertical_bias="0.236"
-            tools:alpha="100" />
+            tools:alpha="100"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/tv_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="Or"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cameraButton" />
+        >
 
         <Button
             android:id="@+id/btn_search_recipe"
             android:layout_width="350dp"
             android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:alpha="1"
             android:backgroundTint="@color/dark_green"
             android:text="Search Recipe"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cameraButton"
-            tools:alpha="100" />
+            app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
 
         <TextView
             android:id="@+id/tv_makanan"
-            android:layout_width="300dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:text="@string/uploadphoto"
             android:textAlignment="center"
             android:textSize="20dp"

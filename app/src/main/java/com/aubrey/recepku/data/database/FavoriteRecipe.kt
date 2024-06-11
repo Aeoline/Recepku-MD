@@ -11,34 +11,38 @@ import kotlinx.parcelize.Parcelize
 data class FavoriteRecipe(
     @PrimaryKey(autoGenerate = false)
 
-    @ColumnInfo (name = "id")
+    @ColumnInfo(name = "id")
     var id: Int?,
 
-    @ColumnInfo (name = "title")
+    @ColumnInfo(name = "title")
     var title: String?,
 
-    @ColumnInfo (name = "description")
+    @ColumnInfo(name = "description")
     var description: String?,
 
-    @ColumnInfo (name = "photoUrl")
+    @ColumnInfo(name = "photoUrl")
     var photoUrl: String?,
 
-    @ColumnInfo (name = "ingredients")
+    @ColumnInfo(name = "ingredients")
     var ingredients: List<String?>?,
 
-    @ColumnInfo (name = "steps")
+    @ColumnInfo(name = "steps")
     var steps: List<String?>?,
 
-    @ColumnInfo (name = "healthyIngredients")
+    @ColumnInfo(name = "healthyIngredients")
     var healthyIngredients: List<String?>?,
 
-    @ColumnInfo (name = "healthySteps")
+    @ColumnInfo(name = "healthySteps")
     var healthySteps: List<String?>?,
 
-    @ColumnInfo (name = "calories")
+    @ColumnInfo(name = "calories")
     var calories: Int?,
 
-    @ColumnInfo (name = "healthyCalories")
+    @ColumnInfo(name = "healthyCalories")
     var healthyCalories: Int?,
+
+    @ColumnInfo(name = "isFavorite")
+    var isFavorite: Boolean?
+
 
     ) : Parcelable

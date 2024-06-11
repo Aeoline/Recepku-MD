@@ -16,5 +16,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Your Favorite Recipe <3"
         supportActionBar?.hide()
+
+
     }
 }

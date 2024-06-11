@@ -68,6 +68,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    private fun becanda(){
+        binding.loginButton.setOnClickListener {
+            ObjectAnimator.ofFloat(binding.loginButton, View.ROTATION, 0f, 360f).apply {
+                duration = 200
+                repeatCount = 100
+                repeatMode = ObjectAnimator.RESTART
+            }.start()
+        }
+    }
+
     private fun setupLogin(){
         binding.loginButton.setOnClickListener {
             val username = binding.edLoginEmail.text.toString()

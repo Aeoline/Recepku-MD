@@ -78,7 +78,6 @@
             android:id="@+id/emailRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Shale"
             android:alpha="0"
             android:ems="10"
             android:inputType="textEmailAddress"
@@ -115,7 +114,6 @@
             android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Shale"
             android:ems="10"
             android:inputType="text"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -151,15 +149,14 @@
             android:alpha="0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/Shale"
             android:ems="10"
             android:inputType="textPassword"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        style="@style/Widget.Material3.Button.OutlinedButton"
         android:id="@+id/buttonRegister"
-
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginStart="32dp"
@@ -168,7 +165,6 @@
         app:layout_constraintTop_toBottomOf="@id/passwordLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/Shale"
         android:text="@string/register"
         android:alpha="0"
         android:textColor="@color/black"

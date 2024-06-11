@@ -1,5 +1,7 @@
 package com.aubrey.recepku.view.search
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.ItemRecipeSearchBinding
+import com.aubrey.recepku.view.detail.DetailActivity
 import com.aubrey.recepku.view.search.RecipeClickListener
 import com.bumptech.glide.Glide
 
@@ -32,9 +35,10 @@ class SearchRecipeAdapter(private val recipeClickListener: RecipeClickListener):
                 .into(binding.imgRecipe)
 
             itemView.setOnClickListener {
-                binding.root.setOnClickListener {
-                    recipeClickListener.onRecipeClicked(recipe)
-                }
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra("recipe", recipe)
+                Log.d("RecipeAdapter", "Sending recipe: $recipe")
+                binding.root.context.startActivity(intent)
             }
         }
     }

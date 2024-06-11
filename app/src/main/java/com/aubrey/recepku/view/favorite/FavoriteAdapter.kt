@@ -1,48 +1,54 @@
 package com.aubrey.recepku.view.favorite
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.databinding.ItemFavoriteBinding
+import com.aubrey.recepku.view.detail.DetailActivity
 import com.bumptech.glide.Glide
 
-class FavoriteAdapter(private val recipeClickListener: RecipeClickListener) : RecyclerView.Adapter<FavoriteAdapter.ViewHolder>() {
-    private val listFavorite = mutableListOf<FavoriteRecipe>()
+class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
-    fun setFavoriteRecipes(favoriteRecipes: List<FavoriteRecipe>) {
-        listFavorite.clear()
-        listFavorite.addAll(favoriteRecipes)
+    private val favoriteRecipes = mutableListOf<FavoriteRecipe>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
+        val binding = ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return FavoriteViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
+        val recipe = favoriteRecipes[position]
+        holder.bind(recipe)
+    }
+
+    override fun getItemCount() = favoriteRecipes.size
+
+    fun setFavoriteRecipes(recipes: List<FavoriteRecipe>) {
+        favoriteRecipes.clear()
+        favoriteRecipes.addAll(recipes)
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, recipeClickListener)
-    }
-
-    override fun getItemCount(): Int {
-        return listFavorite.size
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val favorite = listFavorite[position]
-        holder.bind(favorite)
-    }
-
-    inner class ViewHolder(private val binding: ItemFavoriteBinding, private val recipeClickListener: RecipeClickListener) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(favorite: FavoriteRecipe) {
+    inner class FavoriteViewHolder(private val binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(recipe: FavoriteRecipe) {
+            binding.tvFavorite.text = recipe.title
             Glide.with(binding.root)
-                .load(favorite.photoUrl)
+                .load(recipe.photoUrl)
                 .placeholder(R.drawable.menu)
                 .error(R.drawable.menu)
                 .into(binding.ivFavorite)
-            binding.tvFavorite.text = favorite.title
 
             binding.root.setOnClickListener {
-                recipeClickListener.onRecipeClicked(favorite)
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra("favRecipe", recipe)
+                Log.d("FavoriteAdapter", "Sending favorite recipe: $recipe")
+                binding.root.context.startActivity(intent)
             }
         }
     }
 }
+

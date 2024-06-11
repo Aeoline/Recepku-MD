@@ -25,12 +25,7 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupAction()
-
-        binding.toLoginPage.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-
+        toLoginPage()
         playAnimation()
     }
 
@@ -71,6 +66,13 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
+    }
+
+    private fun toLoginPage(){
+        binding.toLoginPage.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 

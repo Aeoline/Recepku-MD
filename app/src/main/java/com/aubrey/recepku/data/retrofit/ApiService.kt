@@ -34,12 +34,15 @@ interface ApiService {
         @Field("password") password: String
     ): LoginResponse
 
-    @GET("/makanan/all")
+    @GET("/recipes/")
     suspend fun getRecipe(
         @Query("search") search: String? = null,
     ): RecipeResponse
 
-    @GET("/makanan/")
+    @GET("/favrecipes/")
+    suspend fun getFavRecipe(): RecipeResponse
+
+    @GET("/recipes/")
     suspend fun getRecipeByTitle(
         @Query("slug") slug: String?
     ): RecipeResponse

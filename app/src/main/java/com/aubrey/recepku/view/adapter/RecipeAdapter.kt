@@ -1,17 +1,24 @@
 package com.aubrey.recepku.view.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.ItemRecipeBinding
+import com.aubrey.recepku.view.detail.DetailActivity
 import com.aubrey.recepku.view.home.RecipeClickListener
 import com.bumptech.glide.Glide
 
-class RecipeAdapter(val listRecipe: List<DataItem?>?, private val recipeClickListener: RecipeClickListener) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
-
+class RecipeAdapter(
+    val listRecipe: List<DataItem?>?,
+    private val recipeClickListener: RecipeClickListener
+) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,7 +36,10 @@ class RecipeAdapter(val listRecipe: List<DataItem?>?, private val recipeClickLis
         }
     }
 
-    class ViewHolder(private val binding: ItemRecipeBinding, private val recipeClickListener: RecipeClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(
+        private val binding: ItemRecipeBinding,
+        private val recipeClickListener: RecipeClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recipe: DataItem) {
             Glide.with(binding.root)
@@ -38,10 +48,15 @@ class RecipeAdapter(val listRecipe: List<DataItem?>?, private val recipeClickLis
                 .error(R.drawable.menu)
                 .into(binding.foodImage)
             binding.tvRecipeName.text = recipe.title
+            binding.tvRecipeDescription.text = recipe.description
 
             binding.root.setOnClickListener {
-                recipeClickListener.onRecipeClicked(recipe)
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra("recipe", recipe)
+                Log.d("RecipeAdapter", "Sending recipe: $recipe")
+                binding.root.context.startActivity(intent)
             }
         }
     }
 }
+

@@ -74,22 +74,32 @@ class AddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        camera()
+        gallery()
+        search()
+        playAnimation()
+    }
+
+    private fun camera(){
         binding.cameraButton.setOnClickListener {
             setUpCamera()
         }
+    }
+
+    private fun gallery(){
         binding.galleryButton.setOnClickListener {
             setUpGallery()
         }
+    }
+
+    private fun search() {
         binding.btnSearchRecipe.setOnClickListener {
             val foodName = binding.tvMakanan.text.toString()
             val intent = Intent(requireContext(), SearchActivity::class.java)
             intent.putExtra("searchQuery", foodName)
             startActivity(intent)
         }
-
-        playAnimation()
     }
-
 
 
     private fun classifyImage(image: Bitmap) {
@@ -201,10 +211,10 @@ class AddFragment : Fragment() {
         val makanan = ObjectAnimator.ofFloat(binding.tvMakanan, View.ALPHA, 1f).setDuration(800)
         val gallery = ObjectAnimator.ofFloat(binding.galleryButton, View.ALPHA, 1f).setDuration(800)
         val camera = ObjectAnimator.ofFloat(binding.cameraButton, View.ALPHA, 1f).setDuration(800)
-        val search = ObjectAnimator.ofFloat(binding.btnSearchRecipe, View.ALPHA, 1f).setDuration(800)
+//        val search = ObjectAnimator.ofFloat(binding.btnSearchRecipe, View.ALPHA, 1f).setDuration(800)
 
         val tgt = AnimatorSet().apply {
-            playTogether(gallery,camera,search)
+//            playTogether(gallery,camera,search)
         }
 
         AnimatorSet().apply {

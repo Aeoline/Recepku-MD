@@ -8,6 +8,7 @@ import com.aubrey.recepku.data.repository.RecipeRepository
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
+import com.aubrey.recepku.view.detail.DetailViewModel
 import com.aubrey.recepku.view.edituser.EditUserViewModel
 import com.aubrey.recepku.view.favorite.FavoriteViewModel
 import com.aubrey.recepku.view.home.HomeViewModel
@@ -46,6 +47,9 @@ class ViewModelFactory private constructor(private val repository: UserRepositor
             }
             modelClass.isAssignableFrom(EditUserViewModel::class.java) ->{
                 EditUserViewModel(repository,userPreferences) as T
+            }
+            modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
+                DetailViewModel(recipeRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class:"+modelClass.name)
         }

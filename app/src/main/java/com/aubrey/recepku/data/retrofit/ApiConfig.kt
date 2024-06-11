@@ -1,5 +1,8 @@
 package com.aubrey.recepku.data.retrofit
 
+import com.aubrey.recepku.tools.HealthyStepsDeserializer
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiConfig {
     companion object{
-        private var URL = "https://backend-dot-capstone-bangkit01.et.r.appspot.com/"
+        private var URL = "https://backend-recepku-oop-rnrqe2wc3a-et.a.run.app/"
         var token = ""
         var cookie = ""
 
@@ -26,6 +29,11 @@ class ApiConfig {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(authInterceptor)
                 .build()
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(object : TypeToken<List<String>>() {}.type, HealthyStepsDeserializer())
+                .create()
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(URL)
                 .addConverterFactory(GsonConverterFactory.create())

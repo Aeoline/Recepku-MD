@@ -17,6 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".view.profile.ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.detail.DetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.search.SearchActivity"
             android:exported="false" />
         <activity
@@ -42,7 +48,7 @@
             android:exported="false" />
         <activity
             android:name=".view.welcome_page.WelcomeActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".view.login.LoginActivity"
             android:exported="false" />

@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -44,11 +43,8 @@ import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
-import com.aubrey.recepku.view.edituser.EditUserActivity
-import com.aubrey.recepku.view.login.LoginActivity
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.aubrey.recepku.view.welcome_page.WelcomeActivity
-import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.flow.firstOrNull
 
 interface RecipeClickListener {
@@ -83,7 +79,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val layoutManager = GridLayoutManager(requireContext(), 2)
+        val layoutManager = GridLayoutManager(requireContext(), 1)
         binding.rvRecipe.layoutManager = layoutManager
         imageSlider = binding.slider
 
@@ -97,6 +93,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         setupImageSlider()
         getRecipes()
         getRecommendedRecipes()
+        getFavRecipes()
         searchBar()
         setDarkMode()
         playAnimation()
@@ -123,13 +120,17 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                     is Result.Success -> {
                         progressBar.visibility = View.GONE
                         val recipe = result.data.data
+                        Log.d("Success", "Fetched Data: ${result.data}")
                         if (recipe != null) {
                             setRecipe(recipe)
-                            Log.d("Success", "Recipe Fetched")
+                            Log.d("Success", "Recipe Fetched: $recipe")
+                        } else {
+                            Log.d("Success", "Recipe Fetched but it is null")
                         }
                     }
                     is Result.Error -> {
                         val errorMessage = result.error
+                        progressBar.visibility = View.GONE
                         Log.d("Failed", "Recipe not fetched. Error message: $errorMessage")
                     }
                 }
@@ -137,15 +138,48 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
     }
 
+
+
+
     private fun setRecipe(recipe: List<DataItem?>?) {
         binding.apply {
-            rvRecipe.adapter = RecipeAdapter(recipe, this@HomeFragment)
+            rvRecipe.adapter = RecipeAdapter(recipe, this@HomeFragment,)
         }
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getRecipes()
+    }
+
+    private fun getFavRecipes() {
+        viewModel.recipeFav.observe(viewLifecycleOwner) { result ->
+            binding.apply {
+                when (result) {
+                    is Result.Loading -> {
+                        progressBar.visibility = View.VISIBLE
+                        Log.d("Loading", "Loading")
+                    }
+
+                    is Result.Success -> {
+                        progressBar.visibility = View.GONE
+                        val recipe = result.data.data
+                        Log.d("Success Fav Recipe", "Fetched Data: ${result.data}")
+                        if (recipe != null) {
+                            setRecipe(recipe)
+                            Log.d("Success Fav Recipe", "Recipe Fetched: $recipe")
+                        } else {
+                            Log.d("Success Fav Recipe", "Recipe Fetched but it is null")
+                        }
+                    }
+                    is Result.Error -> {
+                        val errorMessage = result.error
+                        progressBar.visibility = View.GONE
+                        Log.d("Failed", "Recipe not fetched. Error message: $errorMessage")
+                    }
+                }
+            }
+        }
     }
 
 
@@ -190,7 +224,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
 
 //        ui
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
+        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
         val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
         val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
         val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
@@ -262,6 +296,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.healthySteps,
                         recipe.calories,
                         recipe.healthyCalories,
+                        recipe.isFavorite
                     )
                 )
             } else {
@@ -279,6 +314,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.healthySteps,
                         recipe.calories,
                         recipe.healthyCalories,
+                        recipe.isFavorite
                     )
                 )
             }
@@ -303,7 +339,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
         val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
 
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.foodImage)
+        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
         val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
         val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
         val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
@@ -372,6 +408,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
                         recipe.recommended.healthyCalories,
+                        recipe.recommended.isFavorite
                     )
                 )
             } else {
@@ -389,6 +426,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                         recipe.recommended.healthySteps,
                         recipe.recommended.calories,
                         recipe.recommended.healthyCalories,
+                        recipe.recommended.isFavorite
                     )
                 )
             }
