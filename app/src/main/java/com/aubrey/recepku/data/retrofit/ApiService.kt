@@ -8,7 +8,9 @@ import com.aubrey.recepku.data.response.EditUserResponse
 import com.aubrey.recepku.data.response.LoginResponse
 import com.aubrey.recepku.data.response.ProfileResponse
 import com.aubrey.recepku.data.response.RecipeResponse
+import com.aubrey.recepku.data.response.RefreshTokenResponse
 import com.aubrey.recepku.data.response.RegisterResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
@@ -62,13 +64,15 @@ interface ApiService {
         @Field("confirmPassword") confirmPassword: String
     ): EditPassResponse
 
-    @GET("profile")
+    @GET("verify-token")
     suspend fun checkUser(): CheckUserResponse
-
 
     @DELETE("profile")
     suspend fun deleteUser(): DeleteResponse
 
     @GET("profile")
     suspend fun getProfile(): ProfileResponse
+
+    @POST("refresh-token")
+    suspend fun refreshToken(): Response<RefreshTokenResponse>
 }

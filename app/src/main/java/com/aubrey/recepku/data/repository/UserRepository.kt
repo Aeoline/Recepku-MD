@@ -9,16 +9,22 @@ import com.aubrey.recepku.data.response.CheckUserResponse
 import com.aubrey.recepku.data.response.DeleteResponse
 import com.aubrey.recepku.data.response.EditPassResponse
 import com.aubrey.recepku.data.response.EditUserResponse
+import com.aubrey.recepku.data.response.ErrorResponse
 import com.aubrey.recepku.data.response.LoginResponse
+import com.aubrey.recepku.data.response.RefreshTokenResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import com.aubrey.recepku.data.retrofit.ApiConfig
 import com.aubrey.recepku.data.retrofit.ApiService
 import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Cookie
 import retrofit2.HttpException
+import retrofit2.Response
+import java.io.IOException
+import java.net.SocketTimeoutException
 import kotlin.coroutines.CoroutineContext
 
 class UserRepository(
@@ -139,6 +145,45 @@ class UserRepository(
             Log.d("CheckUser", "CheckUser: ${response.message}")
         }
     }
+
+    fun refreshToken(): LiveData<Result<RefreshTokenResponse>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response: Response<RefreshTokenResponse> = apiService.refreshToken()
+            Log.d("RefreshToken", "API response received: $response")
+
+            if (response.isSuccessful) {
+                val refreshTokenResponse: RefreshTokenResponse? = response.body()
+                Log.d("RefreshToken", "API response body: $refreshTokenResponse")
+
+                if (refreshTokenResponse != null) {
+                    emit(Result.Success(refreshTokenResponse))
+                    Log.d("RefreshToken", "RefreshToken: ${refreshTokenResponse.message}")
+                } else {
+                    emit(Result.Error("Error: Token is null"))
+                }
+            } else {
+                emit(Result.Error("Error: ${response.message()}"))
+            }
+        } catch (e: HttpException) {
+            val jsonInString = e.response()?.errorBody()?.string()
+            val errorBody = Gson().fromJson(jsonInString, ErrorResponse::class.java)
+            val errorMessage = errorBody?.message ?: "An error occurred"
+            Log.e("HttpException", "Error: $errorMessage", e)
+            emit(Result.Error("Failed: $errorMessage"))
+        } catch (e: Exception) {
+            Log.e("Exception", "Error: ${e.message}", e)
+            emit(Result.Error("Internet Issues: ${e.message}"))
+        } catch (e: SocketTimeoutException) {
+            Log.e("SocketTimeoutException", "Timeout occurred", e)
+            emit(Result.Error("Read timeout occurred"))
+        } catch (e: IOException) {
+            Log.e("IOException", "Network error occurred", e)
+            emit(Result.Error("Network error occurred"))
+        }
+    }
+
 }
+
 
 

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
@@ -39,6 +40,7 @@ import com.aubrey.recepku.view.adapter.StepsAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
+import androidx.lifecycle.Observer
 import com.aubrey.recepku.MainActivity
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.userpref.UserPreferences
@@ -90,6 +92,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         recommendedAdapter = RecommendedRecipeAdapter(this)
         binding.rvRecommended.adapter = recommendedAdapter
 
+        refreshAuthToken()
         setupImageSlider()
         getRecipes()
         getRecommendedRecipes()
@@ -108,7 +111,36 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         imageSlider.setImageList(imageList)
     }
 
+    private fun refreshAuthToken() {
+        Log.d("HomeFragment", "refreshAuthToken called")
+
+        viewModel.refreshTokenResult.observe(viewLifecycleOwner, Observer { result ->
+            Log.d("HomeFragment", "Observing refreshTokenResult")
+
+            when (result) {
+                is Result.Loading -> {
+                    // Tampilkan loading jika diperlukan
+                    Log.d("HomeFragment", "Loading token refresh...")
+                }
+                is Result.Success -> {
+                    val newToken = result.data.data?.token
+                    Log.d("HomeFragment", "Token refreshed: $newToken")
+
+                    // Simpan token baru di SharedPreferences
+                }
+                is Result.Error -> {
+                    Log.e("HomeFragment", "Error refreshing token: ${result.error}")
+                    Toast.makeText(requireContext(), "Error refreshing token", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+
+        Log.d("HomeFragment", "Calling viewModel.refreshToken()")
+        viewModel.refreshToken()  // Panggil fungsi refreshToken di ViewModel
+    }
+
     private fun getRecipes() {
+
         viewModel.recipeData.observe(viewLifecycleOwner) { result ->
             binding.apply {
                 when (result) {
@@ -149,6 +181,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
     override fun onResume() {
         super.onResume()
+        viewModel.refreshToken()
         viewModel.getRecipes()
     }
 

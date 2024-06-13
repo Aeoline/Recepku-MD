@@ -159,13 +159,10 @@ class DetailActivity : AppCompatActivity() {
 
         val favoriteButton = binding.ibFavorite
 
-        if (recipe?.id == favoriteRecipe?.id) {
-            favoriteRecipe?.isFavorite = !favoriteRecipe?.isFavorite!!
-            if (favoriteRecipe!!.isFavorite == true) {
-                favoriteButton.setImageResource(R.drawable.ic_favorite)
-            } else {
-                favoriteButton.setImageResource(R.drawable.ic_favorite_border)
-            }
+        if (recipe?.id == favoriteRecipe?.id && favoriteRecipe?.isFavorite == true) {
+            favoriteButton.setImageResource(R.drawable.ic_favorite)
+        } else {
+            favoriteButton.setImageResource(R.drawable.ic_favorite_border)
         }
     }
 

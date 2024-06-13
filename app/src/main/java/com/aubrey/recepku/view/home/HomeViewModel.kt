@@ -1,5 +1,8 @@
 package com.aubrey.recepku.view.home
 
+import android.net.http.HttpException
+import android.os.Build
+import android.os.ext.SdkExtensions
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,6 +20,7 @@ import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.RecipeResponse
+import com.aubrey.recepku.data.response.RefreshTokenResponse
 import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +41,9 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     val uiState1: StateFlow<Result<List<Recommended>>>
         get() = _uiState1
 
+    val refreshTokenResult: MutableLiveData<Result<RefreshTokenResponse>> = MutableLiveData()
+
+
 
     fun getRecipes() {
         viewModelScope.launch {
@@ -52,6 +59,15 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
             val recipeResponse = recipeRepository.getFavoriteRecipes()
             recipeResponse.asFlow().collect {
                 recipeList.value = it
+            }
+        }
+    }
+
+    fun refreshToken() {
+        viewModelScope.launch {
+            refreshTokenResult.postValue(Result.Loading)
+            repository.refreshToken().observeForever { result ->
+                refreshTokenResult.postValue(result)
             }
         }
     }
