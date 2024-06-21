@@ -11,7 +11,7 @@
     <string name="register">Register</string>
     <string name="have_account">Already have an account?</string>
     <string name="login_here">Login Here!</string>
-    <string name="alertPassword">Password must at least 5 characters!</string>
+    <string name="alertPassword">Password must at least 7 characters!</string>
     <string name="alertEmail">Enter a valid email</string>
     <string name="tv_search">Search Here!</string>
     <string name="hello_blank_fragment">Halo fragmen kosong</string>
@@ -41,7 +41,7 @@
     <string name="new_password">Kata Sandi Baru</string>
     <string name="confirm_password">Konfirmasi Kata Sandi</string>
     <string name="welcome_profile">Halo! Ini halaman profil Anda!</string>
-    <string name="title_RegisterPage">Register\n</string>
-    <string name="switch_to_low">Switch to Lower Calories</string>
-    <string name="switch_to_normal">Switch to Normal Calories</string>
+    <string name="title_RegisterPage" translatable="false">Register\n</string>
+    <string name="switch_to_low" translatable="false">Switch to Lower Calories</string>
+    <string name="switch_to_normal" translatable="false">Switch to Normal Calories</string>
 </resources>

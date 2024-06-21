@@ -4,25 +4,22 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.ItemRecipeBinding
 import com.aubrey.recepku.view.detail.DetailActivity
-import com.aubrey.recepku.view.home.RecipeClickListener
+import com.aubrey.recepku.view.home.HomeFragment
 import com.bumptech.glide.Glide
 
 class RecipeAdapter(
-    val listRecipe: List<DataItem?>?,
-    private val recipeClickListener: RecipeClickListener
+    private val listRecipe: List<DataItem?>?,
+    homeFragment: HomeFragment,
 ) : RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding, recipeClickListener)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -38,7 +35,6 @@ class RecipeAdapter(
 
     class ViewHolder(
         private val binding: ItemRecipeBinding,
-        private val recipeClickListener: RecipeClickListener
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(recipe: DataItem) {

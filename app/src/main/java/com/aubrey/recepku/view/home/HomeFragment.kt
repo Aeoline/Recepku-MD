@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,37 +29,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aubrey.recepku.R
 import com.aubrey.recepku.view.adapter.RecommendedRecipeAdapter
 import com.aubrey.recepku.data.common.Result
-import com.aubrey.recepku.data.model.recommended.Recommended
 import com.aubrey.recepku.view.SettingViewModel
-import com.aubrey.recepku.data.response.DataItem
-import com.aubrey.recepku.view.adapter.IngredientsAdapter
-import com.aubrey.recepku.view.adapter.LowCalIngredientsAdapter
-import com.aubrey.recepku.view.adapter.LowCalStepsAdapter
-import com.aubrey.recepku.view.adapter.StepsAdapter
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.Observer
 import com.aubrey.recepku.MainActivity
-import com.aubrey.recepku.data.database.FavoriteRecipe
+import com.aubrey.recepku.data.response.DataItem
+import com.aubrey.recepku.data.response.DataItems
 import com.aubrey.recepku.data.userpref.UserPreferences
 import com.aubrey.recepku.data.userpref.dataStore
 import com.aubrey.recepku.view.setting.SettingActivity
 import com.aubrey.recepku.view.welcome_page.WelcomeActivity
 import kotlinx.coroutines.flow.firstOrNull
 
-interface RecipeClickListener {
-    fun onRecipeClicked(recipe: DataItem)
-}
-
-interface RecommendedRecipeClickListener {
-    fun onRecipeClicked(recipe: Recommended)
-}
-
-class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickListener {
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var imageSlider: ImageSlider
-    private lateinit var recommendedAdapter: RecommendedRecipeAdapter
+
 
 
 
@@ -89,14 +74,10 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         val recommendedLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         binding.rvRecommended.layoutManager = recommendedLayoutManager
 
-        recommendedAdapter = RecommendedRecipeAdapter(this)
-        binding.rvRecommended.adapter = recommendedAdapter
-
-        refreshAuthToken()
+//        refreshAuthToken()
         setupImageSlider()
         getRecipes()
-        getRecommendedRecipes()
-//        getFavRecipes()
+        getFavRecipes()
         searchBar()
         setDarkMode()
         playAnimation()
@@ -134,9 +115,8 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                 }
             }
         })
-
         Log.d("HomeFragment", "Calling viewModel.refreshToken()")
-        viewModel.refreshToken()  // Panggil fungsi refreshToken di ViewModel
+//        viewModel.refreshToken()  // Panggil fungsi refreshToken di ViewModel
     }
 
     private fun getRecipes() {
@@ -179,14 +159,22 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
         }
     }
 
+    private fun setRecommendedRecipe(recommendedRecipe: List<DataItems?>?) {
+        binding.apply {
+            rvRecommended.adapter = RecommendedRecipeAdapter(recommendedRecipe, this@HomeFragment)
+        }
+    }
+
+
     override fun onResume() {
         super.onResume()
         viewModel.refreshToken()
         viewModel.getRecipes()
+        viewModel.getFavoriteRecipes()
     }
 
     private fun getFavRecipes() {
-        viewModel.recipeFav.observe(viewLifecycleOwner) { result ->
+        viewModel.recipeFavData.observe(viewLifecycleOwner) { result ->
             binding.apply {
                 when (result) {
                     is Result.Loading -> {
@@ -196,11 +184,11 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
 
                     is Result.Success -> {
                         progressBar.visibility = View.GONE
-                        val recipe = result.data.data
+                        val recRecipe = result.data.data
                         Log.d("Success Fav Recipe", "Fetched Data: ${result.data}")
-                        if (recipe != null) {
-                            setRecipe(recipe)
-                            Log.d("Success Fav Recipe", "Recipe Fetched: $recipe")
+                        if (recRecipe != null) {
+                            setRecommendedRecipe(recRecipe)
+                            Log.d("Success Fav Recipe", "Recipe Fetched: $recRecipe")
                         } else {
                             Log.d("Success Fav Recipe", "Recipe Fetched but it is null")
                         }
@@ -216,260 +204,7 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
     }
 
 
-    private fun getRecommendedRecipes() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.uiState1.collect { uiState1 ->
-                when (uiState1) {
-                    is Result.Loading -> {
-                        viewModel.getAllRecommendedRecipes()
-                        Log.d("Recommended HomeScreen", "Loading: Sabar")
-                    }
 
-                    is Result.Success -> {
-                        recommendedAdapter.submitList(uiState1.data)
-                        Log.d("Recommended HomeScreen", "Success: Nih Resep")
-                    }
-
-                    is Result.Error -> {
-                        // Tindakan yang diambil saat terjadi kesalahan
-                        Log.d("Recommended HomeScreen", "Error: Kok gabisa si")
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-    }
-    //Belum bisa
-
-
-    override fun onRecipeClicked(recipe: DataItem) {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = LayoutInflater.from(requireContext())
-        val dialogView = inflater.inflate(R.layout.item_card_detail, null) as CardView
-
-//      Adapter
-
-        // Adapter
-        val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
-        val ingredientsAdapter = IngredientsAdapter(recipe.ingredients ?: emptyList())
-        val lowCalStepsAdapter = LowCalStepsAdapter(recipe.healthySteps ?: emptyList())
-        val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
-
-//        ui
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
-        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
-        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
-        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
-        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
-        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
-        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
-        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
-        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
-
-//        condition
-        var isLowcal = false
-        var isFavorite = recipe.isFavorite == false
-
-//        setup
-        Glide.with(ivRecipe)
-            .load(recipe.photoUrl)
-            .into(ivRecipe)
-        tvRecipeName.text = recipe.title
-        tvRecipeDescription.text = recipe.description
-
-        val layoutManager = GridLayoutManager(requireContext(), 2)
-        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rvIngredients.layoutManager = layoutManager
-        rvIngredients.adapter = ingredientsAdapter
-
-        rvSteps.adapter = stepsAdapter
-        rvSteps.layoutManager = stepsLayoutManager
-
-        tvCalories.text = recipe.calories.toString()
-
-
-
-        val alertDialog = dialogBuilder.setView(dialogView).create()
-
-        lowcalBtn.setOnClickListener {
-            if (isLowcal) {
-                lowcalBtn.setImageResource(R.drawable.ic_food)
-                isLowcal = false
-                rvIngredients.adapter = ingredientsAdapter
-                tvCalories.text = recipe.calories.toString()
-                rvSteps.adapter = stepsAdapter
-
-            } else {
-                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
-                isLowcal = true
-                rvIngredients.adapter = lowCalIngAdapter
-                tvCalories.text = recipe.healthyCalories.toString()
-                rvSteps.adapter = lowCalStepsAdapter
-            }
-        }
-
-        backBtn.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-        favBtn.setOnClickListener {
-            if (isFavorite == false) {
-                favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = true
-                viewModel.delete(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories,
-                        recipe.isFavorite
-                    )
-                )
-            } else {
-                favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = false
-                viewModel.insert(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories,
-                        recipe.isFavorite
-                    )
-                )
-            }
-        }
-
-
-        alertDialog.show()
-    }
-
-    override fun onRecipeClicked(recipe: Recommended) {
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-        val inflater = LayoutInflater.from(requireContext())
-        val dialogView = inflater.inflate(R.layout.item_card_detail, null)
-
-
-        val ingredientsAdapter = recipe.recommended.ingredients?.let { IngredientsAdapter(it) }
-        val stepsAdapter = recipe.recommended.steps?.let { StepsAdapter(it) }
-        val lowCalIngAdapter = recipe.recommended.healthyIngredients?.let { LowCalIngredientsAdapter(it) }
-        val lowCalStepsAdapter = recipe.recommended.healthySteps?.let { LowCalStepsAdapter(it) }
-
-        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
-        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
-        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
-
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
-        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
-        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
-        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
-        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
-        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
-
-        //        condition
-        var isLowcal = false
-        var isFavorite = recipe.recommended.isFavorite
-
-        //        setup
-        Glide.with(ivRecipe)
-            .load(recipe.recommended.photoUrl)
-            .into(ivRecipe)
-        tvRecipeName.text = recipe.recommended.title
-        tvRecipeDescription.text = recipe.recommended.description
-
-        val layoutManager = GridLayoutManager(requireContext(), 2)
-        val stepsLayoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        rvIngredients.layoutManager = layoutManager
-        rvIngredients.adapter = ingredientsAdapter
-
-        rvSteps.adapter = stepsAdapter
-        rvSteps.layoutManager = stepsLayoutManager
-
-        tvCalories.text = recipe.recommended.calories.toString()
-
-
-
-        val alertDialog = dialogBuilder.setView(dialogView).create()
-
-        lowcalBtn.setOnClickListener {
-            if (isLowcal) {
-                lowcalBtn.setImageResource(R.drawable.ic_food)
-                isLowcal = false
-                rvIngredients.adapter = ingredientsAdapter
-                tvCalories.text = recipe.recommended.calories.toString()
-                rvSteps.adapter = stepsAdapter
-
-            } else {
-                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
-                isLowcal = true
-                rvIngredients.adapter = lowCalIngAdapter
-                tvCalories.text = recipe.recommended.healthyCalories.toString()
-                rvSteps.adapter = lowCalStepsAdapter
-            }
-        }
-
-        backBtn.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-        favBtn.setOnClickListener {
-            if (isFavorite) {
-                favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = false
-                viewModel.delete(
-                    FavoriteRecipe(
-                        recipe.recommended.id,
-                        recipe.recommended.title,
-                        recipe.recommended.description,
-                        recipe.recommended.photoUrl,
-                        recipe.recommended.ingredients,
-                        recipe.recommended.steps,
-                        recipe.recommended.healthyIngredients,
-                        recipe.recommended.healthySteps,
-                        recipe.recommended.calories,
-                        recipe.recommended.healthyCalories,
-                        recipe.recommended.isFavorite
-                    )
-                )
-            } else {
-                favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = true
-                viewModel.insert(
-                    FavoriteRecipe(
-                        recipe.recommended.id,
-                        recipe.recommended.title,
-                        recipe.recommended.description,
-                        recipe.recommended.photoUrl,
-                        recipe.recommended.ingredients,
-                        recipe.recommended.steps,
-                        recipe.recommended.healthyIngredients,
-                        recipe.recommended.healthySteps,
-                        recipe.recommended.calories,
-                        recipe.recommended.healthyCalories,
-                        recipe.recommended.isFavorite
-                    )
-                )
-            }
-        }
-
-
-
-
-        alertDialog.show()
-    }
 
     private fun searchBar() {
         with(binding) {
@@ -484,17 +219,17 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
                 viewModel.search(searchView.text.toString())
                 false
             }
-            searchBar.inflateMenu(R.menu.option_menu)
-            searchBar.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.profile_icon -> {
-                        showProfile()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
+//            searchBar.inflateMenu(R.menu.option_menu)
+//            searchBar.setOnMenuItemClickListener { menuItem ->
+//                when (menuItem.itemId) {
+//                    R.id.profile_icon -> {
+//                        showProfile()
+//                        true
+//                    }
+//
+//                    else -> false
+//                }
+//            }
         }
     }
 
@@ -615,4 +350,5 @@ class HomeFragment : Fragment(), RecipeClickListener, RecommendedRecipeClickList
             start()
         }
     }
+
 }

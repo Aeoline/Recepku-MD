@@ -10,15 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.databinding.ItemRecipeSearchBinding
 import com.aubrey.recepku.view.detail.DetailActivity
-import com.aubrey.recepku.view.search.RecipeClickListener
 import com.bumptech.glide.Glide
 
 
-class SearchRecipeAdapter(private val recipeClickListener: RecipeClickListener): ListAdapter<DataItem, SearchRecipeAdapter.MyViewHolder>(DIFF_CALLBACK){
+class SearchRecipeAdapter(): ListAdapter<DataItem, SearchRecipeAdapter.MyViewHolder>(DIFF_CALLBACK){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding =
             ItemRecipeSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding, recipeClickListener)
+        return MyViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -26,7 +25,7 @@ class SearchRecipeAdapter(private val recipeClickListener: RecipeClickListener):
         holder.bind(item)
     }
 
-    class MyViewHolder( private val binding: ItemRecipeSearchBinding, private val recipeClickListener: RecipeClickListener) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder( private val binding: ItemRecipeSearchBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: DataItem) {
             binding.tvRecipe.text = recipe.title
             binding.tvRecipeDescription.text = recipe.description

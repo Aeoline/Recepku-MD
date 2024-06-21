@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo"
+        app:srcCompat="@drawable/recepku_logo"
         tools:layout_editor_absoluteY="31dp" />
 
     <TextView

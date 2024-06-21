@@ -1,6 +1,6 @@
 package com.aubrey.recepku.data.retrofit
 
-import com.aubrey.recepku.tools.HealthyStepsDeserializer
+
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import okhttp3.Interceptor
@@ -30,9 +30,6 @@ class ApiConfig {
                 .addInterceptor(authInterceptor)
                 .build()
 
-            val gson = GsonBuilder()
-                .registerTypeAdapter(object : TypeToken<List<String>>() {}.type, HealthyStepsDeserializer())
-                .create()
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(URL)

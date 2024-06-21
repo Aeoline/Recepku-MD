@@ -41,16 +41,14 @@ class RegisterActivity : AppCompatActivity() {
                         binding.progressRegister.visibility = View.VISIBLE
                     }
 
-
                     is Result.Success<*> -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeay")
-                            setMessage("Anda berhasil mendaftar. Sudah siap menjelajah?")
+                            setMessage("Register Success!")
                             setPositiveButton("Lanjut") { _, _ ->
                                 val intent = Intent(context, LoginActivity::class.java)
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                                 startActivity(intent)
                                 finish()
                             }
@@ -62,12 +60,13 @@ class RegisterActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressRegister.visibility = View.INVISIBLE
                         val error = regist.error
-                        Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "$error", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
+
 
     private fun toLoginPage(){
         binding.toLoginPage.setOnClickListener {

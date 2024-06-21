@@ -23,6 +23,7 @@ class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolde
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val recipe = favoriteRecipes[position]
         holder.bind(recipe)
+
     }
 
     override fun getItemCount() = favoriteRecipes.size

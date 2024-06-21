@@ -8,6 +8,7 @@ import com.aubrey.recepku.data.response.EditUserResponse
 import com.aubrey.recepku.data.response.LoginResponse
 import com.aubrey.recepku.data.response.ProfileResponse
 import com.aubrey.recepku.data.response.RecipeResponse
+import com.aubrey.recepku.data.response.RecommendedResponse
 import com.aubrey.recepku.data.response.RefreshTokenResponse
 import com.aubrey.recepku.data.response.RegisterResponse
 import retrofit2.Response
@@ -41,8 +42,8 @@ interface ApiService {
         @Query("search") search: String? = null,
     ): RecipeResponse
 
-    @GET("/favrecipes/")
-    suspend fun getFavRecipe(): RecipeResponse
+    @GET("/recommended_recipes/")
+    suspend fun getFavRecipe(): RecommendedResponse
 
     @GET("/recipes/")
     suspend fun getRecipeByTitle(

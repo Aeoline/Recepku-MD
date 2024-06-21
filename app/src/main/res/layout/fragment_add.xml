@@ -15,7 +15,7 @@
             android:id="@+id/cardView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="90dp"
             app:cardCornerRadius="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,8 +25,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="250dp"
                 android:layout_height="250dp"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center"
+                android:scaleType="centerCrop"
                 app:srcCompat="@drawable/png_food" />
         </androidx.cardview.widget.CardView>
 
@@ -80,12 +80,13 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginBottom="15dp"
             android:backgroundTint="@color/dark_green"
             android:text="Search Recipe"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/galleryButton" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/tv_makanan"

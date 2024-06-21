@@ -21,6 +21,16 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_favorite" />
 
+        <TextView
+            android:id="@+id/noFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Favorite Recipe Found"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/rvFavorite"
+            app:layout_constraintStart_toStartOf="@+id/rvFavorite"
+            app:layout_constraintTop_toTopOf="@+id/rvFavorite" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

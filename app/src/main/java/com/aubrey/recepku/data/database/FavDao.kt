@@ -23,4 +23,16 @@ interface FavDao {
 
     @Query("SELECT * FROM FavoriteRecipe WHERE id = :id")
     fun getFavoriteById(id: Int): LiveData<FavoriteRecipe?>
+
+    @Query("SELECT EXISTS(SELECT 1 FROM FavoriteRecipe WHERE id = :recipeId)")
+    fun isFavorite(recipeId: Int?): LiveData<Boolean>
+
+    @Query("DELETE FROM favoriteRecipe WHERE title IS NULL OR description IS NULL")
+    suspend fun deleteNullEntries()
+
+    @Query("DELETE FROM favoriteRecipe WHERE id NOT IN (SELECT MIN(id) FROM favoriteRecipe GROUP BY id, title)")
+    suspend fun deleteDuplicateEntries()
+
+    @Query("SELECT * FROM FavoriteRecipe WHERE id = :recipeId LIMIT 1")
+    suspend fun isFavorite(recipeId: Int): FavoriteRecipe?
 }

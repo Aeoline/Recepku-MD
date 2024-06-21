@@ -3,10 +3,13 @@
     <style name="Base.Theme.Recepku" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/Shale</item>
-<!--        <item name="colorSecondary">@color/white</item>-->
+        <item name="colorPrimaryVariant">@android:color/white</item>
+        <item name="android:statusBarColor">@color/gading</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+
+<style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/dark_green</item>
     </style>
 

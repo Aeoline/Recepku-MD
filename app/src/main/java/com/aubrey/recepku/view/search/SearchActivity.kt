@@ -38,11 +38,9 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 
-interface RecipeClickListener {
-    fun onRecipeClicked(recipe: DataItem)
-}
 
-class SearchActivity : AppCompatActivity(), RecipeClickListener {
+
+class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private val viewModel: SearchViewModel by viewModels {
@@ -52,7 +50,7 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
     private val homeViewModel: HomeViewModel by viewModels {
         ViewModelFactory.getInstance(application)
     }
-    private val searchRecipeAdapter = SearchRecipeAdapter(this)
+    private val searchRecipeAdapter = SearchRecipeAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,17 +79,17 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
                 searchRecipe(searchView.text.toString())
                 false
             }
-            searchBar.inflateMenu(R.menu.option_menu)
-            searchBar.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.profile_icon -> {
-                        showProfile()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
+//            searchBar.inflateMenu(R.menu.option_menu)
+//            searchBar.setOnMenuItemClickListener { menuItem ->
+//                when (menuItem.itemId) {
+//                    R.id.profile_icon -> {
+//                        showProfile()
+//                        true
+//                    }
+//
+//                    else -> false
+//                }
+//            }
         }
     }
 
@@ -138,33 +136,7 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
         val setAccount = dialogView.findViewById<CardView>(R.id.cardAccount)
         val deleteAccount = dialogView.findViewById<CardView>(R.id.cardDeleteAccount)
 
-        /*deleteAccount.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val inf = LayoutInflater.from(this)
-            val view = inf.inflate(R.layout.card_delete_account,null)
-            val edPass = view.findViewById<TextInputEditText>(R.id.edPassword)
-            val button = view.findViewById<Button>(R.id.btnChangePassword)
-            val alert = builder.setView(view).create()
 
-            viewModel.checkUser()
-            button.setOnClickListener {
-                val password = edPass.text.toString()
-                viewModel.deleteUser(password).observe(viewLifecycleOwner) {
-                    when (it) {
-                        is Result.Loading -> {
-                            Log.d("Home Fragment", "Sabar cuy")
-                        }
-                        is Result.Success -> {
-                            Log.e("Home Fragment", "GEGE GEMINK")
-                        }
-                        is Result.Error -> {
-                            Log.e("Home Fragment", "Error cuy")
-                        }
-                    }
-                }
-            }
-            alert.show()
-        }*/
 
         setAccount.setOnClickListener {
             val intent = Intent(this, EditUserActivity::class.java)
@@ -215,117 +187,4 @@ class SearchActivity : AppCompatActivity(), RecipeClickListener {
         }
     }
 
-    override fun onRecipeClicked(recipe: DataItem) {
-        val dialogBuilder = AlertDialog.Builder(this)
-        val inflater = LayoutInflater.from(this)
-        val dialogView = inflater.inflate(R.layout.item_card_detail, null) as CardView
-
-//      Adapter
-
-        // Adapter
-        val stepsAdapter = StepsAdapter(recipe.steps ?: emptyList())
-        val ingredientsAdapter = IngredientsAdapter(recipe.ingredients ?: emptyList())
-        val lowCalStepsAdapter = LowCalStepsAdapter(recipe.healthySteps ?: emptyList())
-        val lowCalIngAdapter = LowCalIngredientsAdapter(recipe.healthyIngredients ?: emptyList())
-
-//        ui
-        val ivRecipe = dialogView.findViewById<ImageView>(R.id.ivRecipe)
-        val tvRecipeName = dialogView.findViewById<TextView>(R.id.tvRecipeName)
-        val tvRecipeDescription = dialogView.findViewById<TextView>(R.id.tv_description)
-        val tvCalories = dialogView.findViewById<TextView>(R.id.tv_calories_value)
-        val rvIngredients = dialogView.findViewById<RecyclerView>(R.id.rv_ingredients)
-        val rvSteps = dialogView.findViewById<RecyclerView>(R.id.rv_steps)
-        val backBtn = dialogView.findViewById<ImageButton>(R.id.btn_back_detail)
-        val favBtn = dialogView.findViewById<ImageButton>(R.id.btn_favorite_detail)
-        val lowcalBtn = dialogView.findViewById<ImageButton>(R.id.btn_lowcal)
-
-//        condition
-        var isLowcal = false
-        var isFavorite = recipe.isFavorite == false
-
-//        setup
-        Glide.with(ivRecipe)
-            .load(recipe.photoUrl)
-            .into(ivRecipe)
-        tvRecipeName.text = recipe.title
-        tvRecipeDescription.text = recipe.description
-
-        val layoutManager = GridLayoutManager(this, 2)
-        val stepsLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        rvIngredients.layoutManager = layoutManager
-        rvIngredients.adapter = ingredientsAdapter
-
-        rvSteps.adapter = stepsAdapter
-        rvSteps.layoutManager = stepsLayoutManager
-
-        tvCalories.text = recipe.calories.toString()
-
-
-
-        val alertDialog = dialogBuilder.setView(dialogView).create()
-
-        lowcalBtn.setOnClickListener {
-            if (isLowcal) {
-                lowcalBtn.setImageResource(R.drawable.ic_food)
-                isLowcal = false
-                rvIngredients.adapter = ingredientsAdapter
-                tvCalories.text = recipe.calories.toString()
-                rvSteps.adapter = stepsAdapter
-
-            } else {
-                lowcalBtn.setImageResource(R.drawable.ic_food_healthy)
-                isLowcal = true
-                rvIngredients.adapter = lowCalIngAdapter
-                tvCalories.text = recipe.healthyCalories.toString()
-                rvSteps.adapter = lowCalStepsAdapter
-            }
-        }
-
-        backBtn.setOnClickListener {
-            alertDialog.dismiss()
-        }
-
-        favBtn.setOnClickListener {
-            if (isFavorite == false) {
-                favBtn.setImageResource(R.drawable.ic_favorite_border)
-                isFavorite = true
-                homeViewModel.delete(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories,
-                        recipe.isFavorite
-                    )
-                )
-            } else {
-                favBtn.setImageResource(R.drawable.ic_favorite_fill)
-                isFavorite = false
-                homeViewModel.insert(
-                    FavoriteRecipe(
-                        recipe.id,
-                        recipe.title,
-                        recipe.description,
-                        recipe.photoUrl,
-                        recipe.ingredients,
-                        recipe.steps,
-                        recipe.healthyIngredients,
-                        recipe.healthySteps,
-                        recipe.calories,
-                        recipe.healthyCalories,
-                        recipe.isFavorite
-                    )
-                )
-            }
-        }
-
-
-        alertDialog.show()
-    }
 }

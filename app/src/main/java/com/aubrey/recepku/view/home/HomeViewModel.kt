@@ -20,6 +20,7 @@ import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.repository.UserRepository
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.RecipeResponse
+import com.aubrey.recepku.data.response.RecommendedResponse
 import com.aubrey.recepku.data.response.RefreshTokenResponse
 import com.aubrey.recepku.data.userpref.ProfileModel
 import com.aubrey.recepku.data.userpref.UserPreferences
@@ -31,8 +32,8 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     private val recipeList = MutableLiveData<Result<RecipeResponse>>()
     val recipeData: LiveData<Result<RecipeResponse>> = recipeList
 
-    val recipeFav = MutableLiveData<Result<RecipeResponse>>()
-    val recipeFavData: LiveData<Result<RecipeResponse>> = recipeFav
+    private val recipeFav = MutableLiveData<Result<RecommendedResponse>>()
+    val recipeFavData: LiveData<Result<RecommendedResponse>> = recipeFav
 
     private val _search = MutableLiveData<String>()
     val search: LiveData<String> = _search
@@ -58,7 +59,7 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
         viewModelScope.launch {
             val recipeResponse = recipeRepository.getFavoriteRecipes()
             recipeResponse.asFlow().collect {
-                recipeList.value = it
+                recipeFav.value = it
             }
         }
     }
@@ -73,27 +74,7 @@ class HomeViewModel(private val recipeRepository: RecipeRepository, private val 
     }
 
 
-    fun getAllRecommendedRecipes() {
-        viewModelScope.launch {
-            recipeRepository.getAllRecommendedRecipes()
-                .catch {
-                    _uiState1.value = Result.Error(it.message.toString())
-                }
-                .collect { recommendedRecipes ->
-                    _uiState1.value = Result.Success(recommendedRecipes)
-                }
-        }
-    }
 
-    fun getFavoriteRecipes(id: Int) = recipeRepository.getFavoriteRecipeById(id)
-
-    fun insert(favorite: FavoriteRecipe) = viewModelScope.launch {
-        recipeRepository.insertFavoriteRecipe(favorite)
-    }
-
-    fun delete(favorite: FavoriteRecipe) = viewModelScope.launch {
-        recipeRepository.deleteFavoriteRecipe(favorite)
-    }
 
     companion object {
         var username = "bakso"

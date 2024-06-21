@@ -42,7 +42,7 @@ data class FavoriteRecipe(
     var healthyCalories: Int?,
 
     @ColumnInfo(name = "isFavorite")
-    var isFavorite: Boolean?
+    var isFavorite: Boolean
 
 
     ) : Parcelable

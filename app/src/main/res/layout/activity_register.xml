@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/logo"
+        app:srcCompat="@drawable/recepku_logo"
         android:alpha="0"
         tools:layout_editor_absoluteY="-31dp"
         tools:ignore="MissingConstraints" />

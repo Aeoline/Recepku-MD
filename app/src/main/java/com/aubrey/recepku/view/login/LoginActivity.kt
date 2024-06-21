@@ -68,22 +68,13 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun becanda(){
-        binding.loginButton.setOnClickListener {
-            ObjectAnimator.ofFloat(binding.loginButton, View.ROTATION, 0f, 360f).apply {
-                duration = 200
-                repeatCount = 100
-                repeatMode = ObjectAnimator.RESTART
-            }.start()
-        }
-    }
 
     private fun setupLogin(){
         binding.loginButton.setOnClickListener {
             val username = binding.edLoginEmail.text.toString()
             val password = binding.edLoginPassword.text.toString()
 
-            viewModel.login(username, password).observe(this){session->
+            viewModel.login(username, password).observe(this){ session ->
                 when(session){
                     is Result.Loading -> {
                         binding.progressBar.visibility = View.VISIBLE
@@ -92,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
                         binding.progressBar.visibility = View.INVISIBLE
                         AlertDialog.Builder(this).apply {
                             setTitle("Yeay!")
-                            setMessage("Anda berhasil login")
+                            setMessage("Login Success!")
                             setPositiveButton("Lanjut") { _, _ ->
                                 viewModel.saveUser()
                                 val intent = Intent(context, MainActivity::class.java)
@@ -107,7 +98,7 @@ class LoginActivity : AppCompatActivity() {
                     is Result.Error -> {
                         binding.progressBar.visibility = View.INVISIBLE
                         val error = session.error
-                        Toast.makeText(this,"Login Failed",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "$error", Toast.LENGTH_SHORT).show()
                     }
 
                     else -> {}

@@ -40,12 +40,14 @@ class ProfileFragment : Fragment() {
 
     private fun setupView() {
 
-        val tvName = binding.usernameLabel
-        val tvEmail = binding.emailLabel
+        val tvName = binding.tvUsername
+        val tvEmail = binding.tvEmail
+        val tvUsername = binding.username
 
         readUserData { username, email ->
             tvName.text = username
             tvEmail.text = email
+            tvUsername.text = username
         }
     }
 

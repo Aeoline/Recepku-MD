@@ -31,11 +31,11 @@ abstract class FavDatabase : RoomDatabase() {
                 context.applicationContext,
                 FavDatabase::class.java, "favRecipeDatabase.db"
             )
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_3)
                 .build()
         }
 
-        private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
+        private val MIGRATION_1_3: Migration = object : Migration(1, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 // Adding the new column to the FavoriteRecipe table
                 database.execSQL("ALTER TABLE FavoriteRecipe ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0")

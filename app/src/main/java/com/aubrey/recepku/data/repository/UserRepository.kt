@@ -21,6 +21,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import okhttp3.Cookie
+import org.json.JSONObject
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
@@ -50,19 +51,30 @@ class UserRepository(
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    fun daftar(
-        username: String,
-        password: String,
-        email: String
-    ): LiveData<Result<RegisterResponse>> = liveData {
+    fun daftar(username: String, password: String, email: String): LiveData<Result<RegisterResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.register(username, password, email)
             emit(Result.Success(response))
         } catch (e: HttpException) {
+            val errorJsonString = e.response()?.errorBody()?.string()
+            val errorMessage = if (errorJsonString != null) {
+                try {
+                    val jsonObject = JSONObject(errorJsonString)
+                    jsonObject.getString("message")
+                } catch (jsonException: Exception) {
+                    "Error"
+                }
+            } else {
+                "Error"
+            }
+            emit(Result.Error(errorMessage))
+        } catch (e: Exception) {
             emit(Result.Error(e.message ?: "Error"))
         }
     }
+
+
 
     fun login(username: String, password: String): LiveData<Result<LoginResponse>> = liveData {
         emit(Result.Loading)
@@ -79,9 +91,24 @@ class UserRepository(
             emit(Result.Success(response))
             Log.d("Login", "Login Success: ${user.token}")
         } catch (e: HttpException) {
+            val errorJsonString = e.response()?.errorBody()?.string()
+            val errorMessage = if (errorJsonString != null) {
+                try {
+                    val jsonObject = JSONObject(errorJsonString)
+                    jsonObject.getString("message")
+                } catch (jsonException: Exception) {
+                    "Error"
+                }
+            } else {
+                "Error"
+            }
+            emit(Result.Error(errorMessage))
+        } catch (e: Exception) {
             emit(Result.Error(e.message ?: "Error"))
         }
     }
+
+
 
     fun getThemeSetting(): LiveData<Boolean> {
         return userPreferences.getThemeSetting().asLiveData()

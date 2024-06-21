@@ -3,6 +3,7 @@ package com.aubrey.recepku.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.lifecycle.map
 import com.aubrey.recepku.data.model.recipe.Favorite
 import com.aubrey.recepku.data.model.recipe.RecipeData
 import com.aubrey.recepku.data.model.recommended.Recommended
@@ -18,6 +19,7 @@ import com.aubrey.recepku.data.database.FavDao
 import com.aubrey.recepku.data.database.FavoriteRecipe
 import com.aubrey.recepku.data.response.DataItem
 import com.aubrey.recepku.data.response.ErrorResponse
+import com.aubrey.recepku.data.response.RecommendedResponse
 import com.aubrey.recepku.data.retrofit.ApiService
 import java.io.IOException
 
@@ -73,15 +75,15 @@ class RecipeRepository private constructor(
         }
     }
 
-    fun getFavoriteRecipes(): LiveData<Result<RecipeResponse>> = liveData {
+    fun getFavoriteRecipes(): LiveData<Result<RecommendedResponse>> = liveData {
         emit(Result.Loading)
         try {
             val recipeResponse = apiService.getFavRecipe()
-            Log.d("API Response", "Response: $recipeResponse")
+            Log.d("API Response Recommended Recipe", "Response: $recipeResponse")
             if (recipeResponse.message == "success") {
                 emit(Result.Success(recipeResponse))
             } else {
-                Log.d("API Error", "Unsuccessful response: ${recipeResponse.message}")
+                Log.d("API Error Recipe Recommended", "Unsuccessful response: ${recipeResponse.message}")
                 emit(Result.Error("Failed to fetch favorite recipes: ${recipeResponse.message}"))
             }
         } catch (e: HttpException) {
@@ -131,15 +133,29 @@ class RecipeRepository private constructor(
 
 
 
-
-
     fun getAllRecommendedRecipes(): Flow<List<Recommended>> {
         return flow {
             emit(recommendedRecipes)
         }
     }
 
-    fun getAllFavoriteRecipes(): LiveData<List<FavoriteRecipe>> = favDao.getFav()
+    fun getAllFavoriteRecipes(): LiveData<Result<List<FavoriteRecipe>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val source = favDao.getFav()
+            emitSource(source.map { favoriteRecipes ->
+                if (favoriteRecipes.isNullOrEmpty()) {
+                    Result.Error("No favorite recipes found")
+                } else {
+                    Result.Success(favoriteRecipes)
+                }
+            })
+        } catch (e: Exception) {
+            emit(Result.Error(e.message.toString()))
+        }
+    }
+
+
 
     fun getFavoriteRecipeById(id: Int): LiveData<FavoriteRecipe?> = favDao.getFavoriteById(id)
 
@@ -153,6 +169,19 @@ class RecipeRepository private constructor(
 
     suspend fun search(recipe : String) : RecipeResponse {
         return apiService.getRecipeByTitle(recipe)
+    }
+
+    fun isFavorite(recipeId: Int?): LiveData<Boolean> {
+        return favDao.isFavorite(recipeId)
+    }
+
+    suspend fun cleanUpFavorites() {
+        favDao.deleteNullEntries()
+        favDao.deleteDuplicateEntries()
+    }
+
+    suspend fun isRecipeFavorite(recipeId: Int): Boolean {
+        return favDao.isFavorite(recipeId) != null
     }
 
     companion object {

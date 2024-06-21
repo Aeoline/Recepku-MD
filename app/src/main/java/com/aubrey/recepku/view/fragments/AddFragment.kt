@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import com.aubrey.recepku.BuildConfig
 import com.aubrey.recepku.databinding.FragmentAddBinding
-import com.aubrey.recepku.ml.Model2
+import com.aubrey.recepku.ml.FoodDetection
 import com.aubrey.recepku.view.ViewModelFactory
 import com.aubrey.recepku.view.home.HomeViewModel
 import com.aubrey.recepku.view.search.SearchActivity
@@ -39,9 +40,6 @@ class AddFragment : Fragment() {
     private lateinit var binding: FragmentAddBinding
     private var currentImageUri: Uri? = null
 
-    private val viewModel: HomeViewModel by viewModels {
-        ViewModelFactory.getInstance(requireActivity().application)
-    }
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()
@@ -104,18 +102,20 @@ class AddFragment : Fragment() {
 
     private fun classifyImage(image: Bitmap) {
         try {
-            val model = context?.let { Model2.newInstance(it) }
-            val imageSize = 32
+            val model = context?.let { FoodDetection.newInstance(it) }
+            val imageSize = 224
             val result = binding.tvMakanan
 
+            // Resize the image to 224x224
+            val resizedImage = Bitmap.createScaledBitmap(image, imageSize, imageSize, true)
+
             // Creates inputs for reference.
-            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 32, 32, 3), DataType.FLOAT32)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 224, 224, 3), DataType.FLOAT32)
             val byteBuffer = ByteBuffer.allocateDirect(4 * imageSize * imageSize * 3)
             byteBuffer.order(ByteOrder.nativeOrder())
-            inputFeature0.loadBuffer(byteBuffer)
 
-            val intValues = IntArray(image.width * image.height)
-            image.getPixels(intValues, 0, image.width, 0, 0, image.width, image.height)
+            val intValues = IntArray(resizedImage.width * resizedImage.height)
+            resizedImage.getPixels(intValues, 0, resizedImage.width, 0, 0, resizedImage.width, resizedImage.height)
 
             var pixel = 0
             // Iterate over each pixel and extract R, G, and B values. Add those values individually to the byte buffer.
@@ -145,24 +145,32 @@ class AddFragment : Fragment() {
                     }
                 }
             } else {
-                // Handle the case when confidences array is null or empty.
-                // For example, you can set maxPos to a default value or display an error message.
+                result.text = "Not a Food"
                 return
             }
 
-            val classes = arrayOf(
-                "Bakso", "Bika Ambon", "Dadar Gulung", "Kue Cubit", "Nasi Goreng",
-                "Pepes Ikan", "Putu Ayu", "Rendang", "Sate ayam", "Telur Balado", "Tempe Bacem"
-            )
-            result.text = classes[maxPos]
+            val confidenceThreshold = 0.5f  // You can adjust this threshold based on your model's performance
+            if (maxConfidence < confidenceThreshold) {
+                result.text = "Not a Food"
+            } else {
+                val classes = arrayOf(
+                    "Ayam Betutu", "Beberuk Terong", "Cotto Makassar", "Gudeg", "Kerak Telor",
+                    "Mie Aceh", "Nasi Kuning", "Nasi Pecel", "Papeda", "Pempek", "Peuyeum", "Rawon", "Rendang", "Sate Madura", "Serabi",
+                    "Soto Banjar", "Soto Lamongan", "Tahu Sumedang"
+                )
+                result.text = classes[maxPos]
 
+                Log.d("Classification Result", "Class: ${classes[maxPos]}, Confidence: $maxConfidence")
+            }
 
             // Releases model resources if no longer used.
             model.close()
         } catch (e: IOException) {
-            // TODO: Handle the exception
+            // Handle the exception
+            e.printStackTrace()
         }
     }
+
 
 
     private fun setUpGallery(){

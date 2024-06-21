@@ -1,18 +1,18 @@
 package com.aubrey.recepku.view.adapter
 
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aubrey.recepku.R
-import com.aubrey.recepku.data.model.recommended.Recommended
-import com.aubrey.recepku.databinding.ItemRecipeBinding
+import com.aubrey.recepku.data.response.DataItems
 import com.aubrey.recepku.databinding.ItemRecomendedRecipeBinding
+import com.aubrey.recepku.view.detail.DetailActivity
 import com.aubrey.recepku.view.home.HomeFragment
 import com.bumptech.glide.Glide
 
-class RecommendedRecipeAdapter (private val recipeClickListener: HomeFragment): ListAdapter<Recommended, RecommendedRecipeAdapter.ViewHolder>(DIFF_CALLBACK) {
+class RecommendedRecipeAdapter(private val listRecommended: List<DataItems?>?, homeFragment: HomeFragment) : RecyclerView.Adapter<RecommendedRecipeAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemRecomendedRecipeBinding.inflate(
@@ -23,38 +23,35 @@ class RecommendedRecipeAdapter (private val recipeClickListener: HomeFragment): 
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val recommendedRecipe = getItem(position)
-        holder.bind(recommendedRecipe)
+    override fun getItemCount(): Int {
+        return listRecommended?.size ?: 0
     }
 
-    inner class ViewHolder(private val binding: ItemRecomendedRecipeBinding) :
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val recommendedRecipe = listRecommended?.get(position)
+        recommendedRecipe?.let { nonNullRecipe ->
+            holder.bind(nonNullRecipe)
+        }
+    }
+
+    inner class ViewHolder(
+        private val binding: ItemRecomendedRecipeBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(recommendedRecipe: Recommended) {
-            val recommended = recommendedRecipe.recommended
+        fun bind(recommendedRecipe: DataItems) {
             Glide.with(binding.root)
-                .load(recommended.photoUrl)
+                .load(recommendedRecipe.photoUrl)
                 .placeholder(R.drawable.menu)
                 .error(R.drawable.menu)
                 .into(binding.imgItemPhoto)
 
             binding.root.setOnClickListener {
-                recipeClickListener.onRecipeClicked(recommendedRecipe)
+                val intent = Intent(binding.root.context, DetailActivity::class.java)
+                intent.putExtra("recommendedRecipe", recommendedRecipe)
+                Log.d("RecommendedRecipeAdapter", "Sending recommended recipe: $recommendedRecipe")
+                binding.root.context.startActivity(intent)
             }
         }
     }
 
-
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Recommended>() {
-            override fun areItemsTheSame(oldItem: Recommended, newItem: Recommended): Boolean {
-                return oldItem.recommended.id == newItem.recommended.id
-            }
-
-            override fun areContentsTheSame(oldItem: Recommended, newItem: Recommended): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
 }
